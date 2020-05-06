@@ -1,0 +1,72 @@
+[submodule "src/enterprise"]
+	path = src/enterprise
+	url = https://github.com/ursais/enterprise.git
+[submodule "src/account-invoicing"]
+	path = src/account-invoicing
+	url = https://github.com/OCA/account-invoicing.git
+[submodule "odoo"]
+	path = odoo
+	url = https://github.com/ursais/odoo.git
+[submodule "src/account-financial-tools"]
+	path = src/account-financial-tools
+	url = https://github.com/OCA/account-financial-tools.git
+[submodule "src/account-payment"]
+	path = src/account-payment
+	url = https://github.com/OCA/account-payment.git
+[submodule "src/commission"]
+	path = src/commission
+	url = https://github.com/OCA/commission.git
+[submodule "src/contract"]
+	path = src/contract
+	url = https://github.com/OCA/contract.git
+[submodule "src/credit-control"]
+	path = src/credit-control
+	url = https://github.com/OCA/credit-control.git
+[submodule "src/field-service"]
+	path = src/field-service
+	url = https://github.com/ursais/field-service.git
+[submodule "src/geospatial"]
+	path = src/geospatial
+	url = https://github.com/OCA/geospatial.git
+[submodule "src/hr"]
+	path = src/hr
+	url = https://github.com/OCA/hr.git
+[submodule "src/l10n-usa"]
+	path = src/l10n-usa
+	url = https://github.com/ursais/l10n-usa.git
+[submodule "src/osi-addons"]
+	path = src/osi-addons
+	url = https://github.com/ursais/osi-addons.git
+[submodule "src/partner-contact"]
+	path = src/partner-contact
+	url = https://github.com/OCA/partner-contact.git
+[submodule "src/stock-logistics-warehouse"]
+	path = src/stock-logistics-warehouse
+	url = https://github.com/OCA/stock-logistics-warehouse.git
+[submodule "src/web"]
+	path = src/web
+	url = https://github.com/OCA/web.git
+[submodule "src/account-invoice-reporting"]
+	path = src/account-invoice-reporting
+	url = https://github.com/OCA/account-invoice-reporting.git
+[submodule "src/account-reconcile"]
+	path = src/account-reconcile
+	url = https://github.com/OCA/account-reconcile.git
+[submodule "src/bank-payment"]
+	path = src/bank-payment
+	url = https://github.com/OCA/bank-payment.git
+[submodule "src/account-analytic"]
+	path = src/account-analytic
+	url = https://github.com/OCA/account-analytic.git
+[submodule "src/avatax_connector"]
+	path = src/avatax_connector
+	url = https://github.com/sodexis/avatax_connector.git
+[submodule "src/mis-builder"]
+	path = src/mis-builder
+	url = https://github.com/OCA/mis-builder.git
+[submodule "src/reporting-engine"]
+	path = src/reporting-engine
+	url = https://github.com/OCA/reporting-engine.git
+[submodule "src/server-ux"]
+	path = src/server-ux
+	url = https://github.com/OCA/server-ux.git
