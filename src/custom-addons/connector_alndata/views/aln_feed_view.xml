@@ -1,0 +1,74 @@
+<odoo>
+
+    <!--Main Menu -->
+    <menuitem id="menu_aln_feed_root" name="ALN Feeds"
+        sequence="25"
+        parent="contacts.menu_contacts"/>
+
+    <!-- ALN Feed Tree view -->
+    <record id="aln_feed_tree" model="ir.ui.view">
+        <field name="name">aln.feed.tree</field>
+        <field name="model">aln.feed</field>
+        <field name="arch" type="xml">
+            <tree string="ALN">
+                <field name="partner_id"/>
+                <field name="status"/>
+                <field name="write_date"/>
+                <field name="note"/>
+                <field name="raw_aln_feed"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- ALN Feed Form View -->
+    <record id="aln_feed_form" model="ir.ui.view">
+        <field name="name">aln.feed.form</field>
+        <field name="model">aln.feed</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="partner_id"/>
+                    <field name="status"/>
+                    <field name="write_date"/>
+                    <field name="note"/>
+                    <field name="raw_aln_feed"/>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <!--ALN Feed Search -->
+    <record id="aln_feed_view_search" model="ir.ui.view">
+        <field name="name">aln.feed.search</field>
+        <field name="model">aln.feed</field>
+        <field name="arch" type="xml">
+            <search string="ALN Search">
+                <field name="partner_id"/>
+                <field name="raw_aln_feed"/>
+                <field name="note"/>
+                <group expand="0" string="Group By">
+                    <filter string="Partner" name="partner" context="{'group_by':'partner_id'}"/>
+                    <filter string="Status" name="status" context="{'group_by':'status'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!--Action  -->
+    <record id="aln_feed_action_tree_2" model="ir.actions.act_window">
+        <field name="name">Raw ALN Feeds</field>
+        <field name="res_model">aln.feed</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first ALN Feed.
+            </p>
+        </field>
+    </record>
+
+    <!--Menuitem -->
+    <menuitem id="aln_feed_menu_main" action="aln_feed_action_tree_2"
+        sequence="10" parent="connector_alndata.menu_aln_feed_root"/>
+
+</odoo>

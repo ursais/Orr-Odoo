@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<odoo>
+
+    <record id="fsm_order_form_report_style" model="ir.ui.view">
+        <field name="name">fsm.order.form.report.style</field>
+        <field name="model">fsm.order</field>
+        <field name="inherit_id" ref="fieldservice.fsm_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='company_id']" position="after">
+                <field name="style"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

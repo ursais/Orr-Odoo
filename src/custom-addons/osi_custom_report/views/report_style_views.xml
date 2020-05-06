@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<odoo>
+
+    <record id="view_report_style_form_fsm" model="ir.ui.view">
+        <field name="name">view.report.style.form.fsm</field>
+        <field name="model">report.template.settings</field>
+        <field name="inherit_id" ref="professional_templates.view_report_style_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='template_rfq']" position="after">
+                <field name="template_fsm"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

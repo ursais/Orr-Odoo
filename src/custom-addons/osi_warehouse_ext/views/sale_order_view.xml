@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Sale order form -->
+    <record id="view_order_form_rename" model="ir.ui.view">
+        <field name="name">sale.order.form.rename</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='analytic_account_id']"
+                   position='attributes'>
+                <attribute name="string">Warehouse Account</attribute>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

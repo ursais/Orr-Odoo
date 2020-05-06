@@ -1,0 +1,101 @@
+<odoo>
+
+    <!-- ALN construction Tree view -->
+    <record id="aln_new_construction_tree" model="ir.ui.view">
+        <field name="name">aln.new.construction.tree</field>
+        <field name="model">aln.new.construction</field>
+        <field name="arch" type="xml">
+            <tree string="ALN New Construction">
+                <field name="construction_id_txt"/>
+                <field name="new_apartment_id_txt"/>
+                <field name="company"/>
+                <field name="project_name"/>
+                <field name="new_num_of_units"/>
+                <field name="property_type"/>
+                <field name="construction_status"/>
+                <field name="new_published_id"/>
+                <field name="new_published_date"/>
+                <field name="new_state"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- ALN New Construction Form View -->
+    <record id="aln_new_construction_form" model="ir.ui.view">
+        <field name="name">aln.new.construction.form</field>
+        <field name="model">aln.new.construction</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="construction_id_txt"/>
+                            <field name="new_apartment_id_txt"/>
+                            <field name="company"/>
+                            <field name="new_num_of_units"/>
+                            <field name="property_type"/>
+                            <field name="construction_status"/>
+                            <field name="start_date"/>
+                            <field name="lease_date"/>
+                            <field name="occupancy_date"/>
+                            <field name="completion_date"/>
+                        </group>
+                        <group>
+                            <field name="project_name"/>
+                            <field name="project_address"/>
+                            <field name="project_city"/>
+                            <field name="project_state"/>
+                            <field name="project_zip"/>
+                            <field name="new_last_changed_date"/>
+                            <field name="new_state"/>
+                            <field name="new_published_id"/>
+                            <field name="new_published_date"/>
+                        </group>
+                    </group>
+                    <field name="progress"  placeholder="Progress..."/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!--ALN New Construction Search -->
+    <record id="aln_new_construction_view_search" model="ir.ui.view">
+        <field name="name">aln.new.construction.search</field>
+        <field name="model">aln.new.construction</field>
+        <field name="arch" type="xml">
+            <search string="ALN new.construction Search">
+                <field name="construction_id_txt"/>
+                <field name="new_apartment_id_txt"/>
+                <field name="company"/>
+                <field name="project_name"/>
+                <field name="progress"/>
+                <field name="new_num_of_units"/>
+                <group expand="0" string="Group By">
+                    <filter string="Project Name" name="proj_name" context="{'group_by':'project_name'}"/>
+                    <filter string="Prop Type" name="type" context="{'group_by':'property_type'}"/>
+                    <filter string="Status" name="status" context="{'group_by':'construction_status'}"/>
+                    <filter string="Publisher" name="publish" context="{'group_by':'new_published_id'}"/>
+                    <filter string="State" name="state" context="{'group_by':'new_state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!--Action  -->
+    <record id="aln_new_construction_action" model="ir.actions.act_window">
+        <field name="name">ALN New Construction</field>
+        <field name="res_model">aln.new.construction</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first ALN New Construction.
+            </p>
+        </field>
+    </record>
+
+    <!--Menuitem -->
+    <menuitem id="aln_new_construction_menu" action="aln_new_construction_action"
+        sequence="40" parent="alndata_connector.menu_aln_root"/>
+
+</odoo>

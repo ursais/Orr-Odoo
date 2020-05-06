@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<odoo>
+    <record id="res_partner_sale_quote_smart_button" model="ir.ui.view">
+        <field name="name">res.partner.sale.quote.smart.button</field>
+        <field name="model">res.partner</field>
+		<field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button class="oe_stat_button" type="object" name="action_view_quotation_templates" icon="fa-clipboard">
+                    <field string="Quotation Templates" name="quotation_template_count" widget="statinfo"/>
+                </button>
+            </xpath>
+            <field name="vat" position="after">
+                <field name="priority" widget="priority"/>
+                <field name="warehouse_id"/>
+            </field>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="res_partner_kanban_view_inherit_priority">
+        <field name="name">res.partner.kanban.priority</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.res_partner_kanban_view"/>
+        <field name="arch" type="xml">
+            <field name="email" position="after">
+                <field name="priority"/>
+            </field>
+            <xpath expr="//ul/li[hasclass('o_text_overflow')]" position="after">
+                <li>
+                    <field name="priority" widget="priority"/>
+                </li>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

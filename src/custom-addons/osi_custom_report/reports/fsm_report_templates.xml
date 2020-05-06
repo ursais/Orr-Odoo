@@ -1,0 +1,532 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+
+        <!-- Switch Templates -->
+        <template id="fsm_serviceorder">
+            <t t-call="web.report_layout">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-set="doc" t-value="doc.with_context({'lang':user.partner_id.lang})" />
+                    <t t-set="style" t-value="doc.style or res_company.fsm_style or res_company.df_style or user.env.ref('professional_templates.df_style_for_all_reports')"/>
+                    <t t-if="style.template_fsm.key == 'osi_custom_report.FSM_1_document'" t-call="osi_custom_report.FSM_1_document" t-lang="user.partner_id.lang"/>
+                    <t t-if="style.template_fsm.key == 'osi_custom_report.FSM_2_document'" t-call="osi_custom_report.FSM_2_document" t-lang="user.partner_id.lang"/>
+                    <t t-if="not style" t-call="fieldservice.report_fsm_order_document" t-lang="user.partner_id.lang"/>
+                </t>
+            </t>
+        </template>
+        
+        <!-- FSM Order Template -->
+        <template id="FSM_1_document" name="ART Slim Template">
+            <!-- Multicompany -->
+            <t t-if="doc and 'company_id' in doc">
+                <t t-set="company" t-value="doc.company_id"></t>
+            </t>
+            <t t-else="">
+                <t t-set="company" t-value="res_company"></t>
+            </t>
+            <!-- Header -->
+            <div class="header col-12 float-left" t-attf-style="padding-bottom:0px; padding-left:0px; padding-right:0px; color:{{style.text_color}} !important;font-size:{{style.header_font}}px !important;font-family:{{style.font_family}} !important;">
+                <t t-if="style.header">
+                    <div class="col-12 mb8 float-left">
+                        <div class="col-6 float-left text-left" style="padding-left:0px;">
+                            <span t-if="style.logo">
+                                <span itemprop="image" t-field="style.logo" t-options='{"widget": "image", "style": "float:left;max-height:130px;max-width:410px;"}'/>
+                            </span>
+                            <span t-else="">
+                                <span itemprop="image" t-field="company.logo" t-options='{"widget": "image", "style": "float:left;max-height:130px;max-width:410px;"}'/>
+                            </span>
+                        </div>
+                        <div t-attf-class="float-right mt32 #{'col-3' if doc.name else 'col-6'}" t-attf-style="padding-right:0px;color:{{style.theme_color}};">
+                            <h2>
+                                <span style="white-space:nowrap;">WORK ORDER</span>
+                            </h2>
+                        </div>
+                        <div t-if="doc.name" class="col-3 mt32 text-center float-right" style="padding-right:0px;">
+                            <h2 t-attf-style="background-color:{{style.theme_color}}; color:{{style.theme_txt_color}};display: inline-block;padding-right:4px;padding-left:4px;" t-field="doc.name"/>
+                        </div>
+                    </div>
+                </t>
+            </div>
+            <!-- START OF PAGE -->
+            <div class="article page" t-attf-style="padding-top:15px;color:{{style.text_color}} !important;font-size:{{style.body_font}}px !important;font-family:{{style.font_family}} !important;">
+                <div class="col-12" t-attf-style="white-space:pre-line;color:#{style.wm_color};left:#{style.leftpadding}mm; top:#{style.toppadding}mm;font-size:#{style.fontsize}px; opacity:#{style.opacity};z-index:-99; -webkit-transform:rotate(-#{style.rotate}deg);position:fixed;"><t t-esc="style.wm_eval(doc, time, user, res_company)"/></div>
+                <div class="col-5 float-left">
+                    <span t-if="doc.sale_id and doc.sale_id.partner_id != doc.location_id.partner_id" t-attf-style="font-size:{{style.body_font+10}}px; font-weight:bold;">
+                            Shipped To:
+                    </span>
+                    <span t-else="" t-attf-style="font-size:{{style.body_font+10}}px; font-weight:bold;">
+                            Sold&#160;&amp;&#160;Shipped To:
+                    </span>
+                    <div t-if="doc.location_id" t-attf-style="color:{{style.cust_color}};font-size:{{style.body_font+10}}px;font-weight:500;"> 
+                            <t t-if="doc.location_id.partner_id.parent_id">
+                                    <span t-field="doc.location_id.partner_id.parent_id"/>, <span t-if="doc.location_id.partner_id.title" t-field="doc.location_id.partner_id.title"/> <span t-field="doc.location_id.partner_id.name"/>
+                            </t>
+                            <t t-if="not doc.location_id.partner_id.parent_id">
+                                    <span t-if="doc.location_id.partner_id.title" t-field="doc.location_id.partner_id.title"/> <span t-field="doc.location_id.partner_id"/>
+                            </t>
+                    </div>
+                    <address t-field="doc.location_id.partner_id" t-attf-style="font-size:{{style.body_font+4}}px;margin-bottom:0px;" t-options='{"widget": "contact", "fields":["address"],"no_marker": false}'/>
+                </div>
+                <div class="col-3 float-left" t-if="doc.sale_id and doc.sale_id.partner_id != doc.location_id.partner_id">
+                    <div>
+                        <span t-attf-style="font-size:{{style.body_font+6}}px;font-weight:bold;">
+                                Sold To:
+                        </span>
+                    </div>
+                    <address t-field="doc.sale_id.partner_id" style="margin-bottom:0px;" t-options='{"widget": "contact", "fields":["address"],"no_marker": false}'/>
+                </div>
+                <div class="col-4 float-right">
+                    <ul> 
+                        <div t-if="doc.name">
+                            <strong style="white-space:nowrap;">Field Service Order #: </strong>
+                            <span t-field="doc.name"/>
+                            <t t-if="doc.template_id"> (<span t-field="doc.template_id.name"/>)</t>
+                        </div>
+                        <div t-if="doc.sale_id">
+                            <strong style="white-space:nowrap;">Sale Order #: </strong>
+                            <span t-field="doc.sale_id.name"/>
+                        </div>
+                        <div t-if="doc.invoice_ids">
+                            <strong t-if="doc.invoice_count == 1" style="white-space:nowrap;">Invoice #: </strong>
+                            <strong t-else="" style="white-space:nowrap;">Invoice #'s: </strong>
+                            <span t-if="doc.invoice_count == 1" t-field="doc.invoice_ids[0].number"/>
+                            <t t-else="" t-foreach="doc.invoice_ids" t-as="invoice">
+                                <span t-field="invoice.number"/>
+                                <span t-if="not invoice_last">, </span>
+                            </t>
+                        </div>
+                        <div t-if="doc.stage_id and doc.stage_id.name == 'Scheduled'">
+                            <strong style="white-space:nowrap;">ETA: </strong>
+                            <span t-field="doc.scheduled_date_start" t-options="{'widget': 'datetime', 'tz': doc.location_id.tz}"/>
+                        </div>
+                        <div t-if="doc.person_id">
+                            <strong style="white-space:nowrap;">Assigned To: </strong>
+                            <span t-field="doc.person_id"/>
+                        </div>
+                    </ul> 
+                </div>
+                <div class="clearfix" style="margin:10px;"> </div>
+                <!-- DATA-->
+                <t t-if="doc.move_ids or doc.person_ids" t-call="osi_custom_report.artisent_fsm_lines"/>
+                <t t-if="doc.sale_order_line_ids" t-call="osi_custom_report.artisent_fsm_so_lines"/>
+                <!-- Notes -->
+                <div class="col-8 float-left" style="padding-left:0px; padding-right:0px; page-break-inside: avoid !important;">
+                    <p t-if="doc.description" id="description">
+                        <strong>Description: </strong>
+                        <span t-field="doc.description"/>
+                    </p>
+                    <p t-if="doc.todo" id="instruction">
+                        <strong>Instructions: </strong>
+                        <span t-raw="doc.todo"/>
+                    </p>
+                    <p t-if="doc.resolution" id="resolution">
+                        <strong>Resolution Notes: </strong>
+                        <span t-field="doc.resolution"/>
+                    </p>
+                    <p t-if="doc.location_id.notes" id="location_notes">
+                        <strong>Location Notes: </strong>
+                        <span t-raw="doc.location_id.notes"/>
+                    </p>
+                    <p t-if="doc.location_id.direction" id="location_directions">
+                        <strong>Location Directions: </strong>
+                        <span t-raw="doc.location_id.direction"/>
+                    </p>
+                </div>
+            </div>
+            <!--FOOTER -->
+            <div class="footer" t-attf-style="font-size:{{style.footer_font}}px !important;font-family:{{style.font_family}} !important;">
+                <t t-if="style.footer">
+                    <t t-set="company" t-value="company.sudo()"/>
+                    <t t-set="footer_style" t-value="'text-align:left;display:inline-block;width:auto;max-width:100%;white-space:nowrap;'"></t>
+                    <div class="col-12 text-center float-left" t-attf-style="background-color:transparent !important; color:{{style.text_color}};border-top: 1px solid {{style.text_color}};padding-top:5px;padding-left:0px; padding-right:0px;">
+                        <t t-if="not company.report_footer">
+                                <!--Address -->
+                            <div t-attf-style="#{footer_style}" t-attf-class="#{style.show_footer_logo and 'mr16' or 'mr32'}"> 
+                                <ul style="padding: 0px;">
+                                    <div t-if="company.name"><span t-attf-style="font-size:{{style.footer_font+1}}px;font-weight:bold;color:{{style.name_color}};" t-field="company.name"/></div>
+                                    <t t-if="doc.warehouse_id">
+                                        <div t-if="doc.warehouse_id.partner_id.street"><i class="fa fa-map-marker"/> <span t-field="doc.warehouse_id.partner_id.street"/>
+                                        </div>
+                                        <div t-if="doc.warehouse_id.partner_id.street2" class="ml8">
+                                            <span t-field="doc.warehouse_id.partner_id.street2"/>
+                                        </div>
+                                        <div t-if="doc.warehouse_id.partner_id.city or doc.warehouse_id.partner_id.state_id or doc.warehouse_id.partner_id.zip" class="ml8">
+                                            <span t-field="doc.warehouse_id.partner_id.city"/> <span t-field="doc.warehouse_id.partner_id.state_id"/> <span t-field="doc.warehouse_id.partner_id.zip"/>
+                                        </div>
+                                    </t>
+                                    <t t-else="">
+                                        <div t-if="company.street"><i class="fa fa-map-marker"/> <span t-field="company.street"/></div>
+                                        <div t-if="company.street2" class="ml8"><span t-field="company.street2"/></div>
+                                        <div t-if="company.city or company.state_id or company.zip" class="ml8">
+                                            <span t-field="company.city"/> <span t-field="company.state_id"/> <span t-field="company.zip"/>
+                                        </div>
+                                    </t>
+                                </ul>
+                            </div>
+                                <!--Contacts -->
+                            <div t-attf-style="#{footer_style}" t-attf-class="#{style.show_footer_logo and 'mr16' or 'mr32'}">
+                                <ul style="padding: 0px;">
+                                    <t t-if="doc.warehouse_id">
+                                        <div t-if="doc.warehouse_id.partner_id.phone"><i class="fa fa-phone-square"/> <span t-field="doc.warehouse_id.partner_id.phone"/></div>
+                                        <div t-if="doc.warehouse_id.partner_id.website"><i class="fa fa-globe"/> <span t-field="doc.warehouse_id.partner_id.website"/></div>
+                                        <div t-if="doc.warehouse_id.partner_id.email"><i class="fa fa-envelope"/> <span t-field="doc.warehouse_id.partner_id.email"/></div>
+                                    </t>
+                                    <t t-else="">
+                                        <div t-if="company.phone"><i class="fa fa-phone-square"/> <span t-field="company.phone"/></div>
+                                        <div t-if="company.website"><i class="fa fa-globe"/> <span t-field="company.website"/></div>
+                                        <div t-if="company.email"><i class="fa fa-envelope"/> <span t-field="company.email"/></div>
+                                    </t>
+                                </ul>
+                            </div>
+                                <!--Footer Logo (optional) -->
+                            <div t-if="style.show_footer_logo" t-attf-style="#{footer_style}">
+                                <ul style="padding: 0px;">
+                                    <div>
+                                        <img t-if="style.footer_logo" t-att-src="image_data_uri(style.footer_logo)" class="float-right" alt="Footer Logo" style="max-width:100px;"/>
+                                        <img t-if="not style.footer_logo and style.logo" t-att-src="image_data_uri(style.logo)" class="float-right" alt="Footer Logo" style="max-width:100px;"/>
+                                        <img t-if="not style.footer_logo and not style.logo and company.logo" t-att-src="image_data_uri(company.logo)" class="float-right" alt="Footer Logo" style="max-width:100px;"/>
+                                    </div>
+                                </ul>
+                            </div>
+                        </t>
+                        <div t-if="company.report_footer" class="text-center"><span t-field="company.report_footer"/></div>
+                        <div class="col-12 text-center text-muted">
+                                Page: <span class="page"/> / <span class="topage"/>
+                        </div>
+                    </div>
+                </t>
+            </div>
+        </template>
+        
+        <template id="FSM_2_document" name="ART Modern Template">
+            <!-- Multicompany -->
+            <t t-if="doc and 'company_id' in doc">
+                <t t-set="company" t-value="doc.company_id"></t>
+            </t>
+            <t t-else="">
+                <t t-set="company" t-value="res_company"></t>
+            </t>
+            <!-- Header -->
+            <div class="header col-12 float-left" t-attf-style="padding-bottom:0px; padding-left:0px; padding-right:0px; color:{{style.text_color}} !important;font-size:{{style.header_font}}px !important;font-family:{{style.font_family}} !important;">
+                <t t-if="style.header">
+                    <div class="col-12 mb8 float-left">
+                        <div class="col-3 float-left text-left" style="padding: 0px;"> </div>
+                        <div class="col-6 float-left text-center">
+                            <span t-if="style.logo">
+                                <span itemprop="image" t-field="style.logo" t-options="{&quot;widget&quot;: &quot;image&quot;, &quot;style&quot;: &quot;max-height:130px;max-width:410px;&quot;}"/>
+                            </span>
+                            <span t-else="">
+                                <span itemprop="image" t-field="company.logo" t-options="{&quot;widget&quot;: &quot;image&quot;, &quot;style&quot;: &quot;max-height:130px;max-width:410px;&quot;}"/>
+                            </span>
+                        </div>
+                        <div class="col-3 float-right text-right" style="padding: 0px;"> </div>
+                    </div>
+                </t>
+            </div>
+            <!-- START OF PAGE -->
+            <div class="article page" t-attf-style="padding-top:15px;color:{{style.text_color}} !important;font-size:{{style.body_font}}px !important;font-family:{{style.font_family}} !important;">
+                <div class="col-12" t-attf-style="white-space:pre-line;color:#{style.wm_color};left:#{style.leftpadding}mm; top:#{style.toppadding}mm;font-size:#{style.fontsize}px; opacity:#{style.opacity};z-index:-99; -webkit-transform:rotate(-#{style.rotate}deg);position:fixed;"><t t-esc="style.wm_eval(doc, time, user, res_company)"/></div>
+                <div class="col-7 float-left" style="padding-left:0px; padding-right:0px;">
+                    <div t-attf-style="background-color:{{style.theme_color}}; width:auto; float:left; padding-top:2px; padding-bottom:2px; 
+                            color:{{style.theme_txt_color}};font-size:{{style.body_font+10}}px;">
+                        <span t-if="doc.sale_id and doc.sale_id.partner_id != doc.location_id.partner_id">
+                            &#160;
+                            <span class="fa fa-truck"/>
+                            &#160;Shipped&#160;To:&#160;
+                        </span>
+                        <span t-else="">
+                            &#160;
+                            <span class="fa fa-truck"/>
+                            &#160;Sold&#160;&amp;&#160;Shipped&#160;To:&#160;
+                        </span>
+                    </div>
+                </div>
+                <div class="col-5 float-right text-right" style="padding-left:0px; padding-right:0px;">
+                    <div t-if="doc.sale_id and doc.sale_id.partner_id != doc.location_id.partner_id" 
+                            t-attf-style="float:right;background-color:{{style.theme_color}}; width:auto; padding-top:2px; padding-bottom:2px;color:{{style.theme_txt_color}};font-size:{{style.body_font+6}}px;">
+                        <span>
+                            &#160;
+                            <span class="fa fa-file-text"/>
+                            &#160;Sold&#160;To:&#160;
+                        </span>
+                    </div>
+                </div>
+                <div class="col-7 float-left" style="padding-left:0px; padding-right:0px;">
+                    <div t-attf-style="color:{{style.cust_color}};font-size:{{style.body_font+10}}px;font-weight:500;"> 
+                        <t t-if="doc.location_id.partner_id.parent_id">
+                            <span t-field="doc.location_id.partner_id.parent_id"/>, <span t-if="doc.location_id.partner_id.title" t-field="doc.location_id.partner_id.title"/> <span t-field="doc.location_id.partner_id.name"/>
+                        </t>
+                        <t t-if="not doc.location_id.partner_id.parent_id">
+                            <span t-if="doc.location_id.partner_id.title" t-field="doc.location_id.partner_id.title"/> <span t-field="doc.location_id.partner_id"/>
+                        </t>
+                    </div>
+                    <address t-field="doc.location_id.partner_id" t-attf-style="margin-bottom:0px;font-size:{{style.body_font+4}}px;" t-options='{"widget": "contact", "fields":["address","phone"],"no_marker": false}'/>
+                </div>
+                <div class="col-5 float-right text-right" style="padding-left:0px; padding-right:0px;">
+                    <t t-if="doc.sale_id and doc.sale_id.partner_id != doc.location_id.partner_id">
+                        <div t-attf-style="color:{{style.cust_color}};font-size:{{style.body_font+6}}px;font-weight:500;"> 
+                            <t t-if="doc.sale_id.partner_id.parent_id">
+                                <span t-field="doc.sale_id.partner_id.parent_id"/>, <span t-if="doc.sale_id.partner_id.title" t-field="doc.sale_id.partner_id.title"/> <span t-field="doc.location_id.partner_id.name"/>
+                            </t>
+                            <t t-else="">
+                                <span t-if="doc.sale_id.partner_id.title" t-field="doc.sale_id.partner_id.title"/> <span t-field="doc.sale_id.partner_id"/>
+                            </t>
+                        </div>
+                        <address t-field="doc.sale_id.partner_id" style="margin-bottom:0px;" t-options='{"widget": "contact", "fields":["address"],"no_marker": false}'/>
+                    </t>
+                </div>
+                <div class="clearfix" style="margin:10px;"> </div>
+                <div class="col-6 float-right" t-attf-style="background-color:{{style.theme_color}}; color:{{style.theme_txt_color}};">
+                    <h5 t-if="doc.name">
+                        <strong style="white-space:nowrap;">Field Service Order #: </strong>
+                        <span t-field="doc.name"/>
+                        <t t-if="doc.template_id"> (<span t-field="doc.template_id.name"/>)</t>
+                    </h5>
+                    <t t-set="div_style" t-value="'border-right:1px dotted;white-space:nowrap; width:auto;max-width:100%;float:left; margin-bottom:4px; padding:4px;font-size:{}px;'.format(style.body_font+2)"/>
+                    <div t-if="doc.sale_id" t-attf-style="{{div_style}}">
+                        <strong style="white-space:nowrap;">Sale Order #: </strong>
+                        <p style="margin-bottom:0px;" t-field="doc.sale_id.name"/>
+                    </div>
+                    <div t-if="doc.invoice_ids" t-attf-style="{{div_style}}">
+                        <strong t-if="doc.invoice_count == 1" style="white-space:nowrap;">Invoice #: </strong>
+                        <strong t-else="" style="white-space:nowrap;">Invoice #'s: </strong>
+                        <p style="margin-bottom:0px;" t-if="doc.invoice_count == 1" t-field="doc.invoice_ids[0].number"/>
+                        <p style="margin-bottom:0px;" t-else="">
+                            <t t-foreach="doc.invoice_ids" t-as="invoice">
+                                <span t-field="invoice.number"/>
+                                <span t-if="not invoice_last">, </span>
+                            </t>
+                        </p>
+                    </div>
+                    <div t-if="doc.stage_id and doc.stage_id.name == 'Scheduled'" t-attf-style="{{div_style}}">
+                        <strong style="white-space:nowrap;">ETA: </strong>
+                        <p style="margin-bottom:0px;" t-field="doc.scheduled_date_start" t-options="{'widget': 'datetime', 'tz': doc.location_id.tz}"/>
+                    </div>
+                    <div t-if="doc.person_id" t-attf-style="{{div_style}}">
+                        <strong style="white-space:nowrap;">Assigned To: </strong>
+                        <p style="margin-bottom:0px;" t-field="doc.person_id"/>
+                    </div>
+                </div>
+                <div class="clearfix" style="margin:10px;"> </div>
+                <!-- DATA-->
+                <t t-if="doc.move_ids or doc.person_ids" t-call="osi_custom_report.artisent_fsm_lines"/>
+                <t t-if="doc.sale_order_line_ids" t-call="osi_custom_report.artisent_fsm_so_lines"/>
+                <!-- Notes -->
+                <div class="col-6 float-left" style="padding-left:0px; padding-right:0px; page-break-inside: avoid !important;">
+                    <p t-if="doc.description" id="description">
+                        <strong>Description: </strong>
+                        <span t-field="doc.description"/>
+                    </p>
+                    <p t-if="doc.todo" id="instruction">
+                        <strong>Instructions: </strong>
+                        <span t-raw="doc.todo"/>
+                    </p>
+                    <p t-if="doc.resolution" id="resolution">
+                        <strong>Resolution Notes: </strong>
+                        <span t-field="doc.resolution"/>
+                    </p>
+                    <p t-if="doc.location_id.notes" id="location_notes">
+                        <strong>Location Notes: </strong>
+                        <span t-raw="doc.location_id.notes"/>
+                    </p>
+                    <p t-if="doc.location_id.direction" id="location_directions">
+                        <strong>Location Directions: </strong>
+                        <span t-raw="doc.location_id.direction"/>
+                    </p>
+                </div>
+            </div>
+            <!--FOOTER -->
+            <div class="footer" t-attf-style="font-size:{{style.footer_font}}px !important;font-family:{{style.font_family}} !important;">
+                <t t-if="style.footer">
+                    <t t-set="company" t-value="company.sudo()"/>
+                    <t t-set="footer_style" t-value="'text-align:left;display:inline-block;width:auto;max-width:100%;white-space:nowrap;'"></t>
+                    <div class="col-12 text-center float-left" t-attf-style="background-color:transparent !important; color:{{style.text_color}};border-top: 1px solid {{style.text_color}};padding-top:5px;padding-left:0px; padding-right:0px;">
+                        <t t-if="not company.report_footer">
+                                <!--Address -->
+                            <div t-attf-style="#{footer_style}" t-attf-class="#{style.show_footer_logo and 'mr16' or 'mr32'}"> 
+                                <ul style="padding: 0px;">
+                                    <div t-if="company.name"><span t-attf-style="font-size:{{style.footer_font+1}}px;font-weight:bold;color:{{style.name_color}};" t-field="company.name"/></div>
+                                    <t t-if="doc.warehouse_id">
+                                        <div t-if="doc.warehouse_id.partner_id.street"><i class="fa fa-map-marker"/> <span t-field="doc.warehouse_id.partner_id.street"/>
+                                        </div>
+                                        <div t-if="doc.warehouse_id.partner_id.street2" class="ml8">
+                                            <span t-field="doc.warehouse_id.partner_id.street2"/>
+                                        </div>
+                                        <div t-if="doc.warehouse_id.partner_id.city or doc.warehouse_id.partner_id.state_id or doc.warehouse_id.partner_id.zip" class="ml8">
+                                            <span t-field="doc.warehouse_id.partner_id.city"/> <span t-field="doc.warehouse_id.partner_id.state_id"/> <span t-field="doc.warehouse_id.partner_id.zip"/>
+                                        </div>
+                                    </t>
+                                    <t t-else="">
+                                        <div t-if="company.street"><i class="fa fa-map-marker"/> <span t-field="company.street"/></div>
+                                        <div t-if="company.street2" class="ml8"><span t-field="company.street2"/></div>
+                                        <div t-if="company.city or company.state_id or company.zip" class="ml8">
+                                            <span t-field="company.city"/> <span t-field="company.state_id"/> <span t-field="company.zip"/>
+                                        </div>
+                                    </t>
+                                </ul>
+                            </div>
+                                <!--Contacts -->
+                            <div t-attf-style="#{footer_style}" t-attf-class="#{style.show_footer_logo and 'mr16' or 'mr32'}">
+                                <ul style="padding: 0px;">
+                                    <t t-if="doc.warehouse_id">
+                                        <div t-if="doc.warehouse_id.partner_id.phone"><i class="fa fa-phone-square"/> <span t-field="doc.warehouse_id.partner_id.phone"/></div>
+                                        <div t-if="doc.warehouse_id.partner_id.website"><i class="fa fa-globe"/> <span t-field="doc.warehouse_id.partner_id.website"/></div>
+                                        <div t-if="doc.warehouse_id.partner_id.email"><i class="fa fa-envelope"/> <span t-field="doc.warehouse_id.partner_id.email"/></div>
+                                    </t>
+                                    <t t-else="">
+                                        <div t-if="company.phone"><i class="fa fa-phone-square"/> <span t-field="company.phone"/></div>
+                                        <div t-if="company.website"><i class="fa fa-globe"/> <span t-field="company.website"/></div>
+                                        <div t-if="company.email"><i class="fa fa-envelope"/> <span t-field="company.email"/></div>
+                                    </t>
+                                </ul>
+                            </div>
+                                <!--Footer Logo (optional) -->
+                            <div t-if="style.show_footer_logo" t-attf-style="#{footer_style}">
+                                <ul style="padding: 0px;">
+                                    <div>
+                                        <img t-if="style.footer_logo" t-att-src="image_data_uri(style.footer_logo)" class="float-right" alt="Footer Logo" style="max-width:100px;"/>
+                                        <img t-if="not style.footer_logo and style.logo" t-att-src="image_data_uri(style.logo)" class="float-right" alt="Footer Logo" style="max-width:100px;"/>
+                                        <img t-if="not style.footer_logo and not style.logo and company.logo" t-att-src="image_data_uri(company.logo)" class="float-right" alt="Footer Logo" style="max-width:100px;"/>
+                                    </div>
+                                </ul>
+                            </div>
+                        </t>
+                        <div t-if="company.report_footer" class="text-center"><span t-field="company.report_footer"/></div>
+                        <div class="col-12 text-center text-muted">
+                                Page: <span class="page"/> / <span class="topage"/>
+                        </div>
+                    </div>
+                </t>
+            </div>
+        </template>
+        
+        <!-- FSM Line Template -->
+        <template id="artisent_fsm_lines" name="FSM Order Data">
+            <!-- common th styles -->
+            <t t-set="th_style" t-value="'border-bottom: 1px solid #ddd !important;white-space:nowrap;'"/>
+            <!-- Stock Moves -->
+            <table t-if="doc.move_ids" class="table  table-condensed" t-attf-style="color:{{style.text_color}};" >
+                <thead t-attf-style="background-color:{{style.theme_color if not style.transparent else 'transparent'}} !important; page-break-inside: avoid; color:{{style.theme_txt_color if not style.transparent else style.text_color}};">
+                    <tr t-attf-style="page-break-inside: avoid !important; border-bottom: 1px solid {{style.text_color}} !important;font-size:{{style.body_font+2}}px;">
+                        <th t-attf-style="{{th_style}}width:10%;"><i class="fa fa-list-ol"/> Item</th>
+                        <th t-attf-style="{{th_style}}"><i class="fa fa-tag"/> Product</th>
+                        <th t-attf-style="{{th_style}}"><i class="fa fa-th-large"/> Description</th>
+                        <th class="text-right" t-attf-style="{{th_style}}"><i class="fa fa-sort-amount-asc"/> Quantity</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <t t-set="item_count" t-value="0"/>
+                    <tr t-foreach="doc.move_ids" t-as="move" t-attf-style="background-color:{{style.even if ((item_count % 2) == 0 and not style.transparent) else (not style.transparent and style.odd) or 'transparent'}};page-break-inside: avoid">
+                        <t t-set="item_count" t-value="item_count+1"/>
+                        <td><span t-esc="item_count"/></td>
+                        <td><span t-field="move.product_id.default_code"/></td>
+                        <td><span t-field="move.product_id.name"/></td>
+                        <td class="text-right">
+                            <span t-field="move.product_uom_qty"/>
+                            <span t-if="move.product_uom.short_code" t-field="move.product_uom.short_code"  groups="uom.group_uom"/>
+                            <span t-else="" t-field="move.product_uom"  groups="uom.group_uom"/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <br/><br/>
+            <!-- Worker Lines -->
+            <table t-if="doc.person_ids" class="table  table-condensed" t-attf-style="color:{{style.text_color}};" >
+                <thead t-attf-style="background-color:{{style.theme_color if not style.transparent else 'transparent'}} !important; page-break-inside: avoid; color:{{style.theme_txt_color if not style.transparent else style.text_color}};">
+                    <tr t-attf-style="page-break-inside: avoid !important; border-bottom: 1px solid {{style.text_color}} !important;font-size:{{style.body_font+2}}px;">
+                        <th t-attf-style="{{th_style}}"><i class="fa fa-list-ol"/> Name</th>
+                        <th t-attf-style="{{th_style}}"><i class="fa fa-th-large"/> Phone</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr t-foreach="doc.person_ids" t-as="person" t-attf-style="background-color:{{style.even if (person_even and not style.transparent) else (not style.transparent and style.odd) or 'transparent'}};page-break-inside: avoid">
+                        <td><span t-field="person.name"/></td>
+                        <td><span t-field="person.phone"/></td>
+                    </tr>
+                </tbody>
+            </table>
+        </template>
+        
+        <!-- FSM SO Line Template -->
+        <template id="artisent_fsm_so_lines" name="FSM SO Data">
+            <!-- Are there any product lines? -->
+            <t t-set="display_products" t-value="any([olp.product_id.type != 'service' for olp in doc.sale_order_line_ids])"/>
+            <!-- Are there any service lines? -->
+            <t t-set="display_services" t-value="any([ols.product_id.type == 'service' for ols in doc.sale_order_line_ids])"/>
+            <!-- To take care of columns when no image -->
+            <t t-set="col_span" t-value="5 if style.show_img else 4"/>
+            <!-- common th styles -->
+            <t t-set="th_style" t-value="'font-weight:600;border-bottom: 1px solid #ddd !important;white-space:nowrap;'"/>
+            <table class="table  table-condensed" t-attf-style="color:{{style.text_color}};" >
+                <thead t-attf-style="background-color:{{style.theme_color if not style.transparent else 'transparent'}} !important; page-break-inside: avoid; color:{{style.theme_txt_color if not style.transparent else style.text_color}};">
+                    <tr t-attf-style="page-break-inside: avoid !important; border-bottom: 1px solid {{style.text_color}} !important;font-size:{{style.body_font+2}}px;">
+                        <th t-attf-style="{{th_style}}"><i class="fa fa-list-ol"/> Item</th>
+                        <th t-if="style.show_img" t-attf-style="{{th_style}}"><i class="fa fa-camera"/> Image</th>
+                        <th t-attf-style="{{th_style}}"><i class="fa fa-list-ul"/> Instructions</th>
+                        <th t-attf-style="{{th_style}}"><i class="fa fa-th-large"/> Description</th>
+                        <th class="text-right" t-attf-style="{{th_style}}"><i class="fa fa-sort-amount-asc"/> Quantity</th>
+                    </tr>
+                </thead>
+                <tbody style="font-weight:300;">
+                    <t t-set="item_count" t-value="0"/>
+                    <!-- Product section -->
+                    <t t-if="display_products">
+                        <tr t-attf-style="background-color:{{style.theme_color if not style.transparent else 'transparent'}} !important; page-break-inside: avoid; color:{{style.theme_txt_color if not style.transparent else style.text_color}};">
+                            <td t-att-colspan="col_span" style="font-weight:500;padding:3px;">
+                                <span>Products</span>
+                            </td>
+                        </tr>
+                        <t t-foreach="doc.sale_order_line_ids" t-as="l">
+                            <t t-if="not l.display_type and l.product_id.type != 'service'">
+                                <t t-set="item_count" t-value="item_count + 1"/>
+                                <tr t-attf-style="background-color:{{style.even if ((item_count % 2) == 0 and not style.transparent) else (not style.transparent and style.odd) or 'transparent'}};page-break-inside: avoid">
+                                    <td><span t-esc="item_count"/></td>
+                                    <td t-if="style.show_img"><span itemprop="image" t-field="l.sudo().product_id.image_small" t-options='{"widget": "image"}'/></td>
+                                    <td><span t-field="l.instructions"/></td>
+                                    <td><span t-field="l.name"/></td>
+                                    <td class="text-right">
+                                        <span t-field="l.product_uom_qty"/>
+                                        <span t-if="l.product_uom.short_code" t-field="l.product_uom.short_code"  groups="uom.group_uom"/>
+                                        <span t-else="" t-field="l.product_uom"  groups="uom.group_uom"/>
+                                    </td>
+                                </tr>
+                            </t>
+                        </t>
+                    </t>
+                    <!-- Service section -->
+                    <t t-if="display_services">
+                        <t t-set="item_count" t-value="0"/>
+                        <tr t-attf-style="background-color:{{style.theme_color if not style.transparent else 'transparent'}} !important; page-break-inside: avoid; color:{{style.theme_txt_color if not style.transparent else style.text_color}};">
+                            <td t-att-colspan="col_span" style="font-weight:500;padding:3px;">
+                                <span>Services</span>
+                            </td>
+                        </tr>
+                        <t t-foreach="doc.sale_order_line_ids" t-as="l">
+                            <t t-if="not l.display_type and l.product_id.type == 'service'">
+                                <t t-set="item_count" t-value="item_count + 1"/>
+                                <tr t-attf-style="background-color:{{style.even if ((item_count % 2) == 0 and not style.transparent) else (not style.transparent and style.odd) or 'transparent'}};page-break-inside: avoid">
+                                    <td><span t-esc="item_count"/></td>
+                                    <td t-if="style.show_img"><span itemprop="image" t-field="l.sudo().product_id.image_small" t-options='{"widget": "image"}'/></td>
+                                    <td><span t-field="l.instructions"/></td>
+                                    <td><span t-field="l.name"/></td>
+                                    <td class="text-right">
+                                        <span t-field="l.product_uom_qty"/>
+                                        <span t-if="l.product_uom.short_code" t-field="l.product_uom.short_code"  groups="uom.group_uom"/>
+                                        <span t-else="" t-field="l.product_uom"  groups="uom.group_uom"/>
+                                    </td>
+                                </tr>
+                            </t>
+                            <t t-elif="l.display_type == 'line_note'">
+                                <td t-att-colspan="col_span">
+                                    <span t-field="l.name"/>
+                                </td>
+                            </t>
+                        </t>
+                    </t>
+                </tbody>
+            </table>
+            <div class="clearfix"> </div>
+        </template>
+        
+    </data>
+</odoo>

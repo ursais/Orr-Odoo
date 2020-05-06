@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Copyright (C) 2015 DevIntelle Consulting Service Pvt.Ltd (<http://www.devintellecs.com>).
+
+For Module Support : devintelle@gmail.com  or Skype : devintelle
+ -->
+<odoo>
+	<!--Customer Invice-->
+    <record id="account.invoice_form" model="ir.ui.view">
+        <field name="priority">1</field>
+    </record>
+	<record id="account_invoice_inherited_view" model="ir.ui.view">
+		<field name="name">account.invoice.inherited.view</field>
+		<field name="model">account.invoice</field>
+		<field name="inherit_id" ref="account.invoice_form"/>
+		<field name="arch" type="xml">
+			<xpath expr="//button[@name='action_invoice_open']" position="after">
+				<button name="make_invoice_open" string="Validate" states="to approve" type="object" class="oe_highlight"
+                        groups="dev_invoice_double_approval.double_verification_invoice_right"/>
+			</xpath>
+			<xpath expr="//button[@name='action_invoice_open']" position="after">
+				<button name="make_invoice_cancel" string="Cancel" states="to approve" type="object"/>
+			</xpath>
+		</field>
+	</record>
+    <!--bill-->
+	<record id="account_bill_inherited_view" model="ir.ui.view">
+		<field name="name">account.bill.inherited.view</field>
+		<field name="model">account.invoice</field>
+		<field name="inherit_id" ref="account.invoice_supplier_form"/>
+		<field name="arch" type="xml">
+			<xpath expr="//button[@name='action_invoice_open']" position="after">
+				<button name="make_invoice_open" string="Validate" states="to approve" type="object" class="oe_highlight"
+                        groups="dev_invoice_double_approval.double_verification_invoice_right"/>
+			</xpath>
+			<xpath expr="//button[@name='action_invoice_open']" position="after">
+				<button name="make_invoice_cancel" string="Cancel" states="to approve" type="object"/>
+			</xpath>
+		</field>
+	</record>
+</odoo>

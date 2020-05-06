@@ -1,0 +1,84 @@
+<odoo>
+
+    <!-- ALN Management Company Tree view -->
+    <record id="aln_management_company_tree" model="ir.ui.view">
+        <field name="name">aln.management.company.tree</field>
+        <field name="model">aln.management.company</field>
+        <field name="arch" type="xml">
+            <tree string="ALN Management Company">
+                <field name="company_id_txt"/>
+                <field name="company_market"/>
+                <field name="company_name"/>
+                <field name="cmp_published_id"/>
+                <field name="cmp_published_date"/>
+                <field name="cmp_state"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- ALN Management Company Form View -->
+    <record id="aln_management_company_form" model="ir.ui.view">
+        <field name="name">aln.management.company.form</field>
+        <field name="model">aln.management.company</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="company_id_txt"/>
+                            <field name="company_market"/>
+                            <field name="company_name"/>
+                            <field name="company_website"/>
+                            <field name="company_parent_id_txt"/>
+                            <field name="company_rowversion"/>
+                        </group>
+                        <group>
+                            <field name="cmp_last_changed_date"/>
+                            <field name="cmp_state"/>
+                            <field name="cmp_published_id"/>
+                            <field name="cmp_published_date"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!--ALN Management Company Search -->
+    <record id="aln_management_company_view_search" model="ir.ui.view">
+        <field name="name">aln.management.company.search</field>
+        <field name="model">aln.management.company</field>
+        <field name="arch" type="xml">
+            <search string="ALN Management Company Search">
+                <field name="company_id_txt"/>
+                <field name="company_market"/>
+                <field name="company_name"/>
+                <field name="cmp_published_id"/>
+                <group expand="0" string="Group By">
+                    <filter string="Company" name="company" context="{'group_by':'company_id_txt'}"/>
+                    <filter string="Market" name="market" context="{'group_by':'company_market'}"/>
+                    <filter string="Publisher" name="publish" context="{'group_by':'cmp_published_id'}"/>
+                    <filter string="State" name="state" context="{'group_by':'cmp_state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!--Action  -->
+    <record id="aln_management_company_action" model="ir.actions.act_window">
+        <field name="name">ALN Management Company</field>
+        <field name="res_model">aln.management.company</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first ALN Management Company.
+            </p>
+        </field>
+    </record>
+
+    <!--Menuitem -->
+    <menuitem id="aln_management_company_menu" action="aln_management_company_action"
+        sequence="30" parent="alndata_connector.menu_aln_root"/>
+
+</odoo>

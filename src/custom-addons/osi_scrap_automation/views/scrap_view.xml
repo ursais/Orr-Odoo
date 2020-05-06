@@ -1,0 +1,80 @@
+<odoo>
+
+    <record model="ir.ui.view" id="view_scrap_stock_quant_form">
+        <field name="name">scrap.stock.quant.form</field>
+        <field name="model">stock.quant</field>
+        <field eval="50" name="priority"/>
+        <field name="arch" type="xml">
+            <form string="Inventory Valuation" create="false" edit="false" delete="false">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="product_id"/>
+                            <field name="category_id"/>
+                            <field name="location_id"/>
+                            <field name="lot_id"/>
+                            <field name="package_id"/>
+                            <field name="owner_id"/>
+                        </group>
+                        <group>
+                            <label for="quantity" string="Quantity On Hand"/>
+                            <div class="o_row">
+                                <field name="quantity"/>
+                                <field name="product_uom_id"/>
+                            </div>
+                            <label for="reserved_quantity" string="Quantity Reserved"/>
+                            <div class="o_row">
+                                <field name="reserved_quantity"/>
+                                <field name="product_uom_id"/>
+                            </div>
+                            <field name="in_date" attrs="{'invisible': [('lot_id', '=', False)]}"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_scrap_stock_quant_tree">
+        <field name="name">scrap.stock.quant.tree</field>
+        <field name="model">stock.quant</field>
+        <field eval="50" name="priority"/>
+        <field name="arch" type="xml">
+            <tree string="Inventory Valuation" create="0" delete="0" decoration-danger="quantity &lt; 0">
+                <field name="product_id"/>
+                <field name="category_id"/>
+                <field name="location_id"/>
+                <field name="in_date"/>
+                <field name="lot_id"/>
+                <field name="reserved_quantity" string="Reserved"/>
+                <field name="quantity" string="On Hand"/>
+                <field name="product_uom_id" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_server_scrap_order" model="ir.actions.server">
+        <field name="name">Create scrap orders</field>
+        <field name="type">ir.actions.server</field>
+        <field name="state">code</field>
+        <field name="model_id" ref="stock.model_stock_quant"/>
+        <field name="binding_model_id" ref="stock.model_stock_quant"/>
+        <field name="code">
+        if records:
+            action = records._scrap_order()
+        </field>
+    </record>
+
+    <record id="action_server_scrap_order_validate" model="ir.actions.server">
+        <field name="name">Scrap Batch</field>
+        <field name="type">ir.actions.server</field>
+        <field name="state">code</field>
+        <field name="model_id" ref="stock.model_stock_scrap"/>
+        <field name="binding_model_id" ref="stock.model_stock_scrap"/>
+        <field name="code">
+        if records:
+            action = records._scrap_batch_order()
+        </field>
+    </record>
+
+</odoo>

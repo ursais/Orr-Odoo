@@ -1,0 +1,31 @@
+    
+<odoo>
+    <record id="fsm_location_view_search_partner" model="ir.ui.view">
+        <field name="name">fsm.location.view.search.partner</field>
+        <field name="model">fsm.location</field>
+        <field name="inherit_id" ref="fieldservice.fsm_location_search_view"/>
+        <field name="arch" type="xml">
+            <field name="ref" position="after">
+                <field name="description"/>
+                <field name="notes"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="fsm_location_view_form_quotes_button" model="ir.ui.view">
+        <field name="name">fsm.location.view.form.quotes.button</field>
+        <field name="model">fsm.location</field>
+		<field name="inherit_id" ref="fieldservice.fsm_location_form_view"/>
+        <field name="arch" type="xml">
+            <div class="oe_button_box" position="inside">
+                <button class="oe_stat_button" type="object" name="action_view_quotation_templates" icon="fa-clipboard">
+                    <field string="Quotation Templates" name="quotation_template_count" widget="statinfo"/>
+                </button>
+                <button class="oe_stat_button" type="object" name="action_view_sales_orders" icon="fa-credit-card">
+                    <field string="Sale Orders" name="loc_sale_order_count" widget="statinfo"/>
+                </button>
+            </div>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,15 @@
+<odoo>
+    <record id="stock_picking_roll_tags_button" model="ir.ui.view">
+        <field name="name">stock.picking.roll.tags.button</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="before">
+                <group>
+                    <field name="hide_roll_tags_button" invisible="1"/>
+                    <button name="print_roll_tags" string="Print Roll Tags" type="object" class="oe_highlight" attrs="{'invisible': [('hide_roll_tags_button', '!=', False)]}"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

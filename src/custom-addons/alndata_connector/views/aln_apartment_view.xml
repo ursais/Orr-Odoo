@@ -1,0 +1,181 @@
+<odoo>
+
+        <!--Main Menu -->
+    <menuitem id="menu_aln_root" name="ALN"
+        sequence="25"
+        parent="crm.crm_menu_root"/>
+
+    <!-- ALN apartment Tree view -->
+    <record id="aln_apartment_tree" model="ir.ui.view">
+        <field name="name">aln.apartment.tree</field>
+        <field name="model">aln.apartment</field>
+        <field name="arch" type="xml">
+            <tree string="ALN apartment">
+                <field name="apartment_id_txt"/>
+                <field name="aln_id_txt"/>
+                <field name="apt_name"/>
+                <field name="email"/>
+                <field name="market"/>
+                <field name="num_of_units"/>
+                <field name="apt_published_id"/>
+                <field name="apt_published_date"/>
+                <field name="apt_state"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- ALN apartment Form View -->
+    <record id="aln_apartment_form" model="ir.ui.view">
+        <field name="name">aln.apartment.form</field>
+        <field name="model">aln.apartment</field>
+        <field name="arch" type="xml">
+            <form string="ALN Apartment">
+                <sheet>
+                    <h1>
+                        <field name="apt_name" placeholder="Name"/>
+                    </h1>
+                    <group>
+                        <group>
+                            <field name="market"/>
+                            <field name="industry_id"/>
+                            <field name="num_of_units"/>
+                            <field name="areasupervisor_id" invisible="1"/>
+                            <field name="areasupervisor_id_txt"/>
+                            <field name="curr_manager"/>
+                            <field name="email" widget="email"/>
+                            <field name="physical_address_to"/>
+                            <field name="physical_address_line1"/>
+                            <field name="physical_address_line2"/>
+                            <field name="physical_address_city"/>
+                            <field name="physical_address_state"/>
+                            <field name="physical_address_zip"/>
+                        </group>
+                        <group>
+                            <field name="apartment_id_txt"/>
+                            <field name="last_update_date" />
+                            <field name="apt_last_changed_date"/>
+                            <field name="last_contacted_date"/>
+                            <field name="fka" />
+                            <field name="timezone" />
+                            <field name="hours" />
+                            <field name="year_built" />
+                            <field name="year_remodeled" />
+                            <field name="occupancy"/>
+                            <field name="apt_homepage"/>
+                            <field name="apt_picture_url" />
+                            <field name="property_phone" />
+                            <field name="property_fax" />
+                            <field name="apt_state"/>
+                            <field name="apt_published_id"/>
+                            <field name="apt_published_date"/>
+                        </group>
+                        <group/>
+                    </group>
+                    <notebook colspan="4">
+                        <page string="Details">
+                            <group>
+                                <group>
+                                    <field name="row_version"/>
+                                    <field name="aln_id_txt"/>
+                                    <field name="status"/>
+                                    <field name="apt_owner_id_txt"/>
+                                    <field name="number_of_stories"/>
+                                    <field name="directions"/>
+                                    <field name="property_description"/>
+                                    <field name="corporate_mngmt_cmpny_id" invisible="1"/>
+                                    <field name="regional_mngmt_cmpny_id" invisible="1"/>
+                                    <field name="corporate_management_company_id_txt"/>
+                                    <field name="regional_management_company_id_txt"/>
+                                    <field name="owner_id_txt"/>
+                                    <field name="views"/>
+                                    <field name="ac_heating"/>
+                                    <field name="map_coordinates"/>
+                                    <field name="other_notes"/>
+                                </group>
+                                <group>
+                                    <field name="average_rent"/>
+                                    <field name="average_sqft"/>
+                                    <field name="mkt_pct_rff_rentunit"/>
+                                    <field name="mkt_pct_rff_rentsqft"/>
+                                    <field name="sub_mkt_pct_rff_rentunit"/>
+                                    <field name="sub_mkt_pct_rff_rentsqft"/>
+                                    <field name="mkt_pct_net_rentunit"/>
+                                    <field name="mkt_pct_net_rentsqft"/>
+                                    <field name="sub_mkt_net_rff_rentunit"/>
+                                    <field name="sub_mkt_net_rff_rentsqft"/>
+                                    <field name="rms_id_txt"/>
+                                    <field name="rms_program"/>
+                                    <field name="pricing_tier"/>
+                                    <field name="asset_fee_managed"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Addresses">
+                            <group>
+                                <group string="Mailing Address">
+                                    <field name="mailing_address_to"/>
+                                    <field name="mailing_address_line1"/>
+                                    <field name="mailing_address_line2"/>
+                                    <field name="mailing_address_city"/>
+                                    <field name="mailing_address_state"/>
+                                    <field name="mailing_address_zip"/>
+                                </group>
+                                <group string="Shipping Address">
+                                    <field name="shipping_address_to"/>
+                                    <field name="shipping_address_line1"/>
+                                    <field name="shipping_address_line2"/>
+                                    <field name="shipping_address_city"/>
+                                    <field name="shipping_address_state"/>
+                                    <field name="shipping_address_zip"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!--ALN apartment Search -->
+    <record id="aln_apartment_view_search" model="ir.ui.view">
+        <field name="name">aln.apartment.search</field>
+        <field name="model">aln.apartment</field>
+        <field name="arch" type="xml">
+            <search string="ALN apartment Search">
+                <field name="apartment_id_txt"/>
+                <field name="aln_id_txt"/>
+                <field name="apt_name"/>
+                <field name="email"/>
+                <field name="market"/>
+                <field name="num_of_units"/>
+                <field name="apt_published_id"/>
+                <group expand="0" string="Group By">
+                    <filter string="Apartment" name="apartment" context="{'group_by':'apartment_id_txt'}"/>
+                    <filter string="ALN" name="aln" context="{'group_by':'aln_id_txt'}"/>
+                    <filter string="Regional Mgmt" name="regional_mgmt" context="{'group_by':'regional_mngmt_cmpny_id'}"/>
+                    <filter string="Corporate Mgmt" name="corporate_mgmt" context="{'group_by':'corporate_mngmt_cmpny_id'}"/>
+                    <filter string="Publisher" name="publish" context="{'group_by':'apt_published_id'}"/>
+                    <filter string="State" name="state" context="{'group_by':'apt_state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!--Action  -->
+    <record id="aln_apartment_action" model="ir.actions.act_window">
+        <field name="name">ALN Apartment</field>
+        <field name="res_model">aln.apartment</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first ALN apartment.
+            </p>
+        </field>
+    </record>
+
+    <!--Menuitem -->
+    <menuitem id="aln_apartment_menu" action="aln_apartment_action"
+        sequence="20" parent="alndata_connector.menu_aln_root"/>
+
+</odoo>

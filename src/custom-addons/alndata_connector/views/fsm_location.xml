@@ -1,0 +1,16 @@
+<odoo>
+    <record id="fsm_location_add_num_of_units" model="ir.ui.view">
+        <field name="name">fsm.location.add.num.of.units</field>
+        <field name="model">fsm.location</field>
+		<field name="inherit_id" ref="fieldservice.fsm_location_form_view"/>
+        <field name="arch" type="xml">
+            <field name="contact_id" position="after">
+                <field name="num_unit"/>
+                <field name="commercial_partner_id"/>
+                <field name="prop_mgmt_id_txt" attrs="{'invisible':[('prop_mgmt_id','!=',False)]}"/>
+                <field name="prop_mgmt_id" attrs="{'invisible':[('prop_mgmt_id','=',False)]}"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>

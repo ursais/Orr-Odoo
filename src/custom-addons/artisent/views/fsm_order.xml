@@ -1,0 +1,157 @@
+<odoo>  
+    <!-- Show SOL on FSO. Add Invoice Buttons for manual generation. Add Stage Buttons for FSO workflow -->
+    <record id="fsm_order_artisent_changes" model="ir.ui.view">
+        <field name="model">fsm.order</field>
+        <field name="inherit_id" ref="fieldservice.fsm_order_form"/>
+        <field name="arch" type="xml">
+            <page name="instructions_page" position="before">
+                 <page string="Sale Order Lines" name="sol_page">
+                    <button id="build_invoice" name="build_invoice" 
+                            string="Generate Invoice" class="oe_highlight" type="object" 
+                            attrs="{'invisible': ['|', ('invoice_btn', '=', False), ('stage_id', 'in', (%(fieldservice.fsm_stage_new)d, 
+                                                                  %(artisent.fsm_stage_assigned)d, 
+                                                                  %(fieldservice.fsm_stage_cancelled)d))]}"/>
+                    <button id="build_bill" name="build_bill"
+                            string="Generate Vendor Bill" class="oe_highlight" type="object" 
+                            attrs="{'invisible': ['|', ('bill_btn', '=', False), ('stage_id', 'in', (%(fieldservice.fsm_stage_new)d, 
+                                                                  %(artisent.fsm_stage_assigned)d, 
+                                                                  %(fieldservice.fsm_stage_cancelled)d))]}"/>
+                    <field name="invoice_btn" invisible="1"/>
+                    <field name="bill_btn" invisible="1"/>
+                    <field name="sale_order_line_ids">
+                        <tree create="0">
+                            <field name="product_id"/>
+                            <field name="instructions"/>
+                            <field name="name"/>
+                            <field name="product_uom_qty"/>
+                            <field name="qty_delivered"/>
+                            <field name="qty_invoiced"/>
+                            <field name="qty_to_invoice_fsm"/>
+                            <field name="product_uom"/>
+                            <field name="route_id"/>
+                            <field name="price_unit"/>
+                            <field name="purchase_price"/>
+                            <field name="tax_id"/>
+                            <field name="discount"/>
+                        </tree>
+                    </field>
+                </page>
+            </page> 
+            <field name="scheduled_date_start" position="attributes">
+                <attribute name="string">Installation Date</attribute>
+            </field>
+            <button name="action_complete" position="after">
+                <button id="action_assign" name="action_assign" 
+                        string="Assign" class="oe_highlight" type="object" 
+                        attrs="{'invisible': [('stage_id', 'in', (%(artisent.fsm_stage_assigned)d, 
+                                                                  %(artisent.fsm_stage_in_progress)d, 
+                                                                  %(artisent.fsm_stage_review)d, 
+                                                                  %(fieldservice.fsm_stage_completed)d, 
+                                                                  %(fieldservice.fsm_stage_cancelled)d))]}"/>
+                <button id="action_in_progress" name="action_in_progress" 
+                        string="In Progress" class="oe_highlight" type="object" 
+                        attrs="{'invisible': [('stage_id', 'in', (%(fieldservice.fsm_stage_new)d, 
+                                                                  %(artisent.fsm_stage_in_progress)d, 
+                                                                  %(artisent.fsm_stage_review)d, 
+                                                                  %(fieldservice.fsm_stage_completed)d, 
+                                                                  %(fieldservice.fsm_stage_cancelled)d))]}"/>
+                <button id="action_review" name="action_review" 
+                        string="Review" class="oe_highlight" type="object" 
+                        attrs="{'invisible': [('stage_id', 'in', (%(fieldservice.fsm_stage_new)d, 
+                                                                  %(artisent.fsm_stage_assigned)d, 
+                                                                  %(artisent.fsm_stage_review)d, 
+                                                                  %(fieldservice.fsm_stage_completed)d, 
+                                                                  %(fieldservice.fsm_stage_cancelled)d))]}"/>
+            </button>
+            <button name="action_complete" position="attributes">
+                <attribute name="attrs">{'invisible': [('stage_id', 'in', (%(fieldservice.fsm_stage_new)d, 
+                                                                  %(artisent.fsm_stage_assigned)d, 
+                                                                  %(fieldservice.fsm_stage_completed)d, 
+                                                                  %(artisent.fsm_stage_in_progress)d, 
+                                                                  %(fieldservice.fsm_stage_cancelled)d))]}</attribute>
+            </button>
+            <field name="location_id" position="after">
+                <field name="service_requirement"/>
+            </field>
+        </field>
+    </record> 
+
+    <!-- Split Stock Moves and Stock Requests. Add SOL to SR to link deliveries to delivered qty -->
+    <record id="fsm_order_artisent_changes_stock" model="ir.ui.view">
+        <field name="model">fsm.order</field>
+        <field name="inherit_id" ref="fieldservice_stock.view_fsm_order_form_inherit_stock"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[2]" position="attributes">
+                <attribute name="string">Change Orders</attribute>
+            </xpath>
+            <field name="move_ids" position="replace"/>
+            <xpath expr="//page[2]" position="after">
+                <page name="move_ids_page" string="Stock Moves">
+                  <field name="move_ids" readonly="1" attrs="{'invisible': [('move_ids', '=', False)]}"/>
+                </page>
+            </xpath>
+            <xpath expr="//field[@name='stock_request_ids']/tree/field[6]" position="after">
+                <field name="sale_order_line_id"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Add a filter to see Tomorrows FSO's -->
+    <record id="fsm_order_artisent_filter_tomorrow" model="ir.ui.view">
+        <field name="model">fsm.order</field>
+        <field name="inherit_id" ref="fieldservice.fsm_order_search_view"/>
+        <field name="arch" type="xml">
+            <filter name="order_today" position="after">
+                <filter string="Due Tommorrow"
+                        domain="[('scheduled_date_start','&gt;=',(context_today()+relativedelta(days=1)).strftime('%%Y-%%m-%%d 00:00:00')),
+                                ('create_date','&lt;=',(context_today()+relativedelta(days=1)).strftime('%%Y-%%m-%%d 23:59:59'))]"
+                        name="order_upcoming_all"/>
+            </filter>
+        </field>
+    </record>
+
+    <!-- Split Vendor Bills and Invoices into 2 separate Buttons -->
+    <record id="artisent_split_inv_vb" model="ir.ui.view">
+        <field name="model">fsm.order</field>
+        <field name="inherit_id" ref="fieldservice_account.view_fsm_order_form_inherit_account"/>
+        <field name="arch" type="xml">
+            <div name="button_box" position="inside">
+                <button name="action_view_vendor_bills"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-pencil-square-o"
+                        attrs="{'invisible': [('bill_count', '=', 0)]}"
+                        groups="account.group_account_invoice">
+                    <field name="bill_count"
+                           widget="statinfo"
+                           string="Vendor Bills"/>
+                </button>
+            </div>
+            <field name="invoice_count" position="attributes">
+                <attribute name="string">Invoices</attribute>
+            </field>
+        </field>
+    </record>
+
+    <record id="fsm_order_artisent_tree_service_agreement" model="ir.ui.view">
+        <field name="model">fsm.order</field>
+        <field name="inherit_id" ref="fieldservice.fsm_order_tree_view"/>
+        <field name="arch" type="xml">
+            <field name="location_id" position="after">
+                <field name="service_requirement"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="fsm_order_artisent_stock_view_routest" model="ir.ui.view">
+        <field name="model">fsm.order</field>
+        <field name="inherit_id" ref="fieldservice_stock.view_fsm_order_form_inherit_stock"/>
+        <field name="arch" type="xml">
+            <field name="route_id" position="attributes">
+                <attribute name="attrs">{'required': 1}</attribute>
+                <attribute name="invisible">0</attribute>
+            </field>
+        </field>
+    </record>
+
+</odoo>

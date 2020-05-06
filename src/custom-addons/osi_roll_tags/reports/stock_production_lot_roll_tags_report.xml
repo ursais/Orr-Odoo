@@ -1,0 +1,49 @@
+<odoo>
+    <data>
+        <report
+            string="Roll Tags"
+            id="action_roll_tags_sn"
+            model="stock.move.line"
+            report_type="qweb-pdf"
+            name="osi_roll_tags.report_roll_tags_sn"
+            file="osi_roll_tags.report_roll_tags_sn"
+            print_report_name="'Roll Tag - %s' % (object.lot_name or '')"
+            menu="False"
+        />
+
+        <template id="report_roll_tags_sn">
+            <t t-call="web.basic_layout">
+                <t t-foreach="docs" t-as="o">
+                    <div class="page" style="page-break-after:always;">
+                        <h6>Name</h6>
+                        <div name="product">
+                            <span t-field="o.product_id.display_name" style="font-size:32px"/>
+                            <span t-field="o.product_id.description_picking" style="font-size:32px"/>
+                        </div>
+                        <h6>Lot Serial Number</h6>
+                        <div name="lot_sn_number">
+                            <span t-field="o.lot_name" style="font-size:92px"/>
+                        </div>
+                        <h6>Dye Lot</h6>
+                        <div name="dye_lot">
+                            <span t-field="o.dye_lot" style="font-size:52px"/>
+                        </div>
+                        <h6>Delivered Qty</h6>
+                        <div name="delivered_qty">
+                            <span t-field="o.qty_done" style="font-size:32px"/>
+                            <span t-field="o.product_uom_id" style="font-size:32px"/>
+                        </div>
+                        <h6>Barcode</h6>
+                        <div name="barcode">
+                            <span t-if="o.product_id and o.product_id.barcode">
+                                <img t-if="len(o.product_id.barcode) == 13" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;humanreadable=1' % ('EAN13', o.product_id.barcode, 600, 100)" style="width:50%;height:135px" alt="Barcode"/>
+                                <img t-elif="len(o.product_id.barcode) == 8" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;humanreadable=1' % ('EAN8', o.product_id.barcode, 600, 100)" style="width:50%;height:135px" alt="Barcode"/>
+                                <img t-else="" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;humanreadable=1' % ('Code128', o.product_id.barcode, 600, 100)" style="width:50%;height:105px" alt="Barcode"/>
+                            </span>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

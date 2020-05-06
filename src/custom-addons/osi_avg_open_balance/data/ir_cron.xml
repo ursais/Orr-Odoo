@@ -1,0 +1,16 @@
+<odoo noupdate="1">
+
+    <record id="average_open_invoice_cron" model="ir.cron">
+        <field name="name">Average Open Invoice Cron</field>
+        <field name="active" eval="True"/>
+        <field name="state">code</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="numbercall">-1</field>
+        <field name="nextcall" eval="(DateTime.now() + timedelta(days=1)).strftime('%Y-%m-%d 23:59:59')" />
+        <field name="doall">1</field>
+        <field name="model_id" ref="model_res_partner"/>
+        <field name="code">model._cron_compute_open_invoice_average()</field>
+    </record>
+
+</odoo>

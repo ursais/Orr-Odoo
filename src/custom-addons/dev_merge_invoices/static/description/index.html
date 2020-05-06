@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Merge Customer Invoices/Vendor Bills - odoo apps - DevIntelle Consulting Service Pvt.Ltd </title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<div class="oe_styling_v8">
+		<br/>
+		<div style="background:#efefef" >
+			<img src="default/default_top.png" style="width:100%;margin-top:-10px">
+			<section class="oe_container oe_dark">
+				<div class="oe_row oe_spaced">
+					<h1 style="padding-top: 0%;text-transform: uppercase;font-weight: 900;color: #3d3d3d !important;margin-bottom:18px;">
+				       <center> Merge Customer Invoices/Vendor Bills </center>
+				    </h1>
+				    <hr style="width: 30%;height: 10px;background: #0DAC9E;margin-top: 0px !important;"/>
+
+				    <h4 class="oe_slogan" style="font-weight:400;margin-bottom:-7px">
+				    	<a href="https://www.devintellecs.com/" style="color:#333">DevIntelle Consulting Service Pvt.Ltd</a>
+				    </h4>
+				</div>
+			</section>
+			<img src="default/default_top.png" style="width:100%;margin-bottom:-10px"/>
+		</div>
+
+        <section class="oe_container ">
+			<div class="oe_row oe_spaced">
+			    <h3 style="font-size: 30px;color:#333;font-family:LatoOpen Sans;" class="text-center">Overview</h3>
+			</div>
+		</section>
+        <section class="oe_container">
+			<div class="oe_row oe_spaced">
+                <div class="row">
+                    <div class="col-1"></div>
+                    <div class="col-10">
+                        <p class="oe_mt32 text-center" style="font-size: 16px;font-family:Noto Sans CJK TC Thin;color:#333">
+                           Sometime When customer/vendor having multiple invoice into odoo system and require to make it one invoice/bills for all those multiple invoice/bills.for solutation odoo app will help to merge multiple invoice/bills with into one invoice of same customer/vendor and same state.
+                        </p>
+                    </div>
+                    <div class="col-1"></div>
+                </div>
+			</div>
+		</section>
+
+		<section class="row">
+			<div class="oe_row oe_spaced">
+				<h4 class="oe_slogan" style="font-size:30px;color:#333;font-family:LatoOpen Sans !important;"><b>Feature</b></h4>
+			</div>
+		</section>
+        <div class="row">
+            <div class="col-1"></div>
+            <div class="col-11" style="font-size: 20px;font-family:Noto Sans CJK TC Thin;">
+                <img src="default/arrow.png" style="margin-right:5px;width:10px;margin-top:-2px"/>Merge draft Invoices/Bills which are from same Customer/Vendor in odoo<br/>
+					<img src="default/arrow.png" style="margin-right:5px;width:10px;margin-top:-2px"/>When you merge Invoices/Bills, a merged Invoice/Bill is created as new Invoice/Bill <br/>
+					<img src="default/arrow.png" style="margin-right:5px;width:10px;margin-top:-2px"/>Instead of creating new merged Invoice/Bill you can also merge selected Invoices/Bills in existing Invoices/Bills <br/>
+					<img src="default/arrow.png" style="margin-right:5px;width:10px;margin-top:-2px"/>Once Invoices/Bills are merged as new Invoice/Bill or in Existing Invoice/Bill, selected Invoices/Bills will be Canceled <br/>
+					<img src="default/arrow.png" style="margin-right:5px;width:10px;margin-top:-2px"/>Note : You can't merge Invoices/Bills which are not in draft state or not from similar Customer/Vendor <br/>
+            </div>
+        </div>
+
+       <section class="oe_container">
+            <div class="oe_row oe_spaced">
+                <div class="oe_row oe_spaced">
+                    <h4 class="oe_slogan" style="font-size:30px;color:#333;font-family:LatoOpen Sans !important;"><b>How It Works</b></h4>
+			<!--Images-->
+                    <!--Customer Invoice-->
+                    <div class="col-xs-12 text-center" style="background:#0DAC9E;border-radius:5px;margin-top:10px">
+                        <span style="font-size:25px;color:#FFF" ><b>Invoice 1</b></span>
+                    </div>
+                    <div class="col-xs-12" style="margin-top:10px">
+                        <img src="1_invoice_one.png" style="max-width:100%;max-height:600px"/>
+                    </div>
+
+                    <div class="col-xs-12 text-center" style="background:#0DAC9E;border-radius:5px;margin-top:10px">
+                        <span style="font-size:25px;color:#FFF" ><b>Invoice 2</b></span>
+                    </div>
+                    <div class="col-xs-12" style="margin-top:10px">
+                        <img src="2_invoice_two.png" style="max-width:100%;max-height:600px"/>
+                    </div>
+
+                    <div class="col-xs-12 text-center" style="background:#0DAC9E;border-radius:5px;margin-top:10px">
+                        <span style="font-size:25px;color:#FFF" ><b>Merging Invoice 1 and 2</b></span>
+                    </div>
+                    <div class="col-xs-12" style="margin-top:10px">
+                        <img src="3_merge_invoice_menu.png" style="max-width:100%;max-height:600px"/>
+                    </div>
+
+                    <div class="col-xs-12 text-center" style="background:#0DAC9E;border-radius:5px;margin-top:10px">
+                        <span style="font-size:25px;color:#FFF" ><b>Merge Invoice/Bill into New Invoice and Cancel Selected Invoices/Bills</b></span>
+                    </div>
+                    <div class="col-xs-12" style="margin-top:5px">
+                        <p style="font-size: 15px;font-family:Noto Sans CJK TC Thin;">If you select this option, all the invoices which you have selected will be canceled and a New Invoice will be created</p>
+                        <p style="font-size: 15px;font-family:Noto Sans CJK TC Thin;">New Invoice will contain all the product details of selected invoices which has been canceled</p>
+                    </div>
+                    <div class="col-xs-12" style="margin-top:10px">
+                        <img src="4_merge_invoice.png" style="max-width:100%;max-height:600px"/>
+                    </div>
+
+                    <div class="col-xs-12 text-center" style="background:#0DAC9E;border-radius:5px;margin-top:10px">
+                        <span style="font-size:25px;color:#FFF" ><b>New Invoice or Merged Invoice(Invoice 3)</b></span>
+                    </div>
+                    <div class="col-xs-12" style="margin-top:10px">
+                        <img src="5_merged_invoice.png" style="max-width:100%;max-height:600px"/>
+                    </div>
+
+                    <div class="col-xs-12 text-center" style="background:#0DAC9E;border-radius:5px;margin-top:10px">
+                        <span style="font-size:25px;color:#FFF" ><b>Selected Invoices has been Cancelled</b></span>
+                    </div>
+                    <div class="col-xs-12" style="margin-top:10px">
+                        <img src="6_selected_invoice_cancelled.png" style="max-width:100%;max-height:600px"/>
+                    </div>
+
+                    <div class="col-xs-12 text-center" style="background:#0DAC9E;border-radius:5px;margin-top:10px">
+                        <span style="font-size:25px;color:#FFF" ><b>Invoice 4</b></span>
+                    </div>
+                    <div class="col-xs-12" style="margin-top:10px">
+                        <img src="7_other_invoice_one.png" style="max-width:100%;max-height:600px"/>
+                    </div>
+
+                    <div class="col-xs-12 text-center" style="background:#0DAC9E;border-radius:5px;margin-top:10px">
+                        <span style="font-size:25px;color:#FFF" ><b>Invoice 5</b></span>
+                    </div>
+                    <div class="col-xs-12" style="margin-top:10px">
+                        <img src="8_other_invoice_two.png" style="max-width:100%;max-height:600px"/>
+                    </div>
+
+                    <div class="col-xs-12 text-center" style="background:#0DAC9E;border-radius:5px;margin-top:10px">
+                        <span style="font-size:25px;color:#FFF" ><b>Merging Invoice 4 and 5 into Invoice 3</b></span>
+                    </div>
+                    <div class="col-xs-12" style="margin-top:10px">
+                        <img src="10_merge_into_existing_invoice.png" style="max-width:100%;max-height:600px"/>
+                    </div>
+
+                    <div class="col-xs-12 text-center" style="background:#0DAC9E;border-radius:5px;margin-top:10px">
+                        <span style="font-size:25px;color:#FFF" ><b>Merge Invoice/Bill into Existing Invoice and Cancel Selected Invoices/Bills</b></span>
+                    </div>
+                    <div class="col-xs-12" style="margin-top:5px">
+                        <p style="font-size: 15px;font-family:Noto Sans CJK TC Thin;">If you choose this option then you have to select an Existing Invoice</p>
+                        <p style="font-size: 15px;font-family:Noto Sans CJK TC Thin;">All the invoices which you have selected will be cancelled and Merged into an Existing Invoice</p>
+                        <p style="font-size: 15px;font-family:Noto Sans CJK TC Thin;">Such as In our example we have merged Invoice 4 and 5 into Invoice 3(which is an existing invoice)</p>
+                    </div>
+                    <div class="col-xs-12" style="margin-top:10px">
+                        <img src="11_select_existing_invoice_and_merge.png" style="max-width:100%;max-height:600px"/>
+                    </div>
+
+                    <div class="col-xs-12 text-center" style="background:#0DAC9E;border-radius:5px;margin-top:10px">
+                        <span style="font-size:25px;color:#FFF" ><b>Invoice 4 and 5 merged into Existing Invoice 3</b></span>
+                    </div>
+                    <div class="col-xs-12" style="margin-top:10px">
+                        <img src="12_merged_into_existing_invoice.png" style="max-width:100%;max-height:600px"/>
+                    </div>
+
+                    <div class="col-xs-12 text-center" style="background:#0DAC9E;border-radius:5px;margin-top:10px">
+                        <span style="font-size:25px;color:#FFF" ><b>Invoice 4 and 5 has been Cancelled</b></span>
+                    </div>
+                    <div class="col-xs-12" style="margin-top:10px">
+                        <img src="13_existing_merged_and_other_cancelled.png" style="max-width:100%;max-height:600px"/>
+                    </div>
+
+                    <div class="col-xs-12 text-center" style="background:#0DAC9E;border-radius:5px;margin-top:10px">
+                        <span style="font-size:25px;color:#FFF" ><b>If you try to merge Invoices which are not in Draft state, then system will prompt below warning</b></span>
+                    </div>
+                    <div class="col-xs-12" style="margin-top:10px">
+                        <img src="15_invoice_state_error.png" style="max-width:100%;max-height:600px"/>
+                    </div>
+
+                    <div class="col-xs-12 text-center" style="background:#0DAC9E;border-radius:5px;margin-top:10px">
+                        <span style="font-size:25px;color:#FFF" ><b>If you try to merge Invoices which are not from similar Customer, then system will prompt below warning</b></span>
+                    </div>
+                    <div class="col-xs-12" style="margin-top:10px">
+                        <img src="16_invoice_partner_error.png" style="max-width:100%;max-height:600px"/>
+                    </div>
+
+                    <!--Vendor Bill-->
+                    <div class="col-xs-12 text-center" style="background:#0DAC9E;border-radius:5px;margin-top:10px">
+                        <span style="font-size:25px;color:#FFF" ><b>Bill 1</b></span>
+                    </div>
+                    <div class="col-xs-12" style="margin-top:10px">
+                        <img src="17_bill_one.png" style="max-width:100%;max-height:600px"/>
+                    </div>
+
+                    <div class="col-xs-12 text-center" style="background:#0DAC9E;border-radius:5px;margin-top:10px">
+                        <span style="font-size:25px;color:#FFF" ><b>Bill 2</b></span>
+                    </div>
+                    <div class="col-xs-12" style="margin-top:10px">
+                        <img src="18_bill_two.png" style="max-width:100%;max-height:600px"/>
+                    </div>
+
+                    <div class="col-xs-12 text-center" style="background:#0DAC9E;border-radius:5px;margin-top:10px">
+                        <span style="font-size:25px;color:#FFF" ><b>Merging Bill 1 and 2</b></span>
+                    </div>
+                    <div class="col-xs-12" style="margin-top:10px">
+                        <img src="19_merging_bill_1_and_2.png" style="max-width:100%;max-height:600px"/>
+                    </div>
+
+                    <div class="col-xs-12 text-center" style="background:#0DAC9E;border-radius:5px;margin-top:10px">
+                        <span style="font-size:25px;color:#FFF" ><b>Merge Invoice/Bill into New Invoice and Cancel Selected Invoices/Bills</b></span>
+                    </div>
+                    <div class="col-xs-12" style="margin-top:5px">
+                        <p style="font-size: 15px;font-family:Noto Sans CJK TC Thin;">If you select this option, all the bills which you have selected will be cancelled and a New Bill will be created</p>
+                        <p style="font-size: 15px;font-family:Noto Sans CJK TC Thin;">New Bill will contain all the product details of selected bills which has been cancelled</p>
+                    </div>
+                    <div class="col-xs-12" style="margin-top:10px">
+                        <img src="20_bill_1_2_merge_wizard.png" style="max-width:100%;max-height:600px"/>
+                    </div>
+
+                    <div class="col-xs-12 text-center" style="background:#0DAC9E;border-radius:5px;margin-top:10px">
+                        <span style="font-size:25px;color:#FFF" ><b>New Bill or Merged Bill(Bill 3)</b></span>
+                    </div>
+                    <div class="col-xs-12" style="margin-top:10px">
+                        <img src="21_merged_bill_bill3.png" style="max-width:100%;max-height:600px"/>
+                    </div>
+
+                    <div class="col-xs-12 text-center" style="background:#0DAC9E;border-radius:5px;margin-top:10px">
+                        <span style="font-size:25px;color:#FFF" ><b>Selected Bills has been Cancelled</b></span>
+                    </div>
+                    <div class="col-xs-12" style="margin-top:10px">
+                        <img src="22_bill1_bill2_cancelled.png" style="max-width:100%;max-height:600px"/>
+                    </div>
+
+                    <div class="col-xs-12 text-center" style="background:#0DAC9E;border-radius:5px;margin-top:10px">
+                        <span style="font-size:25px;color:#FFF" ><b>Bill 4</b></span>
+                    </div>
+                    <div class="col-xs-12" style="margin-top:10px">
+                        <img src="23_bill4.png" style="max-width:100%;max-height:600px"/>
+                    </div>
+
+                    <div class="col-xs-12 text-center" style="background:#0DAC9E;border-radius:5px;margin-top:10px">
+                        <span style="font-size:25px;color:#FFF" ><b>Bill 5</b></span>
+                    </div>
+                    <div class="col-xs-12" style="margin-top:10px">
+                        <img src="24_bill5.png" style="max-width:100%;max-height:600px"/>
+                    </div>
+
+                    <div class="col-xs-12 text-center" style="background:#0DAC9E;border-radius:5px;margin-top:10px">
+                        <span style="font-size:25px;color:#FFF" ><b>Merging Bill 4 and 5 into Bill 3</b></span>
+                    </div>
+                    <div class="col-xs-12" style="margin-top:10px">
+                        <img src="26_merging_bill4_bill5_into_bill3.png" style="max-width:100%;max-height:600px"/>
+                    </div>
+
+                    <div class="col-xs-12 text-center" style="background:#0DAC9E;border-radius:5px;margin-top:10px">
+                        <span style="font-size:25px;color:#FFF" ><b>Merge Invoice/Bill into Existing Invoice and Cancel Selected Invoices/Bills</b></span>
+                    </div>
+                    <div class="col-xs-12" style="margin-top:5px">
+                        <p style="font-size: 15px;font-family:Noto Sans CJK TC Thin;">If you choose this option then you have to select an Existing Bill</p>
+                        <p style="font-size: 15px;font-family:Noto Sans CJK TC Thin;">All the bills which you have selected will be cancelled and Merged into an Existing Bill</p>
+                        <p style="font-size: 15px;font-family:Noto Sans CJK TC Thin;">Such as In our example we have merged Bill 4 and 5 into Bill 3(which is an existing invoice)</p>
+                    </div>
+                    <div class="col-xs-12" style="margin-top:10px">
+                        <img src="27_bill4_bill5_bill3_merge_wizard.png" style="max-width:100%;max-height:600px"/>
+                    </div>
+
+                    <div class="col-xs-12 text-center" style="background:#0DAC9E;border-radius:5px;margin-top:10px">
+                        <span style="font-size:25px;color:#FFF" ><b>Bill 4 and 5 merged into Existing Bill 3</b></span>
+                    </div>
+                    <div class="col-xs-12" style="margin-top:10px">
+                        <img src="28_bills_merged_into_existing_bill.png" style="max-width:100%;max-height:600px"/>
+                    </div>
+
+                    <div class="col-xs-12 text-center" style="background:#0DAC9E;border-radius:5px;margin-top:10px">
+                        <span style="font-size:25px;color:#FFF" ><b>Bill 4 and 5 has been Cancelled</b></span>
+                    </div>
+                    <div class="col-xs-12" style="margin-top:10px">
+                        <img src="29_bill4_bill5_cancelled.png" style="max-width:100%;max-height:600px"/>
+                    </div>
+
+                    <div class="col-xs-12 text-center" style="background:#0DAC9E;border-radius:5px;margin-top:10px">
+                        <span style="font-size:25px;color:#FFF" ><b>If you try to merge Bills which are not in Draft state, then system will prompt below warning</b></span>
+                    </div>
+                    <div class="col-xs-12" style="margin-top:10px">
+                        <img src="30_bill_state_warning.png" style="max-width:100%;max-height:600px"/>
+                    </div>
+
+                    <div class="col-xs-12 text-center" style="background:#0DAC9E;border-radius:5px;margin-top:10px">
+                        <span style="font-size:25px;color:#FFF" ><b>If you try to merge Bills which are not from similar Vendors, then system will prompt below warning</b></span>
+                    </div>
+                    <div class="col-xs-12" style="margin-top:10px">
+                        <img src="31_bill_partner_warning.png" style="max-width:100%;max-height:600px"/>
+                    </div>
+                </div>
+            </div>
+		</section>
+
+		<section class="oe_container ">
+			<div class="oe_row oe_spaced">
+				<h4 class="oe_slogan" style="font-size:30px;color:#333;font-family:LatoOpen Sans !important;"><b>Free Support</b></h4>
+			    <div class="row">
+                    <div class="col-12 text-center" style="font-size: 18px;font-family:Noto Sans CJK TC Thin;">
+                        <img src="default/arrow.png" style="margin-right:5px;width:10px;margin-top:-2px"/>
+                            You will get 90 Days free support incase any bugs or issue (Except data recovery).
+                    </div>
+                </div>
+            </div>
+		</section>
+
+		<h4 class="oe_slogan" style="font-size:30px;color:#333;font-family:LatoOpen Sans !important;"><b>Get in Touch</b></h4>
+		<div style="background:#efefef">
+			<img src="default/default_top.png" style="width:100%;margin-top:-10px">
+			<div class="oe_container oe_dark" style="background:#efefef">
+				<div class="row">
+                    <div class="col-4">
+                        <br/>
+                        <img src="default/logo.png" style="width:60%"/><br/><br/>
+                        <img src="default/gmail.png" style="width:5%"/> &nbsp;&nbsp;<i style="font-size:15px">devintelle@gmail.com</i><br/>
+                        <img src="default/phone.png" style="width:5%"/> &nbsp;&nbsp;<i style="font-size:15px">(+91) 87805 43446</i><br/>
+                        <img src="default/skype.png" style="width:5%"/>&nbsp;&nbsp;<i style="font-size:15px">devintelle</i><br/><br/>
+                        <span width="25%">
+                            <a href="https://plus.google.com/106859683363969286567">
+                                <img src="default/google.png" style="width:15%" style="margin-right:10px"/>
+                            </a>
+                        </span>
+                        <span width="25%">
+                            <a href="https://www.facebook.com/Odoodevintellecs/">
+                                <img src="default/fb.png" style="width:15%" style="margin-right:10px"/>
+                            </a>
+                        </span>
+                        <span width="25%">
+                            <a href="https://www.youtube.com/channel/UCrmu-T0c8rhMXGuB44bH7gA">
+                                <img src="default/youtube.png" style="width:15%" style="margin-right:10px"/>
+                            </a>
+                        </span>
+                        <span width="25%">
+                            <a href="#">
+                                <img src="default/tweet.png" style="width:15%" style="margin-right:10px"/>
+                            </a>
+                        </span>
+                        <span width="25%">
+                            <a href="https://www.linkedin.com/in/devintelle-odoo-service-provide-34785b144/">
+                                <img src="default/linkin.png" style="width:15%" style="margin-right:10px"/>
+                            </a>
+                        </span>
+                        <br/>
+                        <br/>
+                    </div>
+                    <div class="col-2">
+                    </div>
+                    <div class="col-6" style="font-size: 15px;color:#333;font-family:LatoOpen Sans;">
+                        <br/>
+                        <span class="col-12" style="font-size:20px;color:#0DAC9E">
+                            <b>Odoo Support Services</b>
+                        </span>
+                        <span class="col-12">
+                            <p style="font-size: 15px;font-family:Noto Sans CJK TC Thin;"> For any other assistance related to the new Odoo feature, customization or Odoo Development.Our Odoo experts will help you to build your business</p>
+                        </span>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <a href="https://www.odoo.com/apps/modules/browse?search=devintelle">
+                            <span class="col-6 text-center"
+                                style="background:#875A7B;padding:15px;margin:20px;font-family:LatoOpen Sans !important;color:#FFF;border-radius:10px">
+                                <b>OUR MORE APPS</b>
+                            </span>
+                        </a>
+
+                    </div>
+                </div>
+			<img src="default/default_top.png" style="width:100%;margin-bottom:-10px">
+		</div>
+	</div>
+</body>
+</html>
