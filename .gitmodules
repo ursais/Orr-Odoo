@@ -96,5 +96,5 @@
 	branch = 12.0
 [submodule "sale-workflow"]
 	path = src/sale-workflow
-	url = https://github.com/OCA/sale-workflow
+	url = https://github.com/OCA/sale-workflow.git
 	branch = 12.0
