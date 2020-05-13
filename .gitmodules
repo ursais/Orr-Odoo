@@ -78,20 +78,23 @@
 	path = src/account-analytic
 	url = https://github.com/OCA/account-analytic.git
 	branch = 12.0
-[submodule "src/avatax_connector"]
+[submodule "avatax_connector"]
 	path = src/avatax_connector
 	url = https://github.com/sodexis/avatax_connector.git
         branch = 12.0
-[submodule "src/mis-builder"]
+[submodule "mis-builder"]
 	path = src/mis-builder
 	url = https://github.com/OCA/mis-builder.git
 	branch = 12.0
-[submodule "src/reporting-engine"]
+[submodule "reporting-engine"]
 	path = src/reporting-engine
 	url = https://github.com/OCA/reporting-engine.git
 	branch = 12.0
-[submodule "src/server-ux"]
+[submodule "server-ux"]
 	path = src/server-ux
 	url = https://github.com/OCA/server-ux.git
 	branch = 12.0
-
+[submodule "sale-workflow"]
+	path = src/sale-workflow
+	url = https://github.com/OCA/sale-workflow
+	branch = 12.0
