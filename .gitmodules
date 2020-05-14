@@ -8,27 +8,27 @@
 	branch = 12.0
 [submodule "account-invoicing"]
 	path = src/account-invoicing
-	url = https://github.com/OCA/account-invoicing.git
+	url = https://github.com/ursais/account-invoicing.git
 	branch = 12.0
 [submodule "account-financial-tools"]
 	path = src/account-financial-tools
-	url = https://github.com/OCA/account-financial-tools.git
+	url = https://github.com/ursais/account-financial-tools.git
 	branch = 12.0
 [submodule "account-payment"]
 	path = src/account-payment
-	url = https://github.com/OCA/account-payment.git
+	url = https://github.com/ursais/account-payment.git
 	branch = 12.0
 [submodule "commission"]
 	path = src/commission
-	url = https://github.com/OCA/commission.git
+	url = https://github.com/ursais/commission.git
 	branch = 12.0
 [submodule "contract"]
 	path = src/contract
-	url = https://github.com/OCA/contract.git
+	url = https://github.com/ursais/contract.git
 	branch = 12.0
 [submodule "credit-control"]
 	path = src/credit-control
-	url = https://github.com/OCA/credit-control.git
+	url = https://github.com/ursais/credit-control.git
 	branch = 12.0
 [submodule "field-service"]
 	path = src/field-service
@@ -36,15 +36,15 @@
 	branch = 12.0
 [submodule "geospatial"]
 	path = src/geospatial
-	url = https://github.com/OCA/geospatial.git
+	url = https://github.com/ursais/geospatial.git
 	branch = 12.0
 [submodule "hr"]
 	path = src/hr
-	url = https://github.com/OCA/hr.git
+	url = https://github.com/ursais/hr.git
 	branch = 12.0
 [submodule "l10n-usa"]
 	path = src/l10n-usa
-	url = https://github.com/OCA/l10n-usa.git
+	url = https://github.com/ursais/l10n-usa.git
 	branch = 12.0
 [submodule "osi-addons"]
 	path = src/osi-addons
@@ -52,49 +52,49 @@
 	branch = 12.0
 [submodule "partner-contact"]
 	path = src/partner-contact
-	url = https://github.com/OCA/partner-contact.git
+	url = https://github.com/ursais/partner-contact.git
 	branch = 12.0
 [submodule "stock-logistics-warehouse"]
 	path = src/stock-logistics-warehouse
-	url = https://github.com/OCA/stock-logistics-warehouse.git
+	url = https://github.com/ursais/stock-logistics-warehouse.git
 	branch = 12.0
 [submodule "web"]
 	path = src/web
-	url = https://github.com/OCA/web.git
+	url = https://github.com/ursais/web.git
 	branch = 12.0
 [submodule "account-invoice-reporting"]
 	path = src/account-invoice-reporting
-	url = https://github.com/OCA/account-invoice-reporting.git
+	url = https://github.com/ursais/account-invoice-reporting.git
 	branch = 12.0
 [submodule "account-reconcile"]
 	path = src/account-reconcile
-	url = https://github.com/OCA/account-reconcile.git
+	url = https://github.com/ursais/account-reconcile.git
 	branch = 12.0
 [submodule "bank-payment"]
 	path = src/bank-payment
-	url = https://github.com/OCA/bank-payment.git
+	url = https://github.com/ursais/bank-payment.git
 	branch = 12.0
 [submodule "account-analytic"]
 	path = src/account-analytic
-	url = https://github.com/OCA/account-analytic.git
+	url = https://github.com/ursais/account-analytic.git
 	branch = 12.0
 [submodule "avatax_connector"]
 	path = src/avatax_connector
-	url = https://github.com/sodexis/avatax_connector.git
+	url = https://github.com/ursais/avatax_connector.git
         branch = 12.0
 [submodule "mis-builder"]
 	path = src/mis-builder
-	url = https://github.com/OCA/mis-builder.git
+	url = https://github.com/ursais/mis-builder.git
 	branch = 12.0
 [submodule "reporting-engine"]
 	path = src/reporting-engine
-	url = https://github.com/OCA/reporting-engine.git
+	url = https://github.com/ursais/reporting-engine.git
 	branch = 12.0
 [submodule "server-ux"]
 	path = src/server-ux
-	url = https://github.com/OCA/server-ux.git
+	url = https://github.com/ursais/server-ux.git
 	branch = 12.0
 [submodule "src/sale-workflow"]
 	path = src/sale-workflow
-	url = https://github.com/OCA/sale-workflow.git
+	url = https://github.com/ursais/sale-workflow.git
 	branch = 12.0
