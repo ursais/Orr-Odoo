@@ -98,3 +98,7 @@
 	path = src/sale-workflow
 	url = https://github.com/ursais/sale-workflow.git
 	branch = 12.0
+[submodule "src/project"]
+	path = src/project
+	url = https://github.com/OCA/project.git
+	branch = 12.0
