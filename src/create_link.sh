@@ -106,3 +106,9 @@ rm web_timeline
 rm web_environment_ribbon
 ln -s ../web/web_timeline web_timeline
 ln -s ../web/web_environment_ribbon web_environment_ribbon
+
+rm account_invoice_report_hide_line
+ln -s ../account-invoice-reporting/account_invoice_report_hide_line account_invoice_report_hide_line
+
+rm stock_request_analytic
+ln -s ../stock-logistics-warehouse/stock_request_analytic stock_request_analytic
