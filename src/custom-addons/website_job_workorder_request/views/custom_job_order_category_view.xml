@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+    	<record id="view_custom_job_order_category_form" model="ir.ui.view">
+            <field name="name">custom.job.order.category.form</field>
+            <field name="model">custom.job.order.category</field>
+            <field name="arch" type="xml">
+                <form>
+                	<group>
+                		<group>
+                			<field name="name"/>
+            			</group>
+            			<group>
+        				</group>
+            		</group>
+            	</form>
+        	</field>
+    	</record>
+
+    	<record id="view_custom_job_order_category_tree" model="ir.ui.view">
+            <field name="name">custom.job.order.category.tree</field>
+            <field name="model">custom.job.order.category</field>
+            <field name="arch" type="xml">
+                <tree string="Custom Job Order Category">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+    	<record model="ir.actions.act_window" id="action_custom_job_order_category">
+            <field name="name">Job Order Categorys</field>
+            <field name="res_model">custom.job.order.category</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_type">form</field>
+        </record>
+
+		<menuitem id="menu_custom_job_order_category" name="Job Order Category" parent="website_job_workorder_request.menu_configuration"  action='website_job_workorder_request.action_custom_job_order_category'/>
+
+	</data>
+</odoo>
