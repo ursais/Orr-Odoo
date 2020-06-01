@@ -1,0 +1,19 @@
+<odoo>
+
+    <record id="view_fsm_order_form_inherit_sign" model="ir.ui.view">
+        <field name="model">fsm.order</field>
+        <field name="inherit_id" ref="fieldservice.fsm_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_complete']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//button[@name='action_cancel']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='stage_id']" position="attributes">
+                <attribute name="options">{'fold_field': 'fold','clickable': '1'}</attribute>
+            </xpath>
+        </field>
+    </record>
+    
+</odoo>
