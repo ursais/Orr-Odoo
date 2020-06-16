@@ -2,3 +2,4 @@
 
 from . import job_costing
 from . import sale_order
+from . import sale_estimate

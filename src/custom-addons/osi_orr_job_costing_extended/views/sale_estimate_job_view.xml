@@ -8,6 +8,9 @@
             <field name="job_type_ids" position="attributes">
                 <attribute name="invisible">True</attribute>
             </field>
+            <field name="user_id" position="after">
+                <field name="accounting_person_id"/>
+            </field>
         </field>
     </record>
 

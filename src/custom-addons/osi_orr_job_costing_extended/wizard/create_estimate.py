@@ -31,6 +31,7 @@ class JobCostEstimate(models.TransientModel):
                 'jobcost_id': active_id.id,
                 'analytic_id': active_id.analytic_id.id,
                 'reference': active_id.so_number,
+                'description': active_id.notes_job,
             }
             estimate = job_estimate_obj.create(vals)
             rec._prepare_estimate_lines(estimate, active_id)

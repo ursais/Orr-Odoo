@@ -15,6 +15,7 @@
         'odoo_job_costing_management',
     ],
     'data': [
+        'data/sale_estimate_mail_data.xml',
         'views/job_costing_view.xml',
         'views/sale_estimate_job_view.xml',
         'views/sale_order_view.xml',
