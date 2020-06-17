@@ -1,0 +1,23 @@
+<odoo>
+    
+    <record id="job_costing_form_view_inherit_orr" model="ir.ui.view">
+        <field name="name">Job.Costing.Form</field>
+        <field name="model">job.costing</field>
+        <field name="inherit_id" ref="odoo_job_costing_management.job_costing_form_view"/>
+        <field name="arch" type="xml">
+            <field name="analytic_id" position="after">
+                <field name="analytic_tag_ids" widget="many2many_tags" attrs="{'readonly' : [('state','in',('approve','done','cancel'))]}"/>
+            </field>
+            <field name="partner_id" position="attributes">
+                <attribute name="required">True</attribute>
+            </field>
+            <field name="task_id" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </field>
+            <xpath expr="//notebook/page[2]/field/tree/field[@name='cost_price']" position="after">
+                <field name="sale_price" sum="Total"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

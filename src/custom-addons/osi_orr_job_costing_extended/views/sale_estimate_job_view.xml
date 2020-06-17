@@ -1,0 +1,29 @@
+<odoo>
+
+    <record id="view_sale_estimate_form_job_inherit_orr" model="ir.ui.view">
+        <field name="name">sale.estimate.job</field>
+        <field name="model">sale.estimate.job</field>
+        <field name="inherit_id" ref="job_cost_estimate_customer.view_sale_estimate_form_job"/>
+        <field name="arch" type="xml">
+            <field name="job_type_ids" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </field>
+            <field name="user_id" position="after">
+                <field name="accounting_person_id" attrs="{'required': [('state','=','draft')]}"/>
+            </field>
+            <field name="analytic_id" position="after">
+                <field name="analytic_tag_ids" widget="many2many_tags" attrs="{'readonly': [('state', 'in', ['approve','quotesend','cancel','reject'])]}"/>
+            </field>
+            <xpath expr="//notebook/page[1]/field/tree/field[@name='price_unit']" position="before">
+                <field name="cost_price"/>
+            </xpath>
+            <xpath expr="//notebook/page[2]/field/tree/field[@name='price_unit']" position="before">
+                <field name="cost_price"/>
+            </xpath>
+            <xpath expr="//notebook/page[3]/field/tree/field[@name='price_unit']" position="before">
+                <field name="cost_price"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
