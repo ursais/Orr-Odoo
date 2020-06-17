@@ -10,7 +10,7 @@ class SaleEstimateJob(models.Model):
 
     accounting_person_id = fields.Many2one(
         'res.users',
-        string='Accountic Person',
+        string='Accounting Person',
     )
     analytic_tag_ids = fields.Many2many(
         'account.analytic.tag',

@@ -82,3 +82,7 @@ class JobCostLine(models.Model):
         string='Cost / Unit',
         copy=True,
     )
+    sale_price = fields.Float(
+        string='Sale Price / Unit',
+        copy=True,
+    )
