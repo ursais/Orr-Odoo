@@ -12,6 +12,10 @@ class SaleEstimateJob(models.Model):
         'res.users',
         string='Accountic Person',
     )
+    analytic_tag_ids = fields.Many2many(
+        'account.analytic.tag',
+        string='Analytic Tags',
+    )
 
     @api.multi
     def _prepare_quotation_line(self, quotation):
@@ -30,7 +34,7 @@ class SaleEstimateJob(models.Model):
                     'discount': line.discount,
                     'order_id': quotation.id,
                     'analytic_tag_ids':
-                    [(6, 0, rec.jobcost_id.analytic_tag_ids.ids)],
+                    [(6, 0, rec.analytic_tag_ids.ids)],
                 }
                 quo_line = quo_line_obj.create(vals1)
             for line in rec.labour_estimate_line_ids:
@@ -45,7 +49,7 @@ class SaleEstimateJob(models.Model):
                     'discount': line.discount,
                     'order_id': quotation.id,
                     'analytic_tag_ids':
-                    [(6, 0, rec.jobcost_id.analytic_tag_ids.ids)],
+                    [(6, 0, rec.analytic_tag_ids.ids)],
                 }
                 quo_line = quo_line_obj.create(vals1)
 
@@ -61,7 +65,7 @@ class SaleEstimateJob(models.Model):
                     'discount': line.discount,
                     'order_id': quotation.id,
                     'analytic_tag_ids':
-                    [(6, 0, rec.jobcost_id.analytic_tag_ids.ids)],
+                    [(6, 0, rec.analytic_tag_ids.ids)],
                 }
                 quo_line = quo_line_obj.create(vals1)
 
@@ -75,9 +79,11 @@ class SaleEstimateJob(models.Model):
                 'partner_id': rec.partner_id.id,
                 'origin': rec.number,
                 # 'project_id': rec.analytic_id.id,
-                'analytic_account_id': rec.analytic_id.id,
+                # 'analytic_account_id': rec.analytic_id.id,
                 'note': rec.description,
                 'client_order_ref': rec.reference,
+                'analytic_tag_ids':
+                    [(6, 0, rec.analytic_tag_ids.ids)],
             }
             quotation = quo_obj.create(vals)
             rec._prepare_quotation_line(quotation)
@@ -94,3 +100,11 @@ class SaleEstimateJob(models.Model):
                     raise_if_not_found=False)
                 template.send_mail(self.id, force_send=True)
         return res
+
+
+class SaleEstimatelineJob(models.Model):
+    _inherit = "sale.estimate.line.job"
+
+    cost_price = fields.Float(
+        string='Cost / Unit',
+    )

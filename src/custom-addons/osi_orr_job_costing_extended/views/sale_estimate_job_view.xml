@@ -9,8 +9,20 @@
                 <attribute name="invisible">True</attribute>
             </field>
             <field name="user_id" position="after">
-                <field name="accounting_person_id"/>
+                <field name="accounting_person_id" attrs="{'required': [('state','=','draft')]}"/>
             </field>
+            <field name="analytic_id" position="after">
+                <field name="analytic_tag_ids" widget="many2many_tags" attrs="{'readonly': [('state', 'in', ['approve','quotesend','cancel','reject'])]}"/>
+            </field>
+            <xpath expr="//notebook/page[1]/field/tree/field[@name='price_unit']" position="before">
+                <field name="cost_price"/>
+            </xpath>
+            <xpath expr="//notebook/page[2]/field/tree/field[@name='price_unit']" position="before">
+                <field name="cost_price"/>
+            </xpath>
+            <xpath expr="//notebook/page[3]/field/tree/field[@name='price_unit']" position="before">
+                <field name="cost_price"/>
+            </xpath>
         </field>
     </record>
 

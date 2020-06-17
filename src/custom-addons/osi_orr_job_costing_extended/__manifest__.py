@@ -19,5 +19,7 @@
         'views/job_costing_view.xml',
         'views/sale_estimate_job_view.xml',
         'views/sale_order_view.xml',
+        'views/project_view.xml',
+        'views/account_invoice_view.xml',
     ],
 }

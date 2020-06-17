@@ -20,6 +20,9 @@
         	<button name="%(sale.action_view_sale_advance_payment_inv)d" position="attributes">
                 <attribute name="invisible">True</attribute>
             </button>
+            <field name="analytic_account_id" position="after">
+                <field name="analytic_tag_ids" widget="many2many_tags" attrs="{'readonly': [('state','=','sale')]}"/>
+            </field>
 		</field>
 	</record>
 
