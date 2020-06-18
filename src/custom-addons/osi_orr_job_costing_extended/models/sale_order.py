@@ -38,10 +38,30 @@ class SaleOrder(models.Model):
             'res_id': estimate_job and estimate_job.id
         }
 
+    def _create_task_for_non_service_product(
+            self, project, non_service_task_list):
+        values = {
+            'name': 'Materials',
+            'partner_id': self.partner_id.id,
+            'email_from': self.partner_id.email,
+            'description': 'Materials',
+            'project_id': project.id,
+            'company_id': self.company_id.id,
+            'material_plan_ids': non_service_task_list,
+        }
+        task = self.env['project.task'].sudo().create(values)
+        self.write({'task_id': task.id})
+        # post message on task
+        task_msg = _("This task has been created from: <a href=# data-oe-model=sale.order data-oe-id=%d>%s</a> (%s)") % (
+            self.id, self.name, 'Materials')
+        task.message_post(body=task_msg)
+        return task
+
     @api.multi
     def action_confirm(self):
         result = super(SaleOrder, self).action_confirm()
         for so in self:
+            non_service_task_list = []
             estimate_job = self.env['sale.estimate.job'].search([
                 ('quotation_id', '=', self.id)], limit=1)
             project = self.env['project.project'].search([
@@ -53,5 +73,19 @@ class SaleOrder(models.Model):
                 estimate_job.project_id = project.id
                 estimate_job.analytic_id = project.analytic_account_id.id
                 estimate_job.jobcost_id.project_id = project.id
-                estimate_job.jobcost_id.analytic_id = project.analytic_account_id.id
+                estimate_job.jobcost_id.analytic_id = \
+                    project.analytic_account_id.id
+            for line in so.order_line:
+                if line.product_id.type != 'service':
+                    non_service_task_list.append(
+                        (0, 0, {
+                            'product_id': line.product_id.id,
+                            'description': line.name,
+                            'product_uom_qty': line.product_uom_qty,
+                            'product_uom': line.product_uom.id,
+                            'custom_job_cost_id': estimate_job.jobcost_id.id
+                        }))
+            if project:
+                so._create_task_for_non_service_product(
+                    project, non_service_task_list)
         return result
