@@ -20,9 +20,21 @@ class MaterialRequisition(models.TransientModel):
                 res.get('domain')[0][2])
             so_rec = job_order.sale_line_id.order_id
             material_req_rec.analytic_account_id = so_rec.analytic_account_id
-            if self.operation_type == 'create':
+            job_costing_rec = self.env['job.costing'].search([
+                ('project_id', '=', job_order.project_id.id),
+                ('analytic_id', '=', material_req_rec.analytic_account_id.id),
+            ], limit=1)
+            if self.operation_type == 'create' or self.operation_type == 'exist':
                 for line in material_req_rec.requisition_line_ids:
-                    line.write({'requisition_type': 'purchase'})  # To do
-            elif self.operation_type == 'exist':
-                pass  # To do
+                    job_cost_line_rec = self.env['job.cost.line'].search([
+                        ('direct_id', '=', job_costing_rec.id),
+                        ('product_id', '=', line.product_id.id),
+                    ], limit=1)
+                    seller_vendors = line.product_id.seller_ids.mapped('name')
+                    line.write(
+                        {'requisition_type': 'purchase',
+                         'custom_job_costing_id': job_costing_rec.id,
+                         'custom_job_costing_line_id': job_cost_line_rec.id,
+                         'partner_id': [(6, 0, seller_vendors.ids)]
+                         })
         return res

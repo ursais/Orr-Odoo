@@ -2,7 +2,7 @@
 # Copyright (C) 2020 Serpent Consulting Services Pvt. Ltd.
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import api, fields, models, _
+from odoo import fields, models
 
 
 class AccountInvoice(models.Model):
