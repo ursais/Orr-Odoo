@@ -83,6 +83,7 @@ class SaleOrder(models.Model):
                             'description': line.name,
                             'product_uom_qty': line.product_uom_qty,
                             'product_uom': line.product_uom.id,
+                            'requisition_type': 'purchase',
                             'custom_job_cost_id': estimate_job.jobcost_id.id
                         }))
             if project:
