@@ -2,11 +2,18 @@
 # Copyright (C) 2020 Serpent Consulting Services Pvt. Ltd.
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import fields, models
+from odoo import api, fields, models
 
 
 class JobCosting(models.Model):
     _inherit = 'job.costing'
+
+    @api.multi
+    def _timesheet_line_count(self):
+        hr_timesheet_obj = self.env['account.analytic.line']
+        for timesheet_line in self:
+            timesheet_line.timesheet_line_count = hr_timesheet_obj.search_count(
+                [('project_id', '=', self.project_id.id)])
 
     analytic_tag_ids = fields.Many2many(
         'account.analytic.tag',
@@ -50,6 +57,12 @@ class JobCosting(models.Model):
         copy=True,
         domain=[('job_type', '=', 'overhead')],
     )
+
+    @api.multi
+    def action_view_hr_timesheet_line(self):
+        action = super().action_view_hr_timesheet_line()
+        action['domain'] = [('project_id', '=', self.project_id.id)]
+        return action
 
 
 class JobCostLine(models.Model):
