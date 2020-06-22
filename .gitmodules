@@ -102,3 +102,7 @@
 	path = src/project
 	url = https://github.com/OCA/project.git
 	branch = 12.0
+[submodule "src/server-tools"]
+	path = src/server-tools
+	url = https://github.com/OCA/server-tools.git
+	branch = 12.0
