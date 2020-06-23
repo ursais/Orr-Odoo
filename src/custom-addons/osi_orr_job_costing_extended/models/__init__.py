@@ -5,3 +5,4 @@ from . import sale_order
 from . import sale_estimate
 from . import project
 from . import account_invoice
+from . import hr_timesheet
