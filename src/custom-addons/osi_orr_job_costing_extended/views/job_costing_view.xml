@@ -17,6 +17,46 @@
             <xpath expr="//notebook/page[2]/field/tree/field[@name='cost_price']" position="after">
                 <field name="sale_price" sum="Total"/>
             </xpath>
+            <xpath expr="//group[@name='jobcost_total']" position="replace">
+                <group class="oe_subtotal_footer oe_right" col="4" colspan="4" name="jobcost_total">
+                        <field name="total_material_sale" widget="monetary"/>
+                        <field name="material_total" widget="monetary"/>
+                        <field name="total_labor_sale" widget="monetary"/>
+                        <field name="labor_total" widget="monetary"/>
+                        <field name="total_overhead_sale" widget="monetary"/>
+                        <field name="overhead_total" widget="monetary"/>
+                        <field name="total_sale" widget="monetary"/>
+                        <field name="jobcost_total" widget="monetary"/>
+                        <field name="total_margin" widget="monetary"/>
+                 </group>
+            </xpath>
+            <xpath expr="//notebook/page[1]/field/tree/field[@name='actual_requisition_qty']" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </xpath>
+            <xpath expr="//notebook/page[1]/field/tree/field[@name='actual_quantity']" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </xpath>
+            <xpath expr="//notebook/page[1]/field/tree/field[@name='actual_purchase_cost']" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </xpath>
+            <xpath expr="//notebook/page[2]/field/tree/field[@name='actual_requisition_qty']" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </xpath>
+            <xpath expr="//notebook/page[2]/field/tree/field[@name='actual_hour']" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </xpath>
+            <xpath expr="//notebook/page[2]/field/tree/field[@name='actual_timesheet_cost']" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </xpath>
+            <xpath expr="//notebook/page[3]/field/tree/field[@name='actual_requisition_qty']" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </xpath>
+            <xpath expr="//notebook/page[3]/field/tree/field[@name='actual_quantity']" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </xpath>
+            <xpath expr="//notebook/page[3]/field/tree/field[@name='actual_purchase_cost']" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </xpath>
         </field>
     </record>
 
