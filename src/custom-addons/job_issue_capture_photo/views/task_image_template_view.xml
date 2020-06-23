@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <template id="portal_my_task_inherit_capture_photo" name="Task Image Capture" inherit_id="project.portal_my_task">
+            <xpath expr="//div[@t-if='task.description or task.attachment_ids']" position="after">
+                    <t t-call="base_capture_photo.snap_image_tmpl">
+                        <t t-set="object" t-value="task"/>
+                    </t>
+                    <t t-call="base_capture_photo.capture_attachments_template">
+                        <t t-set="attchment_ids" t-value="task.capture_attachment_ids"/>
+                    </t>
+            </xpath>
+        </template>
+
+        <template id="display_issue_ticket_inherit_capture_photo" name="Ticket Issues Image Capture" inherit_id="issue_tracking_employee_portal.display_issue_ticket">
+            <xpath expr="//div[@class='mt32']" position="before">
+                <br/>
+                    <t t-call="base_capture_photo.snap_image_tmpl">
+                        <t t-set="object" t-value="issue"/>
+                    </t>
+                    <t t-call="base_capture_photo.capture_attachments_template">
+                        <t t-set="attchment_ids" t-value="issue.capture_attachment_ids"/>
+                    </t>
+            </xpath>
+        </template>
+
+    </data>
+</odoo>

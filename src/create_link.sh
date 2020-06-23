@@ -112,3 +112,6 @@ ln -s ../account-invoice-reporting/account_invoice_report_hide_line account_invo
 
 rm stock_request_analytic
 ln -s ../stock-logistics-warehouse/stock_request_analytic stock_request_analytic
+
+rm auditlog
+ln -s ../server-tools/auditlog auditlog

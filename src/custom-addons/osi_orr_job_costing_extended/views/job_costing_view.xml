@@ -1,0 +1,63 @@
+<odoo>
+    
+    <record id="job_costing_form_view_inherit_orr" model="ir.ui.view">
+        <field name="name">Job.Costing.Form</field>
+        <field name="model">job.costing</field>
+        <field name="inherit_id" ref="odoo_job_costing_management.job_costing_form_view"/>
+        <field name="arch" type="xml">
+            <field name="analytic_id" position="after">
+                <field name="analytic_tag_ids" widget="many2many_tags" attrs="{'readonly' : [('state','in',('approve','done','cancel'))]}"/>
+            </field>
+            <field name="partner_id" position="attributes">
+                <attribute name="required">True</attribute>
+            </field>
+            <field name="task_id" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </field>
+            <xpath expr="//notebook/page[2]/field/tree/field[@name='cost_price']" position="after">
+                <field name="sale_price" sum="Total"/>
+            </xpath>
+            <xpath expr="//group[@name='jobcost_total']" position="replace">
+                <group class="oe_subtotal_footer oe_right" col="4" colspan="4" name="jobcost_total">
+                        <field name="total_material_sale" widget="monetary"/>
+                        <field name="material_total" widget="monetary"/>
+                        <field name="total_labor_sale" widget="monetary"/>
+                        <field name="labor_total" widget="monetary"/>
+                        <field name="total_overhead_sale" widget="monetary"/>
+                        <field name="overhead_total" widget="monetary"/>
+                        <field name="total_sale" widget="monetary"/>
+                        <field name="jobcost_total" widget="monetary"/>
+                        <field name="total_margin" widget="monetary"/>
+                 </group>
+            </xpath>
+            <xpath expr="//notebook/page[1]/field/tree/field[@name='actual_requisition_qty']" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </xpath>
+            <xpath expr="//notebook/page[1]/field/tree/field[@name='actual_quantity']" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </xpath>
+            <xpath expr="//notebook/page[1]/field/tree/field[@name='actual_purchase_cost']" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </xpath>
+            <xpath expr="//notebook/page[2]/field/tree/field[@name='actual_requisition_qty']" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </xpath>
+            <xpath expr="//notebook/page[2]/field/tree/field[@name='actual_hour']" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </xpath>
+            <xpath expr="//notebook/page[2]/field/tree/field[@name='actual_timesheet_cost']" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </xpath>
+            <xpath expr="//notebook/page[3]/field/tree/field[@name='actual_requisition_qty']" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </xpath>
+            <xpath expr="//notebook/page[3]/field/tree/field[@name='actual_quantity']" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </xpath>
+            <xpath expr="//notebook/page[3]/field/tree/field[@name='actual_purchase_cost']" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

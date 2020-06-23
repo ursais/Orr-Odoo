@@ -1,0 +1,130 @@
+# Copyright (C) 2020 Open Source Integrators
+# Copyright (C) 2020 Serpent Consulting Services Pvt. Ltd.
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+
+from odoo import api, fields, models
+
+
+class JobCostEstimate(models.TransientModel):
+    _inherit = 'job.cost.estimate'
+
+    @api.multi
+    def _prepare_estimate_lines(self, estimate, active_id):
+        """Overrite this method for populate Cost Price and Price Unit"""
+        line_obj = self.env['sale.estimate.line.job']
+        job_type_obj = self.env['estimate.job.type']
+        code_lst = []
+
+        from_currency = active_id.currency_id
+        to_currency = self.price_list_id.currency_id
+
+        for line in active_id.job_cost_line_ids:
+            code_lst += job_type_obj.search([('code',
+                                              '=', line.job_type_id.code)]).ids
+            if not line.uom_id:
+                uom_id = line.product_id.uom_id.id
+            else:
+                uom_id = line.uom_id.id
+
+            price_unit = line.sale_price
+            cost_price = line.cost_price
+            if from_currency != to_currency:
+                cost_price = from_currency.compute(cost_price, to_currency)
+                price_unit = from_currency.compute(price_unit, to_currency)
+
+            mat_vals = {
+                'job_type': line.job_type_id.job_type,
+                'product_id': line.product_id.id,
+                'product_description': line.description,
+                'product_uom_qty': line.product_qty,
+                'product_uom': uom_id,
+                'price_unit': price_unit,
+                'cost_price': cost_price,
+                'estimate_id': estimate.id,
+            }
+            line_obj.create(mat_vals)
+
+        for labour_line in active_id.job_labour_line_ids:
+            code_lst += job_type_obj.search(
+                [('code', '=', labour_line.job_type_id.code)]).ids
+
+            price_unit = labour_line.sale_price
+            cost_price = labour_line.cost_price
+            if from_currency != to_currency:
+                cost_price = from_currency.compute(cost_price, to_currency)
+                price_unit = from_currency.compute(price_unit, to_currency)
+
+            labour_vals = {
+                'job_type': labour_line.job_type_id.job_type,
+                'product_id': labour_line.product_id.id,
+                'product_description': labour_line.description,
+                'product_uom_qty': labour_line.hours,
+                'product_uom': labour_line.product_id.uom_id.id,
+                'price_unit': price_unit,
+                'cost_price': cost_price,
+                'estimate_id': estimate.id,
+            }
+            line_obj.create(labour_vals)
+
+        for overhead_line in active_id.job_overhead_line_ids:
+            code_lst += job_type_obj.search(
+                [('code', '=', overhead_line.job_type_id.code)]).ids
+            if not overhead_line.uom_id:
+                uom_id = overhead_line.product_id.uom_id.id
+            else:
+                uom_id = line.uom_id.id
+
+            price_unit = overhead_line.sale_price
+            cost_price = overhead_line.cost_price
+            if from_currency != to_currency:
+                cost_price = from_currency.compute(cost_price, to_currency)
+                price_unit = from_currency.compute(price_unit, to_currency)
+
+            overhead_vals = {
+                'job_type': overhead_line.job_type_id.job_type,
+                'product_id': overhead_line.product_id.id,
+                'product_description': overhead_line.description,
+                'product_uom_qty': overhead_line.product_qty,
+                'product_uom': overhead_line.uom_id.id,
+                'price_unit': price_unit,
+                'cost_price': cost_price,
+                'estimate_id': estimate.id,
+            }
+            line_obj.create(overhead_vals)
+        estimate.write({
+            'job_type_ids': [(6, 0, code_lst)],
+        })
+
+    @api.multi
+    def create_estimation(self):
+        """Overrite this method for populate Reference and Description"""
+        active_id = self.env['job.costing'].browse(
+            self._context.get('active_id'))
+        job_estimate_obj = self.env['sale.estimate.job']
+        partner_id = self.partner_id
+        pricelist_id = self.price_list_id
+        company_id = active_id.company_id.id
+        currency_id = active_id.currency_id.id
+        project_id = active_id.project_id.id
+
+        for rec in self:
+            vals = {
+                'partner_id': partner_id.id,
+                'pricelist_id': pricelist_id.id,
+                'estimate_date': fields.Date.today(),
+                'company_id': company_id,
+                'currency_id': currency_id,
+                'project_id': project_id,
+                'jobcost_id': active_id.id,
+                # 'analytic_id': active_id.analytic_id.id,
+                'reference': active_id.so_number,
+                'description': active_id.notes_job,
+                'analytic_tag_ids': [(6, 0, active_id.analytic_tag_ids.ids)],
+            }
+            estimate = job_estimate_obj.create(vals)
+            rec._prepare_estimate_lines(estimate, active_id)
+            estimate_lst = active_id.cost_estimate_ids.ids
+            estimate_lst.append(estimate.id)
+            active_id.write({
+                'cost_estimate_ids': [(6, 0, estimate_lst)],
+            })

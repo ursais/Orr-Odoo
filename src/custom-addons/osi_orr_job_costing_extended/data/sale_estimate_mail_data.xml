@@ -1,0 +1,15 @@
+<odoo noupdate="1">
+
+	<record id="job_estimate_approval" model="mail.template">
+        <field name="name">Job Estimate Approval</field>
+        <field name="subject">Job Estimate Approval</field>
+        <field name="model_id" ref="model_sale_estimate_job"/>
+        <field name="email_to">${(object.accounting_person_id.email) |safe}</field>
+        <field name="body_html"><![CDATA[<div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px;">
+        <p> Hello ${object.accounting_person_id.name or ''},</p>
+        This Job Estimation ${object.jobcost_id.number or ''} is ready for your approval.
+        ]]>
+        </field>
+    </record>
+
+</odoo>
