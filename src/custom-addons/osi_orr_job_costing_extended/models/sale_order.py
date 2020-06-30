@@ -66,7 +66,7 @@ class SaleOrder(models.Model):
                 ('quotation_id', '=', self.id)], limit=1)
             project = self.env['project.project'].search([
                 ('sale_order_id', '=', so.id)], limit=1)
-            if project:
+            if project and estimate_job:
                 project.name = estimate_job.jobcost_id.name
                 project.analytic_account_id.name = estimate_job.jobcost_id.name
                 project.analytic_tag_ids = [(6, 0, so.analytic_tag_ids.ids)]
@@ -75,18 +75,17 @@ class SaleOrder(models.Model):
                 estimate_job.jobcost_id.project_id = project.id
                 estimate_job.jobcost_id.analytic_id = \
                     project.analytic_account_id.id
-            for line in so.order_line:
-                if line.product_id.type != 'service':
-                    non_service_task_list.append(
-                        (0, 0, {
-                            'product_id': line.product_id.id,
-                            'description': line.name,
-                            'product_uom_qty': line.product_uom_qty,
-                            'product_uom': line.product_uom.id,
-                            'requisition_type': 'purchase',
-                            'custom_job_cost_id': estimate_job.jobcost_id.id
-                        }))
-            if project:
+                for line in so.order_line:
+                    if line.product_id.type != 'service':
+                        non_service_task_list.append(
+                            (0, 0, {
+                                'product_id': line.product_id.id,
+                                'description': line.name,
+                                'product_uom_qty': line.product_uom_qty,
+                                'product_uom': line.product_uom.id,
+                                'requisition_type': 'purchase',
+                                'custom_job_cost_id': estimate_job.jobcost_id.id
+                            }))
                 so._create_task_for_non_service_product(
                     project, non_service_task_list)
         return result
