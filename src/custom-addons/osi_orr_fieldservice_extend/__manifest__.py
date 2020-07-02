@@ -14,6 +14,8 @@
     ],
     'data': [
         'views/fsm_order.xml',
+        'views/fsm_equipment.xml',
+        'views/fsm_person.xml',
     ],
     'maintainers': [
         'smangukiya',
