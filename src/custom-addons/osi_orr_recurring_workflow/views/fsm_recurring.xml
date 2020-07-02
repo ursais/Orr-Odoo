@@ -1,0 +1,13 @@
+<odoo>
+
+    <record id="fsm_recurring_orr" model="ir.ui.view">
+        <field name="model">fsm.recurring</field>
+        <field name="inherit_id" ref="fieldservice_recurring.fsm_recurring_form_view"/>
+        <field name="arch" type="xml">
+            <field name="company_id" position="after">
+                <field name="fsm_equipment_id"/>
+                <field name="agreement_id"/>
+            </field>
+        </field>
+    </record>    
+</odoo>
