@@ -10,9 +10,11 @@
     'category': 'Field Service',
     'author': 'Open Source Integrators',
     'depends': [
-        'fieldservice',
+        'fieldservice_recurring',
+        'sale'
     ],
     'data': [
+        'security/ir.model.access.csv',
         'views/fsm_order.xml',
         'views/fsm_equipment.xml',
         'views/fsm_person.xml',

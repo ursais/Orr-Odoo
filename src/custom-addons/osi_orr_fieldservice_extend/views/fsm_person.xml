@@ -1,5 +1,16 @@
 <odoo>
 
+    <record id="fsm_person_tree" model="ir.ui.view">
+        <field name="name">fsm.person.tree</field>
+        <field name="model">fsm.person</field>
+        <field name="inherit_id" ref="fieldservice.fsm_person_tree"/>
+        <field name="arch" type="xml">
+            <field name="category_ids" position="before">
+                <field name="team_id"/>
+            </field>
+        </field>
+    </record>
+
     <record id="fsm_person_form" model="ir.ui.view">
         <field name="name">fsm.person.form</field>
         <field name="model">fsm.person</field>

@@ -2,3 +2,8 @@
 
 from . import fsm_equipment
 from . import fsm_person
+from . import sale_order
+from . import fsm_order_group
+from . import fsm_recurring_group
+from . import fsm_order
+from . import fsm_recurring
