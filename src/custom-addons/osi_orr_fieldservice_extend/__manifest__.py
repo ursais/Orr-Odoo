@@ -10,14 +10,14 @@
     'category': 'Field Service',
     'author': 'Open Source Integrators',
     'depends': [
-        'fieldservice_recurring',
-        'sale'
+        'fieldservice_sale_recurring',
     ],
     'data': [
         'security/ir.model.access.csv',
         'views/fsm_order.xml',
         'views/fsm_equipment.xml',
         'views/fsm_person.xml',
+        'views/fsm_recurring.xml',
     ],
     'maintainers': [
         'smangukiya',
