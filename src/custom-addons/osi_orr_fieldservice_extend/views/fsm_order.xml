@@ -14,7 +14,7 @@
                 <attribute name="options">{'fold_field': 'fold','clickable': '1'}</attribute>
             </xpath>
             <xpath expr="//field[@name='person_id']" position="attributes">
-                <attribute name="context">{'default_team_id': team_id}</attribute>
+                <attribute name="context">{'search_default_team_id': team_id}</attribute>
             </xpath>
             <field name="tag_ids" position="after">
                 <field name="group_id"/>
