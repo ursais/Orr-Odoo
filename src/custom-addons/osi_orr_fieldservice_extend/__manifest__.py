@@ -10,10 +10,12 @@
     'category': 'Field Service',
     'author': 'Open Source Integrators',
     'depends': [
-        'fieldservice',
+        'fieldservice_sale',
+        'account_accountant'
     ],
     'data': [
         'views/fsm_order.xml',
+        'views/fsm_location.xml'
     ],
     'maintainers': [
         'smangukiya',
