@@ -1,0 +1,39 @@
+<odoo>
+
+    <record id="fsm_person_tree" model="ir.ui.view">
+        <field name="name">fsm.person.tree</field>
+        <field name="model">fsm.person</field>
+        <field name="inherit_id" ref="fieldservice.fsm_person_tree"/>
+        <field name="arch" type="xml">
+            <field name="category_ids" position="before">
+                <field name="team_id"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="fsm_person_form" model="ir.ui.view">
+        <field name="name">fsm.person.form</field>
+        <field name="model">fsm.person</field>
+        <field name="inherit_id" ref="fieldservice.fsm_person_form"/>
+        <field name="arch" type="xml">
+            <field name="category_ids" position="before">
+                <field name="team_id"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="fsm_person_search_view" model="ir.ui.view">
+        <field name="name">fsm.person.search</field>
+        <field name="model">fsm.person</field>
+        <field name="inherit_id" ref="fieldservice.fsm_person_search_view"/>
+        <field name="arch" type="xml">
+            <field name="location_ids" position="after">
+                <field name="team_id"/>
+                <group expand="0" string="Group By">
+                    <filter name="team_id" string="Team" context="{'group_by':'team_id'}"/>
+                </group>
+            </field>
+        </field>
+    </record>
+
+</odoo>
