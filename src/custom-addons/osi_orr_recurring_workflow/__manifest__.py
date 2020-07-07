@@ -14,6 +14,9 @@
     ],
     'data': [
         'views/sale.xml',
+        'views/account.xml',
+        'views/fsm_order.xml',
+        'views/fsm_recurring.xml'
     ],
     'installable': True,
 }

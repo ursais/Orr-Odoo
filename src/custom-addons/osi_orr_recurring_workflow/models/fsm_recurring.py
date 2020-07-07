@@ -17,3 +17,14 @@ class FSMRecurringOrder(models.Model):
 
     fsm_equipment_id = fields.Many2one('fsm.equipment', 'Equipment')
     agreement_id = fields.Many2one('agreement', 'Agreement', default=lambda self: self._get_default_agreement())
+
+    def _prepare_order_values(self, date=None):
+        res = super()._prepare_order_values(date)
+        if self.fsm_equipment_id:
+            res['fsm_equipment_id'] = self.fsm_equipment_id.id
+        if self.agreement_id:
+            res['agreement_id'] = self.agreement_id.id
+        import pdb; pdb.set_trace()
+        if self.sale_line_id:
+            res['sale_order_line_ids'] = [(6, 0, [self.sale_line_id.id])]
+        return res

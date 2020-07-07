@@ -13,13 +13,15 @@ class SaleOrder(models.Model):
         for order in self:
             agreement_id = self.env['agreement'].\
                     search([('sale_id', '=', order.id)])
-            for recurring_id in order.fsm_recurring_ids:
-                recurring_id.agreement_id = agreement_id
-            for line_id in order.order_line:
-                line_id.fsm_equipment_id.agreement_id = agreement_id
-                for sp_id in agreement_id.serviceprofile_ids:
-                    if sp_id.product_id == line_id.product_id.product_tmpl_id:
-                        line_id.fsm_equipment_id.serviceprofile_id = sp_id
+            if agreement_id:
+                agreement_id.fsm_location_id = self.fsm_location_id
+                for recurring_id in order.fsm_recurring_ids:
+                    recurring_id.agreement_id = agreement_id
+                for line_id in order.order_line:
+                    line_id.fsm_equipment_id.agreement_id = agreement_id
+                    for sp_id in agreement_id.serviceprofile_ids:
+                        if sp_id.product_id == line_id.product_id.product_tmpl_id:
+                            line_id.fsm_equipment_id.serviceprofile_id = sp_id
         return res
 
 
