@@ -4,9 +4,9 @@
         <field name="model">fsm.order</field>
         <field name="inherit_id" ref="osi_orr_fieldservice_extend.view_fsm_order_form_inherit_sign"/>
         <field name="arch" type="xml">
-            <field name="product_id" position="after">
+            <xpath expr="//field[@name='sale_order_line_ids']/tree//field[@name='product_id']" position="after">
                 <field name="fsm_equipment_id"/>
-            </field>
+            </xpath>
         </field>
     </record>    
 </odoo>
