@@ -10,7 +10,8 @@
     'website': 'http://www.opensourceintegrators.com',
     'depends': [
         'fieldservice_sale_recurring',
-        'agreement_legal_sale_fieldservice'
+        'agreement_legal_sale_fieldservice',
+        'osi_orr_fieldservice_extend'
     ],
     'data': [
         'views/sale.xml',
