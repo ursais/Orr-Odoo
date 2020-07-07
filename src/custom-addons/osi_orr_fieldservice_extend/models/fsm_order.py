@@ -34,7 +34,6 @@ class FSMOrder(models.Model):
             'date_start': self.scheduled_date_start,
         }
         invoice = self.env['account.invoice'].sudo().create(vals)
-        price_list = invoice.partner_id.property_product_pricelist
         line_ids = []
         for line in self.sale_order_line_ids:
             invoice_line = self.env['account.invoice.line'].create(line.invoice_line_create_vals(invoice.id, line.qty_to_invoice_fsm))
@@ -44,6 +43,8 @@ class FSMOrder(models.Model):
             raise ValidationError(_("You must Set Done Quantity \
                                                 from Sale Order Lines before Generating Invoice"))
         self.sale_id.write({'invoice_status': 'invoiced'})
+        invoice.compute_taxes()
+
 
     def get_po_vals(self):
         return {
@@ -176,3 +177,4 @@ class FSMOrder(models.Model):
                     self.invoice_btn = False
 
     group_id = fields.Many2one('fsm.order.group', string='Group ID')
+
