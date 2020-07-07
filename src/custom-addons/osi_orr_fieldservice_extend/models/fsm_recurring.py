@@ -23,8 +23,16 @@ class FSMRecurringOrder(models.Model):
             values.update({'group_id': fsm_group_rec.id})
         return values
 
-    # @api.onchange('group_id')
-    # def _onchange_group_id(self):
-    #     for rec in self:
-    #         if rec.group_id:
-    #             pass
+    @api.multi
+    def write(self, vals):
+        res = super().write(vals)
+        for rec in self:
+            if vals.get('group_id'):
+                recurring_group_name = rec.group_id.name
+                for order_rec in rec.fsm_order_ids:
+                    if order_rec.group_id:
+                        group_last_index = \
+                            order_rec.group_id.name.split('-')[-1]
+                        order_rec.group_id.name = \
+                            recurring_group_name + '-' + group_last_index
+        return res
