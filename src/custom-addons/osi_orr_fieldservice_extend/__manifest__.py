@@ -12,10 +12,15 @@
     'depends': [
         'fieldservice_sale',
         'account_accountant'
+        'fieldservice_sale_recurring',
     ],
     'data': [
+        'security/ir.model.access.csv',
         'views/fsm_order.xml',
         'views/fsm_location.xml'
+        'views/fsm_equipment.xml',
+        'views/fsm_person.xml',
+        'views/fsm_recurring.xml',
     ],
     'maintainers': [
         'smangukiya',

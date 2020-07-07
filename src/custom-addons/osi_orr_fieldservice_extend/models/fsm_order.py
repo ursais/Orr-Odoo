@@ -45,6 +45,7 @@ class FSMOrder(models.Model):
         self.sale_id.write({'invoice_status': 'invoiced'})
         invoice.compute_taxes()
 
+
     def get_po_vals(self):
         return {
             'partner_id': self.person_id.partner_id.id,
@@ -174,3 +175,6 @@ class FSMOrder(models.Model):
             for inv in self.invoice_ids:
                 if inv.type == 'out_invoice' and inv.state in ['draft', 'open', 'in_payment', 'paid']:
                     self.invoice_btn = False
+
+    group_id = fields.Many2one('fsm.order.group', string='Group ID')
+

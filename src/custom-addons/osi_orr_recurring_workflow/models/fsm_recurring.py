@@ -28,4 +28,3 @@ class FSMRecurringOrder(models.Model):
         if self.sale_line_id:
             res['sale_order_line_ids'] = [(6, 0, [self.sale_line_id.id])]
         return res
-    
