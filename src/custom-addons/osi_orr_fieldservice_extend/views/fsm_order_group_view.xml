@@ -1,0 +1,31 @@
+<odoo>
+
+    <record id="fsm_order_group_tree" model="ir.ui.view">
+        <field name="name">fsm.order.group.tree</field>
+        <field name="model">fsm.order.group</field>
+        <field name="arch" type="xml">
+            <tree string="FSM Order Group">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="fsm_order_group_form" model="ir.ui.view">
+        <field name="name">fsm.order.group.form</field>
+        <field name="model">fsm.order.group</field>
+        <field name="arch" type="xml">
+            <form string="FSM Order Group">
+                <field name="name"/>
+            </form>
+        </field>
+    </record>
+
+   <record id="action_fsm_order_group" model="ir.actions.act_window">
+        <field name="name">FSM Order Group</field>
+        <field name="res_model">fsm.order.group</field>
+        <field name="view_id" ref="fsm_order_group_tree"/>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+   </record>
+
+</odoo>
