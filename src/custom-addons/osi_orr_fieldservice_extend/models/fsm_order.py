@@ -174,3 +174,5 @@ class FSMOrder(models.Model):
             for inv in self.invoice_ids:
                 if inv.type == 'out_invoice' and inv.state in ['draft', 'open', 'in_payment', 'paid']:
                     self.invoice_btn = False
+
+    group_id = fields.Many2one('fsm.order.group', string='Group ID')

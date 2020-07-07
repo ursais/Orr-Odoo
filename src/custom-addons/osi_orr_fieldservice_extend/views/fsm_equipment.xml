@@ -1,0 +1,27 @@
+<odoo>
+
+    <record id="fsm_equipment_form_view" model="ir.ui.view">
+        <field name="name">fsm.equipment.form</field>
+        <field name="model">fsm.equipment</field>
+        <field name="inherit_id" ref="fieldservice.fsm_equipment_form_view"/>
+        <field name="arch" type="xml">
+            <label for="name" position="before">
+                <div class="oe_button_box" name="button_box">
+                    <button type="object"
+                            name="action_view_fsm_order"
+                            class="oe_stat_button"
+                            string="Field Service Order"
+                            icon="fa-map">
+                    </button>
+                    <button type="object"
+                            name="action_view_fsm_recurring"
+                            class="oe_stat_button"
+                            icon="fa-calendar"
+                            string="FSM Recurring">
+                    </button>
+                </div>
+            </label>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,33 @@
+<odoo>
+
+    <record id="fsm_recurring_form_view" model="ir.ui.view">
+        <field name="name">fsm.recurring.form</field>
+        <field name="model">fsm.recurring</field>
+        <field name="inherit_id" ref="fieldservice_recurring.fsm_recurring_form_view"/>
+        <field name="arch" type="xml">
+            <field name="company_id" position="before">
+                <field name="group_id"/>
+            </field>
+            <xpath expr="//field[@name='fsm_order_ids']/tree/field[@name='name']" position="after">
+                <field name="group_id"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="fsm_recurring_search_view" model="ir.ui.view">
+        <field name="name">fsm.recurring.search</field>
+        <field name="model">fsm.recurring</field>
+        <field name="arch" type="xml">
+            <search string="Search FSM Recurring">
+                <field name="name"/>
+                <field name="location_id"/>
+                <field name="team_id"/>
+                <field name="group_id"/>
+                <group expand="0" string="Group By">
+                    <filter string="Group ID" name="group_id" domain="[]" context="{'group_by':'group_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+</odoo>
