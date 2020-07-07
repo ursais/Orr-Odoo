@@ -11,7 +11,7 @@
     'author': 'Open Source Integrators',
     'depends': [
         'fieldservice_sale',
-        'account_accountant'
+        'account_accountant',
         'fieldservice_sale_recurring',
     ],
     'data': [
