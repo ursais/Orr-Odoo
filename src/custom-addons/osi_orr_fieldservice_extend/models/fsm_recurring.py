@@ -36,3 +36,6 @@ class FSMRecurringOrder(models.Model):
                         order_rec.group_id.name = \
                             recurring_group_name + '-' + group_last_index
         return res
+
+    branch_id = fields.Many2one('fsm.branch', 'Branch', related='location_id.branch_id', store=True)
+    territory_id = fields.Many2one('fsm.territory', 'Territory', related='location_id.territory_id', store=True)

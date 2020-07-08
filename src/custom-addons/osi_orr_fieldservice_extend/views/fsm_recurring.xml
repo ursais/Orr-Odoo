@@ -11,6 +11,10 @@
             <xpath expr="//field[@name='fsm_order_ids']/tree/field[@name='name']" position="after">
                 <field name="group_id"/>
             </xpath>
+            <field name="location_id" position="after">
+                <field name="branch_id"/>
+                <field name="territory_id"/>
+            </field>
         </field>
     </record>
 
@@ -30,4 +34,15 @@
         </field>
     </record>
 
+    <record id="fsm_recurring_tree_orr" model="ir.ui.view">
+        <field name="name">fsm.recurring.search</field>
+        <field name="model">fsm.recurring</field>
+        <field name="inherit_id" ref="fieldservice_recurring.fsm_recurring_tree_view"/>
+        <field name="arch" type="xml">
+            <field name="location_id" position="after">
+                <field name="branch_id"/>
+                <field name="territory_id"/>
+            </field>
+        </field>
+    </record>
 </odoo>
