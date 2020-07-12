@@ -1,0 +1,15 @@
+
+
+<odoo>
+
+    <record id="fsm_frequency_hide_days" model="ir.ui.view">
+        <field name="name">fsm.frequency.hide.days</field>
+        <field name="model">fsm.frequency</field>
+        <field name="inherit_id" ref="fieldservice_recurring.fsm_frequency_form_view"/>
+        <field name="arch" type="xml">
+            <field name="use_byweekday" position="attributes">
+                <attribute name="attrs">{'invisible': True}</attribute>
+            </field>
+        </field>
+    </record>    
+</odoo>

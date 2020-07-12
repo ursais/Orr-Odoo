@@ -11,13 +11,14 @@
     'depends': [
         'fieldservice_sale_recurring',
         'agreement_legal_sale_fieldservice',
-        'osi_orr_fieldservice_extend'
+        'osi_orr_fieldservice_extend',
     ],
     'data': [
         'views/sale.xml',
         'views/account.xml',
         'views/fsm_order.xml',
-        'views/fsm_recurring.xml'
+        'views/fsm_recurring.xml',
+        'views/fsm_frequency.xml'
     ],
     'installable': True,
 }
