@@ -7,6 +7,31 @@ from odoo.addons import decimal_precision as dp
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
+    @api.onchange('fsm_location_id')
+    def onchange_fsm_location_id(self):
+        for rec in self:
+            branch_rec = rec.fsm_location_id and rec.fsm_location_id.branch_id
+            if branch_rec and branch_rec.analytic_tag_ids and rec.order_line:
+                for line_rec in rec.order_line:
+                    line_rec.analytic_tag_ids = \
+                        [(4, analy_rec.id)
+                         for analy_rec in branch_rec.analytic_tag_ids]
+
+    # @api.multi
+    # def write(self, vals):
+    #     res = super().write(vals)
+    #     for rec in self:
+    #         if vals.get('fsm_location_id'):
+    #             branch_rec = \
+    #                 rec.fsm_location_id and rec.fsm_location_id.branch_id
+    #             if branch_rec and branch_rec.analytic_tag_ids and \
+    #                     rec.order_line:
+    #                 for line_rec in rec.order_line:
+    #                     line_rec.analytic_tag_ids = \
+    #                         [(4, analy_rec.id)
+    #                          for analy_rec in branch_rec.analytic_tag_ids]
+    #     return res
+
     # Copy SO Lines onto FSM Order
     def _field_create_fsm_order_prepare_values(self):
         res = super()._field_create_fsm_order_prepare_values()
@@ -20,6 +45,7 @@ class SaleOrder(models.Model):
             'template_id': self.get_fsm_order_template()
         })
         return res
+
 
 class SaleOrderLine(models.Model):
     _inherit = "sale.order.line"

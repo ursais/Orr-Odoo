@@ -13,14 +13,17 @@ class FSMRecurringOrder(models.Model):
     def _prepare_order_values(self, date=None):
         values = super(FSMRecurringOrder,
                        self)._prepare_order_values(date)
-        recurring_rec = self.env['fsm.recurring'].browse(
-            [values.get('fsm_recurring_id')])
-        order_count = 1 + self.fsm_order_count
-        group_name = (recurring_rec.group_id.name + '-' + str(order_count))
-        fsm_group_rec = self.env['fsm.order.group'].create(
-            {'name': group_name})
-        if fsm_group_rec:
-            values.update({'group_id': fsm_group_rec.id})
+        if values.get('fsm_recurring_id'):
+            recurring_rec = self.env['fsm.recurring'].browse(
+                [values.get('fsm_recurring_id')])
+            if recurring_rec.group_id:
+                order_count = 1 + self.fsm_order_count
+                group_name = \
+                    (recurring_rec.group_id.name + '-' + str(order_count))
+                fsm_group_rec = self.env['fsm.order.group'].create(
+                    {'name': group_name})
+                if fsm_group_rec:
+                    values.update({'group_id': fsm_group_rec.id})
         return values
 
     @api.multi
@@ -37,5 +40,7 @@ class FSMRecurringOrder(models.Model):
                             recurring_group_name + '-' + group_last_index
         return res
 
-    branch_id = fields.Many2one('fsm.branch', 'Branch', related='location_id.branch_id', store=True)
-    territory_id = fields.Many2one('fsm.territory', 'Territory', related='location_id.territory_id', store=True)
+    branch_id = fields.Many2one(
+        'fsm.branch', 'Branch', related='location_id.branch_id', store=True)
+    territory_id = fields.Many2one(
+        'fsm.territory', 'Territory', related='location_id.territory_id', store=True)

@@ -21,6 +21,7 @@
         'views/fsm_equipment.xml',
         'views/fsm_person.xml',
         'views/fsm_recurring.xml',
+        'views/fsm_branch.xml',
     ],
     'maintainers': [
         'smangukiya',
