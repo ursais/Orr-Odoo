@@ -9,3 +9,4 @@ from . import fsm_recurring_group
 from . import fsm_order
 from . import sale_order_line
 from . import fsm_recurring
+from . import fsm_branch
