@@ -7,7 +7,7 @@ from odoo import fields, models
 class FSMBranch(models.Model):
     _inherit = 'fsm.branch'
 
-    analytic_tag_ids = fields.Many2many(
+    analytic_tag_id = fields.Many2one(
         'account.analytic.tag',
-        string='Analytic Tags',
+        string='Analytic Tag',
     )

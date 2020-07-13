@@ -11,11 +11,10 @@ class SaleOrder(models.Model):
     def onchange_fsm_location_id(self):
         for rec in self:
             branch_rec = rec.fsm_location_id and rec.fsm_location_id.branch_id
-            if branch_rec and branch_rec.analytic_tag_ids and rec.order_line:
+            if branch_rec and branch_rec.analytic_tag_id and rec.order_line:
                 for line_rec in rec.order_line:
                     line_rec.analytic_tag_ids = \
-                        [(4, analy_rec.id)
-                         for analy_rec in branch_rec.analytic_tag_ids]
+                        [(6, 0, branch_rec.analytic_tag_id.ids)]
 
     # @api.multi
     # def write(self, vals):
@@ -24,12 +23,11 @@ class SaleOrder(models.Model):
     #         if vals.get('fsm_location_id'):
     #             branch_rec = \
     #                 rec.fsm_location_id and rec.fsm_location_id.branch_id
-    #             if branch_rec and branch_rec.analytic_tag_ids and \
+    #             if branch_rec and branch_rec.analytic_tag_id and \
     #                     rec.order_line:
     #                 for line_rec in rec.order_line:
     #                     line_rec.analytic_tag_ids = \
-    #                         [(4, analy_rec.id)
-    #                          for analy_rec in branch_rec.analytic_tag_ids]
+    #                         [(6, 0, branch_rec.analytic_tag_id.id)]
     #     return res
 
     # Copy SO Lines onto FSM Order
