@@ -8,6 +8,34 @@
             <field name="subtask_project_id" position="before">
                 <field name="analytic_tag_ids" widget="many2many_tags"/>
             </field>
+            <notebook position="inside">
+                <page string="Project Financials" name="project_financials">
+                    <group>
+                        <group>
+                            <field name="original_estimate"/>
+                            <field name="revised_estimate"/>
+                            <field name="projected_cost_complete"/>
+                            <field name="calculated_complete"/>
+                        </group>
+                        <group>
+                            <field name="original_contract"/>
+                            <field name="revised_contract"/>
+                            <field name="projected_profit_loss"/>
+                            <field name="projected_profit"/>
+                            <field name="revenue_earned"/>
+                            <field name="over_under_billed"/>
+                        </group>
+                    </group>
+                    <group col="4">
+                        <field name="last_cost_date"/>
+                        <field name="costs"/>
+                        <field name="last_date_invoiced"/>
+                        <field name="invoiced_no_tax"/>
+                        <field name="last_payment_received"/>
+                        <field name="payment_received"/>
+                    </group>
+                </page>
+            </notebook>
         </field>
     </record>
 
