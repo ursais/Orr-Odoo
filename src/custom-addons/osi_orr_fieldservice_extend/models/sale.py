@@ -14,7 +14,7 @@ class SaleOrder(models.Model):
             if branch_rec and branch_rec.analytic_tag_id and rec.order_line:
                 for line_rec in rec.order_line:
                     line_rec.analytic_tag_ids = \
-                        [(6, 0, branch_rec.analytic_tag_id.ids)]
+                        [(4, branch_rec.analytic_tag_id.id)]
 
     # @api.multi
     # def write(self, vals):
@@ -27,7 +27,7 @@ class SaleOrder(models.Model):
     #                     rec.order_line:
     #                 for line_rec in rec.order_line:
     #                     line_rec.analytic_tag_ids = \
-    #                         [(6, 0, branch_rec.analytic_tag_id.id)]
+    #                         [(4, branch_rec.analytic_tag_id.id)]
     #     return res
 
     # Copy SO Lines onto FSM Order
