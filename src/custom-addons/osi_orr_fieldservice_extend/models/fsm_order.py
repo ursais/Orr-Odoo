@@ -3,6 +3,7 @@
 from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError
 from datetime import datetime
+from dateutil.relativedelta import relativedelta
 
 
 class FSMOrder(models.Model):
@@ -36,7 +37,8 @@ class FSMOrder(models.Model):
         invoice = self.env['account.invoice'].sudo().create(vals)
         line_ids = []
         for line in self.sale_order_line_ids:
-            invoice_line = self.env['account.invoice.line'].create(line.invoice_line_create_vals(invoice.id, line.qty_to_invoice_fsm))
+            invoice_line = self.env['account.invoice.line'].create(
+                line.invoice_line_create_vals(invoice.id, line.qty_to_invoice_fsm))
             invoice_line.write({'fsm_equipment_id': line.fsm_equipment_id.id})
         # Raise warning if no Invoice Lines
         if invoice and not invoice.invoice_line_ids:
@@ -44,7 +46,6 @@ class FSMOrder(models.Model):
                                                 from Sale Order Lines before Generating Invoice"))
         self.sale_id.write({'invoice_status': 'invoiced'})
         invoice.compute_taxes()
-
 
     def get_po_vals(self):
         return {
@@ -74,7 +75,8 @@ class FSMOrder(models.Model):
     def build_bill(self):
         po_id = self.env['purchase.order'].create(self.get_po_vals())
         # Post Message in Chatter With FSO Name in It
-        message = _("This Purchase Order has been created from: <a href=# data-oe-model=account.invoice data-oe-id=%d>%s</a><br") % (self.id, self.name)
+        message = _(
+            "This Purchase Order has been created from: <a href=# data-oe-model=account.invoice data-oe-id=%d>%s</a><br") % (self.id, self.name)
         po_id.message_post(body=message)
         for line_id in po_id.order_line:
             qty = line_id.product_qty
@@ -103,8 +105,10 @@ class FSMOrder(models.Model):
         index = 0
         inv_line_obj = self.env['account.invoice.line']
         for line in self.sale_order_line_ids:
-            invoice_line = inv_line_obj.create(line.invoice_line_create_vals(bill.id, line.qty_to_invoice_fsm))
-            invoice_line.write({'price_unit': po_id.order_line[index].price_unit, 'account_id': invoice_line.product_id.property_account_expense_id.id})
+            invoice_line = inv_line_obj.create(
+                line.invoice_line_create_vals(bill.id, line.qty_to_invoice_fsm))
+            invoice_line.write(
+                {'price_unit': po_id.order_line[index].price_unit, 'account_id': invoice_line.product_id.property_account_expense_id.id})
             index += 1
         # Raise warning if no invoice lines
         if bill and not bill.invoice_line_ids:
@@ -112,20 +116,22 @@ class FSMOrder(models.Model):
                                                 from Sale Order Lines before Generating Vendor Bill"))
         bill.compute_taxes()
 
-
     # Currently Invoices and Bills are in the same Smart Button
     # We are going to split between Invoice and Bills
+
     @api.depends('invoice_ids')
     def _compute_account_invoice_count(self):
         for order in self:
-            invoices = [inv_id for inv_id in order.invoice_ids if inv_id.type == 'out_invoice']
+            invoices = [
+                inv_id for inv_id in order.invoice_ids if inv_id.type == 'out_invoice']
             order.invoice_count = len(invoices)
 
     @api.multi
     def action_view_invoices(self):
         action = self.env.ref(
             'account.action_invoice_tree').read()[0]
-        invoices = [inv_id.id for inv_id in self.invoice_ids if inv_id.type == 'out_invoice']
+        invoices = [
+            inv_id.id for inv_id in self.invoice_ids if inv_id.type == 'out_invoice']
         if self.invoice_count > 1:
             action['domain'] = [('id', 'in', invoices)]
         elif invoices:
@@ -141,14 +147,16 @@ class FSMOrder(models.Model):
     @api.depends('invoice_ids')
     def _compute_vendor_bill_count(self):
         for order in self:
-            invoices = [inv_id for inv_id in order.invoice_ids if inv_id.type == 'in_invoice']
+            invoices = [
+                inv_id for inv_id in order.invoice_ids if inv_id.type == 'in_invoice']
             order.bill_count = len(invoices)
 
     @api.multi
     def action_view_vendor_bills(self):
         action = self.env.ref(
             'account.action_invoice_tree').read()[0]
-        invoices = [inv_id.id for inv_id in self.invoice_ids if inv_id.type == 'in_invoice']
+        invoices = [
+            inv_id.id for inv_id in self.invoice_ids if inv_id.type == 'in_invoice']
         if self.invoice_count > 1:
             action['domain'] = [('id', 'in', invoices)]
         elif invoices:
@@ -178,5 +186,31 @@ class FSMOrder(models.Model):
 
     group_id = fields.Many2one('fsm.order.group', string='Group ID')
 
-    branch_id = fields.Many2one('fsm.branch', 'Branch', related='location_id.branch_id', store=True)
-    territory_id = fields.Many2one('fsm.territory', 'Territory', related='location_id.territory_id', store=True)
+    branch_id = fields.Many2one(
+        'fsm.branch', 'Branch', related='location_id.branch_id', store=True)
+    territory_id = fields.Many2one(
+        'fsm.territory', 'Territory', related='location_id.territory_id', store=True)
+
+    @api.multi
+    def write(self, vals):
+        duration = 0.0
+        if vals.get('scheduled_date_start'):
+            end = fields.Datetime.from_string(vals.get('scheduled_date_start'))
+            start = fields.Datetime.from_string(self.scheduled_date_start)
+            delta = end - start
+            duration = delta.total_seconds() / 3600
+        res = super().write(vals)
+        for rec in self:
+            if duration and rec.fsm_recurring_id:
+                fsm_order_rec = self.search(
+                    [('fsm_recurring_id', '=',
+                      rec.fsm_recurring_id.id),
+                     ('id', '!=', rec.id)])
+                for fsm_rec in fsm_order_rec:
+                    if fsm_rec.id > rec.id:
+                        new_date = fsm_rec.scheduled_date_start + \
+                            relativedelta(hours=duration)
+                        self._cr.execute("""UPDATE fsm_order
+                            SET scheduled_date_start=%s
+                            WHERE id = %s""", (new_date, fsm_rec.id,))
+        return res

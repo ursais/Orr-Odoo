@@ -48,9 +48,19 @@ class SaleOrder(models.Model):
 class SaleOrderLine(models.Model):
     _inherit = "sale.order.line"
 
+    def _get_analytic_tags(self):
+        branch_rec = self.order_id.fsm_location_id and self.order_id.fsm_location_id.branch_id
+        if branch_rec and branch_rec.analytic_tag_id:
+            return [(4, branch_rec.analytic_tag_id.id)]
+
     qty_to_invoice_fsm = fields.Float(
         string='Done Quantity',
         digits=dp.get_precision('Product Unit of Measure'))
+    analytic_tag_ids = fields.Many2many(
+        'account.analytic.tag',
+        string='Analytic Tags',
+        default=_get_analytic_tags,
+    )
 
     @api.multi
     @api.depends('qty_delivered_method', 'qty_delivered_manual', 'analytic_line_ids.so_line', 'analytic_line_ids.unit_amount', 'analytic_line_ids.product_uom_id')
