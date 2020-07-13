@@ -24,7 +24,6 @@ class FSMRecurringOrder(models.Model):
             res['fsm_equipment_id'] = self.fsm_equipment_id.id
         if self.agreement_id:
             res['agreement_id'] = self.agreement_id.id
-        import pdb; pdb.set_trace()
         if self.sale_line_id:
             res['sale_order_line_ids'] = [(6, 0, [self.sale_line_id.id])]
         return res
