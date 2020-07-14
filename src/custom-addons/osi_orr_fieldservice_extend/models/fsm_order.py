@@ -205,12 +205,13 @@ class FSMOrder(models.Model):
                 fsm_order_rec = self.search(
                     [('fsm_recurring_id', '=',
                       rec.fsm_recurring_id.id),
-                     ('id', '!=', rec.id)])
+                     ('id', '>', rec.id)])
                 for fsm_rec in fsm_order_rec:
-                    if fsm_rec.id > rec.id:
-                        new_date = fsm_rec.scheduled_date_start + \
-                            relativedelta(hours=duration)
-                        self._cr.execute("""UPDATE fsm_order
-                            SET scheduled_date_start=%s
-                            WHERE id = %s""", (new_date, fsm_rec.id,))
+                    new_date = fsm_rec.scheduled_date_start + \
+                        relativedelta(hours=duration)
+                    fsm_end_date = new_date + relativedelta(
+                        hours=fsm_rec.scheduled_duration)
+                    self._cr.execute("""UPDATE fsm_order
+                        SET scheduled_date_start=%s,scheduled_date_end=%s
+                        WHERE id = %s""", (new_date, fsm_end_date, fsm_rec.id,))
         return res
