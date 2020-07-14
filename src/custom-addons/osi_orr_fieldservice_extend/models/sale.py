@@ -53,6 +53,17 @@ class SaleOrderLine(models.Model):
         digits=dp.get_precision('Product Unit of Measure'))
 
     @api.multi
+    @api.onchange('product_id')
+    def product_id_change(self):
+        res = super().product_id_change()
+        if not self.product_id and self.order_id.fsm_location_id:
+            location_id = self.order_id.fsm_location_id
+            if location_id.branch_id and location_id.branch_id.analytic_tag_id:
+                self.analytic_tag_ids = \
+                    [(4, location_id.branch_id.analytic_tag_id.id)]
+        return res
+
+    @api.multi
     @api.depends('qty_delivered_method', 'qty_delivered_manual', 'analytic_line_ids.so_line', 'analytic_line_ids.unit_amount', 'analytic_line_ids.product_uom_id')
     def _compute_qty_delivered(self):
         res = super()._compute_qty_delivered()
