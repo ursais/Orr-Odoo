@@ -184,31 +184,35 @@
                                 <strong><h4>Progress Billing Information</h4></strong>
                                <tr style="border: 2px solid black; page-break-inside:avoid;">
                                    <td><strong>Total Progress Billing</strong></td><td><span t-field="o.total_progress_billing" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/></td>
-                                   <td><strong>Previously Invoiced</strong></td><td><span t-field="o.previously_invoice" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/></td>
+                                   <td><!-- <strong>Previously Invoiced</strong> --></td>
+                                   <td><!-- <span t-field="o.previously_invoice" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/> --></td>
                                     <td></td>
                                </tr>
                                <tr style="border: 2px solid black; page-break-inside:avoid;">
-                                    <td><strong>Invoice To Date</strong></td><td><span t-field="o.invoice_to_date" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/></td>
-                                    <td><strong>Previously Invoiced Due</strong></td><td><span t-field="o.previously_invoice_due" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/></td>
+                                    <td><strong>Invoice To Date</strong></td><td><span t-field="o.previously_invoice" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/></td>
+                                    <td><!-- <strong>Previously Invoiced Due</strong> --></td><td><!-- <span t-field="o.previously_invoice_due" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/> --></td>
                                      <td></td>
                                </tr>
                                <tr style="border: 2px solid black; page-break-inside:avoid;">
                                     <td><strong>Remaining Progress Billing</strong></td><td><span t-field="o.remaining_progress_billing" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/></td>
-                                    <td><strong>Current Invoiced</strong></td><td><span t-field="o.current_invoice" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/></td>
+                                    <td><!-- <strong>Current Invoiced</strong> --></td>
+                                    <td><!-- <span t-field="o.current_invoice" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/> --></td>
                                      <td></td>
                                </tr>
-                               <tr style="border: 2px solid black; page-break-inside:avoid;">
+                               <!-- <tr style="border: 2px solid black; page-break-inside:avoid;">
                                     <td></td>
                                     <td></td>
-                                    <td><strong>Less Paid Amount</strong></td><td><span t-field="o.less_paid_amount" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/></td>
+                                    <td><strong>Less Paid Amount</strong></td>
+                                    <td><span t-field="o.less_paid_amount" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/></td>
                                     <td></td>
-                               </tr>
-                               <tr style="border: 2px solid black; page-break-inside:avoid;">
+                               </tr> -->
+                               <!-- <tr style="border: 2px solid black; page-break-inside:avoid;">
                                     <td></td>
                                     <td></td>
-                                    <td><strong>Total Due Now</strong></td><td><span t-field="o.total_due" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/></td>
+                                    <td><strong>Total Due Now</strong></td>
+                                    <td><span t-field="o.total_due" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/></td>
                                     <td></td>
-                               </tr>
+                               </tr> -->
                     </table>
 
             <p t-if="o.comment">
