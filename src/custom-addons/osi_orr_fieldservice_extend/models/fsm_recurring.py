@@ -8,20 +8,28 @@ from odoo import api, fields, models
 class FSMRecurringOrder(models.Model):
     _inherit = 'fsm.recurring'
 
-    group_id = fields.Many2one('fsm.recurring.group', string='Group ID')
+    group_id = fields.Many2one(
+        'fsm.recurring.group',
+        string='Recurring Group ID')
 
     def _prepare_order_values(self, date=None):
         values = super(FSMRecurringOrder,
                        self)._prepare_order_values(date)
-        if values.get('fsm_recurring_id'):
+        if values.get('fsm_recurring_id') and \
+                values.get('scheduled_date_start'):
             recurring_rec = self.env['fsm.recurring'].browse(
                 [values.get('fsm_recurring_id')])
             if recurring_rec.group_id:
-                order_count = 1 + self.fsm_order_count
+                scheduled_date_start = \
+                    (values.get('scheduled_date_start').strftime(
+                        '%Y-%m-%d')).replace("-", "")
                 group_name = \
-                    (recurring_rec.group_id.name + '-' + str(order_count))
-                fsm_group_rec = self.env['fsm.order.group'].create(
-                    {'name': group_name})
+                    (recurring_rec.group_id.name + '-' + scheduled_date_start)
+                fsm_group_rec = self.env['fsm.order.group'].search(
+                    [('name', '=', group_name)], limit=1)
+                if not fsm_group_rec:
+                    fsm_group_rec = self.env['fsm.order.group'].create(
+                        {'name': group_name})
                 if fsm_group_rec:
                     values.update({'group_id': fsm_group_rec.id})
         return values
