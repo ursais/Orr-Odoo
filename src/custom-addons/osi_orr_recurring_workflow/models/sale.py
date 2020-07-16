@@ -18,7 +18,7 @@ class SaleOrder(models.Model):
                 for recurring_id in order.fsm_recurring_ids:
                     recurring_id.agreement_id = agreement_id
                 for line_id in order.order_line:
-                    if line.fsm_equipment_id:
+                    if line_id.fsm_equipment_id:
                         line_id.fsm_equipment_id.agreement_id = agreement_id
                         for sp_id in agreement_id.serviceprofile_ids:
                             if sp_id.product_id == line_id.product_id.product_tmpl_id:
