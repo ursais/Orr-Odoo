@@ -8,5 +8,16 @@
                 <field name="fsm_equipment_id"/>
             </xpath>
         </field>
-    </record>    
+    </record>
+
+    <record id="fsm_equipment_show_when_set" model="ir.ui.view">
+        <field name="model">fsm.order</field>
+        <field name="inherit_id" ref="fieldservice.fsm_order_form"/>
+        <field name="arch" type="xml">
+            <field name="equipment_id" position="attributes">
+                <attribute name="attrs">{'invisible': [('equipment_id', '=', False)]}</attribute>
+            </field>
+        </field>
+    </record>
+    
 </odoo>
