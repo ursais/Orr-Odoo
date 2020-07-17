@@ -201,11 +201,9 @@ class FSMOrder(models.Model):
             duration = delta.total_seconds() / 3600
         res = super().write(vals)
         for rec in self:
-            if duration and rec.fsm_recurring_id:
+            if duration and rec.group_id:
                 fsm_order_rec = self.search(
-                    [('fsm_recurring_id', '=',
-                      rec.fsm_recurring_id.id),
-                     ('id', '>', rec.id)])
+                    [('group_id', '=', rec.group_id.id)])
                 for fsm_rec in fsm_order_rec:
                     new_date = fsm_rec.scheduled_date_start + \
                         relativedelta(hours=duration)
