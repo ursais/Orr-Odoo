@@ -1,0 +1,23 @@
+<odoo>
+
+    <record id="fsm_equipment_sale_order_lines" model="ir.ui.view">
+        <field name="model">fsm.order</field>
+        <field name="inherit_id" ref="osi_orr_fieldservice_extend.view_fsm_order_form_inherit_sign"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='sale_order_line_ids']/tree//field[@name='product_id']" position="after">
+                <field name="fsm_equipment_id"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="fsm_equipment_show_when_set" model="ir.ui.view">
+        <field name="model">fsm.order</field>
+        <field name="inherit_id" ref="fieldservice.fsm_order_form"/>
+        <field name="arch" type="xml">
+            <field name="equipment_id" position="attributes">
+                <attribute name="attrs">{'invisible': [('equipment_id', '=', False)]}</attribute>
+            </field>
+        </field>
+    </record>
+    
+</odoo>

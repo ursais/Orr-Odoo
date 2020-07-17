@@ -1,0 +1,31 @@
+<odoo>
+
+    <record id="fsm_order_recurring_group_tree" model="ir.ui.view">
+        <field name="name">fsm.recurring.group.tree</field>
+        <field name="model">fsm.recurring.group</field>
+        <field name="arch" type="xml">
+            <tree string="FSM Order Recurring Group">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="fsm_order_recurring_group_form" model="ir.ui.view">
+        <field name="name">fsm.recurring.group.form</field>
+        <field name="model">fsm.recurring.group</field>
+        <field name="arch" type="xml">
+            <form string="FSM Order Recurring Group">
+                <field name="name"/>
+            </form>
+        </field>
+    </record>
+
+   <record id="action_fsm_Recurring_order_group" model="ir.actions.act_window">
+        <field name="name">FSM Order Recurring Group</field>
+        <field name="res_model">fsm.recurring.group</field>
+        <field name="view_id" ref="fsm_order_recurring_group_form"/>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+   </record>
+
+</odoo>

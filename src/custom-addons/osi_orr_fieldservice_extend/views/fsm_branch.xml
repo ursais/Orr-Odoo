@@ -1,0 +1,14 @@
+<odoo>
+
+    <record id="fsm_branch_form_view_inherit_orr" model="ir.ui.view">
+        <field name="name">fsm.branch.form</field>
+        <field name="model">fsm.branch</field>
+        <field name="inherit_id" ref="fieldservice.fsm_branch_form_view"/>
+        <field name="arch" type="xml">
+            <field name="district_id" position="after">
+              <field name="analytic_tag_id" />
+            </field>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Copyright 2020 Open Source Integrators
+         License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl). -->
+
+    <!-- Inherit sale order form -->
+    <record id="invoice_line_orr_recurring" model="ir.ui.view">
+        <field name="name">invoice.line.orr.recurring</field>
+        <field name="model">account.invoice</field>
+        <field name="inherit_id" ref="account.invoice_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='invoice_line_ids']/tree/field[2]"
+                   position="after">
+                <field name="fsm_equipment_id" readonly="1"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

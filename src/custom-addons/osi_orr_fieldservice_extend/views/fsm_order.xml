@@ -13,7 +13,66 @@
             <xpath expr="//field[@name='stage_id']" position="attributes">
                 <attribute name="options">{'fold_field': 'fold','clickable': '1'}</attribute>
             </xpath>
+            <page name="instructions_page" position="before">
+                 <page string="Sale Order Lines" name="sol_page">
+                    <button id="build_invoice" name="build_invoice" 
+                            string="Generate Invoice" class="oe_highlight" type="object" 
+                            attrs="{'invisible': [('invoice_btn', '=', False)]}"/>
+                    <button id="build_bill" name="build_bill"
+                            string="Generate Vendor Bill" class="oe_highlight" type="object" 
+                            attrs="{'invisible': [('bill_btn', '=', False)]}"/>
+                    <field name="invoice_btn" invisible="1"/>
+                    <field name="bill_btn" invisible="1"/>
+                    <field name="sale_order_line_ids">
+                        <tree create="0" editable="top">
+                            <field name="product_id" readonly="1"/>
+                            <field name="name" readonly="1"/>
+                            <field name="product_uom_qty" readonly="1"/>
+                            <field name="qty_delivered" readonly="1"/>
+                            <field name="qty_invoiced" readonly="1"/>
+                            <field name="qty_to_invoice_fsm"/>
+                            <field name="product_uom" readonly="1"/>
+                            <field name="price_unit" readonly="1"/>
+                            <field name="tax_id" readonly="1"/>
+                            <field name="discount" readonly="1"/>
+                        </tree>
+                    </field>
+                </page>
+            </page>
+            <xpath expr="//field[@name='person_id']" position="attributes">
+                <attribute name="context">{'search_default_team_id': team_id}</attribute>
+            </xpath>
+            <field name="tag_ids" position="after">
+                <field name="group_id"/>
+            </field>
+            <field name="location_id" position="after">
+                <field name="branch_id"/>
+                <field name="territory_id"/>
+            </field>
         </field>
     </record>
-    
+
+    <record id="fsm_order_search_view" model="ir.ui.view">
+        <field name="name">fsm.order.search</field>
+        <field name="model">fsm.order</field>
+        <field name="inherit_id" ref="fieldservice.fsm_order_search_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='region_id']" position="after">
+                <filter string="Group ID" name="group_id" domain="[]" context="{'group_by':'group_id'}"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="fsm_order_tree_orr" model="ir.ui.view">
+        <field name="name">fsm.order.tree.orr</field>
+        <field name="model">fsm.order</field>
+        <field name="inherit_id" ref="fieldservice.fsm_order_tree_view"/>
+        <field name="arch" type="xml">
+            <field name="location_id" position="after">
+                <field name="branch_id"/>
+                <field name="territory_id"/>
+            </field>
+        </field>
+    </record>
+
 </odoo>

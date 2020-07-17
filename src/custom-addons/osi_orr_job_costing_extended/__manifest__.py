@@ -13,6 +13,7 @@
     'website': 'https://github.com/ursais/osi-addons',
     'depends': [
         'odoo_job_costing_management',
+        'odoo_customer_progress_billing',
     ],
     'data': [
         'data/sale_estimate_mail_data.xml',
@@ -21,5 +22,6 @@
         'views/sale_order_view.xml',
         'views/project_view.xml',
         'views/account_invoice_view.xml',
+        'report/project_financials_view.xml',
     ],
 }

@@ -19,13 +19,14 @@ class AccountInvoice(models.Model):
             cus_inv = self.search([('state', 'in', ['open', 'paid']), ('partner_id', '=', rec.partner_id.id), ('project_id', '=', rec.project_id.id)])
             for inv in cus_inv:
                 rec.invoice_to_date += inv.amount_total
-            
+
     @api.multi
     @api.depends('total_progress_billing', 'invoice_to_date')
     def _set_remaining_progress_billing(self):
         for rec in self:
-            rec.remaining_progress_billing = rec.total_progress_billing - rec.invoice_to_date
-            
+            # rec.remaining_progress_billing = rec.total_progress_billing - rec.invoice_to_date
+            rec.remaining_progress_billing = rec.total_progress_billing - rec.previously_invoice
+
     @api.multi
     @api.depends('amount_total','residual')
     def _set_previously_invoiced(self):
@@ -86,7 +87,7 @@ class AccountInvoice(models.Model):
         string="Remaining Progress Billing",
         compute='_set_remaining_progress_billing',
         copy=False,
-        store=True,
+        # store=True,
     )
     previously_invoice = fields.Float(
         string="Previously Invoiced",

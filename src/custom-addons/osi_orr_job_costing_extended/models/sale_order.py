@@ -66,6 +66,10 @@ class SaleOrder(models.Model):
                 ('quotation_id', '=', self.id)], limit=1)
             project = self.env['project.project'].search([
                 ('sale_order_id', '=', so.id)], limit=1)
+            if so.analytic_account_id:
+                so.analytic_account_id.total_progress_account = so.amount_total
+            if not estimate_job and project and so.analytic_account_id:
+                project.name = so.analytic_account_id.name
             if project and estimate_job:
                 project.name = estimate_job.jobcost_id.name
                 project.analytic_account_id.name = estimate_job.jobcost_id.name
