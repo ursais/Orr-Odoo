@@ -1,0 +1,54 @@
+<odoo>
+
+    <record id="project_financials_tree_view" model="ir.ui.view">
+        <field name="name">project.financials.tree</field>
+        <field name="model">project.project</field>
+        <field name="arch" type="xml">
+            <tree string="Project Financials" create="0" edit="0" delete="0">
+                <field name="name"/>
+                <field name="original_estimate"/>
+                <field name="original_contract"/>
+                <field name="revised_estimate"/>
+                <field name="revised_contract"/>
+                <field name="projected_cost_complete"/>
+                <field name="projected_profit_loss"/>
+                <field name="calculated_complete"/>
+                <field name="projected_profit"/>
+                <field name="revenue_earned"/>
+                <field name="over_under_billed"/>
+                <field name="last_cost_date"/>
+                <field name="costs"/>
+                <field name="last_date_invoiced"/>
+                <field name="invoiced_no_tax"/>
+                <field name="last_payment_received"/>
+                <field name="payment_received"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="project_financials_filter" model="ir.ui.view">
+        <field name="name">project.financials.filter</field>
+        <field name="model">project.project</field>
+        <field name="arch" type="xml">
+            <search string="Project Financials">
+                <field name="name" string="Project Name"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="project_financials_view_action" model="ir.actions.act_window">
+        <field name="name">Project Financials</field>
+        <field name="res_model">project.project</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree</field>
+        <field name="tree_view_id" ref="project_financials_tree_view"/>
+        <field name="search_view_id" ref="project_financials_filter"/>
+    </record>
+
+    <menuitem id="menu_project_financials_view"
+        parent="project.menu_project_report"
+        action="project_financials_view_action"
+        name="Project Financials"
+        sequence="60"/>
+
+</odoo>

@@ -13,24 +13,22 @@ class Project(models.Model):
         string='Analytic Tags',
     )
 
-    @api.depends('analytic_account_id')
+    @api.multi
     def _compute_revised_estimate(self):
         for rec in self:
             so_rec = rec.sale_order_id
-            if so_rec and so_rec.state == 'sale' and \
-                    so_rec.analytic_account_id == rec.analytic_account_id.id:
+            if so_rec and so_rec.state == 'sale':
                 total_purchase_price = 0.0
                 for so_line in so_rec.order_line:
                     total_purchase_price += so_line.purchase_price
                 rec.revised_estimate = total_purchase_price
 
-    @api.depends('analytic_account_id')
+    @api.multi
     def _compute_revised_contract(self):
         for rec in self:
             so_rec = rec.sale_order_id
-            if so_rec and so_rec.state == 'sale' and \
-                    so_rec.analytic_account_id == rec.analytic_account_id.id:
-                rec.revised_contract = so_rec.untaxed_amount
+            if so_rec and so_rec.state == 'sale':
+                rec.revised_contract = so_rec.amount_untaxed
 
     @api.depends('job_cost_ids')
     def _compute_original_estimate(self):
@@ -85,7 +83,7 @@ class Project(models.Model):
                     rec.revised_contract - rec.revised_estimate
                 ) / rec.revised_contract
 
-    @api.depends('analytic_account_id')
+    @api.multi
     def _compute_last_cost_date(self):
         for rec in self:
             move_line_obj = self.env['account.move.line']
@@ -101,7 +99,7 @@ class Project(models.Model):
                 if move_line_rec:
                     rec.last_cost_date = move_line_rec.move_id.date
 
-    @api.depends('analytic_account_id')
+    @api.multi
     def _compute_costs(self):
         move_line_obj = self.env['account.move.line']
         user_type_income = self.env.ref(
@@ -117,7 +115,7 @@ class Project(models.Model):
                 compute_total_costs += line_rec.debit
             rec.costs = compute_total_costs
 
-    @api.depends('analytic_account_id')
+    @api.multi
     def _compute_invoiced_no_tax(self):
         invoice_obj = self.env['account.invoice']
         for rec in self:
@@ -130,19 +128,19 @@ class Project(models.Model):
                     count_amount_untaxed += invoice.amount_untaxed
                 rec.invoiced_no_tax = count_amount_untaxed
 
-    @api.depends('analytic_account_id')
+    @api.multi
     def _compute_last_date_invoiced(self):
         invoice_obj = self.env['account.invoice']
         for rec in self:
             if rec.analytic_account_id:
                 invoice_rec = invoice_obj.search(
                     [('project_id', '=', rec.analytic_account_id.id),
-                     ('state', 'in', ('draft', 'paid'))],
+                     ('state', '=', 'open')],
                     order="id desc", limit=1)
                 if invoice_rec:
                     rec.last_date_invoiced = invoice_rec.date_invoice
 
-    @api.depends('analytic_account_id')
+    @api.multi
     def _compute_payment_received(self):
         invoice_obj = self.env['account.invoice']
         for rec in self:
@@ -155,7 +153,7 @@ class Project(models.Model):
                     count_payment_received += payment.amount
             rec.payment_received = count_payment_received
 
-    @api.depends('analytic_account_id')
+    @api.multi
     def _compute_last_payment_received(self):
         invoice_obj = self.env['account.invoice']
         payment_obj = self.env['account.payment']
