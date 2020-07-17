@@ -203,7 +203,8 @@ class FSMOrder(models.Model):
         for rec in self:
             if duration and rec.group_id:
                 fsm_order_rec = self.search(
-                    [('group_id', '=', rec.group_id.id)])
+                    [('group_id', '=', rec.group_id.id),
+                     ('id', '!=', rec.id)])
                 for fsm_rec in fsm_order_rec:
                     new_date = fsm_rec.scheduled_date_start + \
                         relativedelta(hours=duration)
