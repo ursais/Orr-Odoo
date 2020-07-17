@@ -3,6 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import api, fields, models
+from odoo.tools.misc import DEFAULT_SERVER_DATE_FORMAT
 
 
 class FSMRecurringOrder(models.Model):
@@ -22,9 +23,9 @@ class FSMRecurringOrder(models.Model):
             if recurring_rec.group_id:
                 scheduled_date_start = \
                     (values.get('scheduled_date_start').strftime(
-                        '%Y-%m-%d')).replace("-", "")
-                group_name = \
-                    (recurring_rec.group_id.name + '-' + scheduled_date_start)
+                        DEFAULT_SERVER_DATE_FORMAT)).replace("-", "")
+                group_name = (recurring_rec.group_id.name +
+                              '-' + scheduled_date_start)
                 fsm_group_rec = self.env['fsm.order.group'].search(
                     [('name', '=', group_name)], limit=1)
                 if not fsm_group_rec:
@@ -42,10 +43,9 @@ class FSMRecurringOrder(models.Model):
                 recurring_group_name = rec.group_id.name
                 for order_rec in rec.fsm_order_ids:
                     if order_rec.group_id:
-                        group_last_index = \
-                            order_rec.group_id.name.split('-')[-1]
-                        order_rec.group_id.name = \
-                            recurring_group_name + '-' + group_last_index
+                        group_last_index = order_rec.group_id.name.split(
+                            '-')[-1]
+                        order_rec.group_id.name = recurring_group_name + '-' + group_last_index
         return res
 
     branch_id = fields.Many2one(
