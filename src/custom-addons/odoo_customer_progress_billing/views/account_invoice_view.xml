@@ -12,8 +12,8 @@
                     <field name="project_id" attrs="{'readonly': [['state', 'not in', ['draft']]]}"/>
                 </xpath>
                 <xpath expr="//group[@class='oe_subtotal_footer oe_right']" position="after">
-                    <group string="Progress Billing Information">
-                        <group>
+                    <group name="progress_billing" string="Progress Billing Information">
+                        <group invisible="1">
                             <field name="total_progress_billing"  widget="monetary" options="{'currency_field': 'currency_id'}"/>
                             <!-- <field name="invoice_to_date"  widget="monetary" options="{'currency_field': 'currency_id'}"/> -->
                             <field name="previously_invoice" widget="monetary" options="{'currency_field': 'currency_id'}" string="Invoice To Date"/>
