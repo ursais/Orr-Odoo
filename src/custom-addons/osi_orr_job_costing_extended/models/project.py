@@ -122,7 +122,7 @@ class Project(models.Model):
             if rec.analytic_account_id:
                 invoice_rec = invoice_obj.search(
                     [('project_id', '=', rec.analytic_account_id.id),
-                     ('state', 'in', ('draft', 'paid'))])
+                     ('state', 'in', ('open', 'paid'))])
                 count_amount_untaxed = 0.0
                 for invoice in invoice_rec:
                     count_amount_untaxed += invoice.amount_untaxed
