@@ -135,7 +135,7 @@ class Project(models.Model):
             if rec.analytic_account_id:
                 invoice_rec = invoice_obj.search(
                     [('project_id', '=', rec.analytic_account_id.id),
-                     ('state', '=', 'open')],
+                     ('state', 'in', ('open', 'paid'))],
                     order="id desc", limit=1)
                 if invoice_rec:
                     rec.last_date_invoiced = invoice_rec.date_invoice
@@ -146,7 +146,7 @@ class Project(models.Model):
         for rec in self:
             invoice_rec = invoice_obj.search(
                 [('project_id', '=', rec.analytic_account_id.id),
-                 ('state', 'in', ('draft', 'paid'))])
+                 ('state', 'in', ('open', 'paid'))])
             count_payment_received = 0.0
             for invoice in invoice_rec:
                 for payment in invoice.payment_ids:
@@ -160,7 +160,7 @@ class Project(models.Model):
         for rec in self:
             invoice_rec = invoice_obj.search(
                 [('project_id', '=', rec.analytic_account_id.id),
-                 ('state', 'in', ('draft', 'paid'))])
+                 ('state', 'in', ('open', 'paid'))])
             payment_rec = payment_obj.search(
                 [('invoice_ids', 'in', invoice_rec.ids)],
                 order="id desc", limit=1)
