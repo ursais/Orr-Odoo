@@ -40,7 +40,7 @@ class AccountInvoice(models.Model):
         compute='_compute_revised_budget'
     )
     invoiced = fields.Float(
-        string='Invoiced',
+        string='Validated Invoices',
         compute='_compute_invoiced'
     )
     remaining_budget = fields.Float(
