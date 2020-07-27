@@ -1,0 +1,29 @@
+<odoo>
+    <data> 
+
+        <template id="progress_report_inherit" inherit_id="odoo_customer_progress_billing.progress_report">
+            <xpath expr="//table[2]/tr[1]/td[1]" position="replace">
+                <td><strong>Revised Budget</strong></td>
+            </xpath>
+            <xpath expr="//table[2]/tr[1]/td[2]" position="replace">
+                <td><span t-field="o.revised_budget" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/></td>
+            </xpath>
+            <xpath expr="//table[2]/tr[2]/td[1]" position="replace">
+                <td><strong>Invoiced</strong></td>
+            </xpath>
+            <xpath expr="//table[2]/tr[2]/td[2]" position="replace">
+                <td><span t-field="o.invoiced" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/></td>
+            </xpath>
+
+            <xpath expr="//table[2]/tr[3]/td[1]" position="replace">
+                <td><strong>Remaining Budget</strong></td>
+            </xpath>
+            <xpath expr="//table[2]/tr[3]/td[2]" position="replace">
+                <td><span t-field="o.remaining_budget" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/></td>
+            </xpath>
+        </template>
+
+    </data>
+</odoo>
+
+ 
