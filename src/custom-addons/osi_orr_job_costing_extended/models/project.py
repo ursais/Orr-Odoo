@@ -53,7 +53,7 @@ class Project(models.Model):
     def _compute_calculated_complete(self):
         for rec in self:
             if rec.costs and rec.revised_estimate:
-                rec.calculated_complete = rec.costs / rec.revised_estimate
+                rec.calculated_complete = abs(rec.costs) / rec.revised_estimate
 
     @api.depends('revised_contract', 'calculated_complete')
     def _compute_revenue_earned(self):
@@ -68,7 +68,7 @@ class Project(models.Model):
     @api.depends('revised_estimate', 'costs')
     def _compute_projected_cost_complete(self):
         for rec in self:
-            rec.projected_cost_complete = rec.revised_estimate - rec.costs
+            rec.projected_cost_complete = rec.revised_estimate - abs(rec.costs)
 
     @api.depends('revised_contract', 'revised_estimate')
     def _compute_projected_profit_loss(self):
