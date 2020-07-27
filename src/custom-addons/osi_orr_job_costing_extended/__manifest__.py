@@ -23,5 +23,6 @@
         'views/project_view.xml',
         'views/account_invoice_view.xml',
         'report/project_financials_view.xml',
+        'report/progress_bill_report.xml',
     ],
 }

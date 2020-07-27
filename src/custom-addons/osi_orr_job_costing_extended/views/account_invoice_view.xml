@@ -11,4 +11,19 @@
         </field>
     </record>
 
+    <record id="customer_progress_bill_add_inherit" model="ir.ui.view">
+        <field name="name">account.invoice.progress.form.view</field>
+        <field name="model">account.invoice</field>
+        <field name="inherit_id" ref="odoo_customer_progress_billing.customer_progress_bill_add"/>
+        <field name="arch" type="xml">
+            <group name="progress_billing" position="inside">
+                <group>
+                    <field name="revised_budget"  widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                    <field name="invoiced"  widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                    <field name="remaining_budget"  widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                </group>
+            </group>
+        </field>
+    </record>
+
 </odoo>

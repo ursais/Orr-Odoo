@@ -52,3 +52,14 @@ class FSMRecurringOrder(models.Model):
         'fsm.branch', 'Branch', related='location_id.branch_id', store=True)
     territory_id = fields.Many2one(
         'fsm.territory', 'Territory', related='location_id.territory_id', store=True)
+
+    def populate_from_template(self, template=False):
+        res = super().populate_from_template(template)
+        if res.get('fsm_order_template_id'):
+            res.update({'team_id': res.get('fsm_order_template_id').team_id})
+        return res
+
+    @api.onchange('fsm_order_template_id')
+    def onchange_fsm_order_template_id(self):
+        if self.fsm_order_template_id:
+            self.team_id = self.fsm_order_template_id.team_id
