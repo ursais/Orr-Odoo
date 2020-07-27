@@ -20,7 +20,8 @@ class Project(models.Model):
             if so_rec and so_rec.state == 'sale':
                 total_purchase_price = 0.0
                 for so_line in so_rec.order_line:
-                    total_purchase_price += so_line.purchase_price
+                    total_purchase_price += (
+                        so_line.purchase_price * so_line.product_uom_qty)
                 rec.revised_estimate = total_purchase_price
 
     @api.multi
@@ -101,19 +102,17 @@ class Project(models.Model):
 
     @api.multi
     def _compute_costs(self):
-        move_line_obj = self.env['account.move.line']
-        user_type_income = self.env.ref(
-            'account.data_account_type_direct_costs',
-            raise_if_not_found=False)
         for rec in self:
-            move_line_rec = move_line_obj.search(
-                [('analytic_account_id', '=', rec.analytic_account_id.id),
-                 ('account_id.user_type_id', '=',
-                    user_type_income and user_type_income.id)])
-            compute_total_costs = 0.0
-            for line_rec in move_line_rec:
-                compute_total_costs += line_rec.debit
-            rec.costs = compute_total_costs
+            profitability_raw_data = self.env['project.profitability.report']\
+                .read_group([('project_id', '=', rec.id)],
+                            ['project_id', 'timesheet_cost',
+                             'expense_cost'], ['project_id'])
+            timesheet_cost = 0.0
+            expense_cost = 0.0
+            for data in profitability_raw_data:
+                timesheet_cost += data.get('timesheet_cost', 0.0)
+                expense_cost += data.get('expense_cost', 0.0)
+            rec.costs = timesheet_cost + expense_cost
 
     @api.multi
     def _compute_invoiced_no_tax(self):
