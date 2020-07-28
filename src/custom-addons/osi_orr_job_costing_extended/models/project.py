@@ -53,7 +53,7 @@ class Project(models.Model):
     def _compute_calculated_complete(self):
         for rec in self:
             if rec.costs and rec.revised_estimate:
-                rec.calculated_complete = abs(rec.costs) / abs(rec.revised_estimate)
+                rec.calculated_complete = (abs(rec.costs) / abs(rec.revised_estimate)) * 100
 
     @api.depends('revised_contract', 'calculated_complete')
     def _compute_revenue_earned(self):
@@ -83,6 +83,7 @@ class Project(models.Model):
                 rec.projected_profit = (
                     rec.revised_contract - abs(rec.revised_estimate)
                 ) / rec.revised_contract
+                rec.projected_profit *= 100
 
     @api.multi
     def _compute_last_cost_date(self):
@@ -166,7 +167,7 @@ class Project(models.Model):
             rec.last_payment_received = payment_rec.payment_date
 
     projected_profit = fields.Float(
-        string='Projected Profit',
+        string='Projected (%) Profit',
         compute='_compute_projected_profit',
     )
     projected_profit_loss = fields.Float(
@@ -186,7 +187,7 @@ class Project(models.Model):
         compute='_compute_revenue_earned',
     )
     calculated_complete = fields.Float(
-        string='Calculated Complete',
+        string='Calculated (%) Complete',
         compute='_compute_calculated_complete',
     )
     revised_contract = fields.Float(
