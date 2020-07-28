@@ -22,7 +22,7 @@ class Project(models.Model):
                 for so_line in so_rec.order_line:
                     total_purchase_price += (
                         so_line.purchase_price * so_line.product_uom_qty)
-                rec.revised_estimate = total_purchase_price
+                rec.revised_estimate = -total_purchase_price
 
     @api.multi
     def _compute_revised_contract(self):
@@ -38,7 +38,7 @@ class Project(models.Model):
                 count_jobcost_total = 0.0
                 for cost_sheet_rec in rec.job_cost_ids:
                     count_jobcost_total += cost_sheet_rec.jobcost_total
-                rec.original_estimate = count_jobcost_total
+                rec.original_estimate = -count_jobcost_total
 
     @api.depends('job_cost_ids')
     def _compute_original_contract(self):
@@ -53,7 +53,7 @@ class Project(models.Model):
     def _compute_calculated_complete(self):
         for rec in self:
             if rec.costs and rec.revised_estimate:
-                rec.calculated_complete = abs(rec.costs) / rec.revised_estimate
+                rec.calculated_complete = abs(rec.costs) / abs(rec.revised_estimate)
 
     @api.depends('revised_contract', 'calculated_complete')
     def _compute_revenue_earned(self):
@@ -68,20 +68,20 @@ class Project(models.Model):
     @api.depends('revised_estimate', 'costs')
     def _compute_projected_cost_complete(self):
         for rec in self:
-            rec.projected_cost_complete = rec.revised_estimate - abs(rec.costs)
+            rec.projected_cost_complete = -(abs(rec.revised_estimate) - abs(rec.costs))
 
     @api.depends('revised_contract', 'revised_estimate')
     def _compute_projected_profit_loss(self):
         for rec in self:
             rec.projected_profit_loss = \
-                rec.revised_contract - rec.revised_estimate
+                rec.revised_contract - abs(rec.revised_estimate)
 
     @api.depends('revised_contract', 'revised_estimate')
     def _compute_projected_profit(self):
         for rec in self:
             if rec.revised_contract:
                 rec.projected_profit = (
-                    rec.revised_contract - rec.revised_estimate
+                    rec.revised_contract - abs(rec.revised_estimate)
                 ) / rec.revised_contract
 
     @api.multi
