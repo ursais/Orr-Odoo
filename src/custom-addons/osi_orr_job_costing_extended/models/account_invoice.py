@@ -26,6 +26,17 @@ class AccountInvoice(models.Model):
             if project_rec:
                 rec.invoiced = project_rec.invoiced_no_tax
 
+    @api.model
+    def create(self, vals):
+        if 'origin' in vals:
+            sale_id = self.search(['name','=',vals.get('origin')])
+            if sale_id:
+                vals.update({
+                    'project_id': sale_id.analytic_account_id and sale_id.analytic_account_id.id or False
+                    })
+        res = super(AccountInvoice, self).create(vals)
+        return res
+
     @api.depends('revised_budget', 'invoiced')
     def _compute_remaining_budget(self):
         for rec in self:
