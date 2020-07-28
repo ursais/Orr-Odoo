@@ -28,8 +28,8 @@ class AccountInvoice(models.Model):
 
     @api.model
     def create(self, vals):
-        if 'origin' in vals:
-            sale_id = self.search(['name','=',vals.get('origin')])
+        if 'origin' in vals and vals.get('origin'):
+            sale_id = self.env['sale.order'].search(['name','=',vals.get('origin')])
             if sale_id:
                 vals.update({
                     'project_id': sale_id.analytic_account_id and sale_id.analytic_account_id.id or False
