@@ -67,4 +67,7 @@ class SaleOrderLine(models.Model):
         if self.order_id:
             if self.order_id.agreement_id:
                 res['agreement_id'] = self.order_id.agreement_id.id
+        if self.product_id.fsm_recurring_template_id.fsm_order_template_id:
+            if self.product_id.fsm_recurring_template_id.fsm_order_template_id.team_id:
+                res['team_id'] = self.product_id.fsm_recurring_template_id.fsm_order_template_id.team_id.id
         return res
