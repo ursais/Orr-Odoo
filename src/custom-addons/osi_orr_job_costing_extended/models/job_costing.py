@@ -134,6 +134,26 @@ class JobCosting(models.Model):
         compute='_compute_total_margin',
         store=True,
     )
+    sale_order_ids = fields.Many2many(
+        'sale.order',
+        string='Sale Order Ids',
+        compute='_compute_sale_order_ids',
+        store=True,
+    )
+
+    @api.multi
+    def _compute_sale_order_ids(self):
+        for order_id in self:
+            sale_ids = []
+            for estimate_id in order_id.cost_estimate_ids:
+                sale_ids.append(estimate_id.quotation_id.id)
+            order_id.sale_order_ids = [(6, 0, sale_ids)]
+
+    @api.multi
+    def action_view_sale_orders(self):
+        action = self.env.ref('sale.action_orders').read()[0]
+        action['domain'] = [('id', 'in', self.sale_order_ids.ids)]
+        return action
 
     @api.multi
     def action_view_hr_timesheet_line(self):

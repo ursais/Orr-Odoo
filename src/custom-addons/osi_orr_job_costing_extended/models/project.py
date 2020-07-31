@@ -58,7 +58,7 @@ class Project(models.Model):
     @api.depends('revised_contract', 'calculated_complete')
     def _compute_revenue_earned(self):
         for rec in self:
-            rec.revenue_earned = rec.revised_contract * rec.calculated_complete
+            rec.revenue_earned = rec.revised_contract * rec.calculated_complete/100
 
     @api.depends('revenue_earned', 'invoiced_no_tax')
     def _compute_over_under_billed(self):
