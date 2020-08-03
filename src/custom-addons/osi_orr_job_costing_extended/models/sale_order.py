@@ -93,3 +93,42 @@ class SaleOrder(models.Model):
                 so._create_task_for_non_service_product(
                     project, non_service_task_list)
         return result
+
+    @api.multi
+    def action_view_project_ids(self):
+        self.ensure_one()
+        project_ids = self.env['project.project'].search([('sale_order_id', '=', self.id)])
+        action = self.env.ref('project.open_view_project_all').\
+            read()[0]
+        if action.get('context', False):
+            action['context'] = self.env.context.copy()
+        if len(project_ids) == 0 or len(project_ids) > 1:
+            action['domain'] = [('id', 'in', project_ids.ids)]
+        elif project_ids:
+            action['views'] = [(self.env.ref('project.edit_project').id, 'form')]
+            action['res_id'] = project_ids.id
+        return action
+
+    @api.multi
+    def action_invoice_create(self, grouped=False, final=False):
+        res = super().action_invoice_create(grouped, final)
+        inv = self.env['account.invoice'].browse(res[0])
+        estimate_job = self.env['sale.estimate.job'].search([('quotation_id', '=', self.id)], limit=1)
+        if estimate_job:
+            inv.job_cost_id = estimate_job.jobcost_id
+        return res
+
+
+class SaleAdvancePaymentInv(models.TransientModel):
+    _inherit = "sale.advance.payment.inv"
+    _description = "Sales Advance Payment Invoice"
+
+    @api.multi
+    def _create_invoice(self, order, so_line, amount):
+        res = super()._create_invoice(order, so_line, amount)
+        self.env['account.invoice'].browse(res[0])
+        sale_orders = self.env['sale.order'].browse(self._context.get('active_ids', []))
+        if len(sale_orders) == 1:
+            estimate_job = self.env['sale.estimate.job'].search([('quotation_id', '=', sale_orders.id)], limit=1)
+            res.job_cost_id = estimate_job.jobcost_id
+        return res
