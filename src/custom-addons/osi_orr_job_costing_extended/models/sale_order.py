@@ -95,10 +95,10 @@ class SaleOrder(models.Model):
         return result
 
     @api.multi
-    def action_view_project(self):
+    def action_view_project_ids(self):
         self.ensure_one()
         project_ids = self.env['project.project'].search([('sale_order_id', '=', self.id)])
-        action = self.env.ref('project.open_view_project_all	').\
+        action = self.env.ref('project.open_view_project_all').\
             read()[0]
         if action.get('context', False):
             action['context'] = self.env.context.copy()

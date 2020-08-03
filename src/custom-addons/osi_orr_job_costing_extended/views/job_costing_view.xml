@@ -58,7 +58,7 @@
                 <attribute name="invisible">True</attribute>
             </xpath>
             <xpath expr="//div[@class='oe_button_box']" position="inside">
-                <button name="action_view_sale_orders" type="object" class="oe_stat_button" string="JobCost Sheet" icon="fa-credit-card" modifiers="{}" options="{}">
+                <button name="action_view_sale_orders" type="object" class="oe_stat_button" string="Sale Order" icon="fa-credit-card" modifiers="{}" options="{}">
                     <fields name="sale_order_ids" invisible="1"/>
                 </button>
             </xpath>

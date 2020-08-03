@@ -6,11 +6,6 @@
         <field name="inherit_id" ref="sale.view_order_form"/>
         <field name="arch" type="xml">
         	<xpath expr="//button[@name='action_view_invoice']" position="after">
-				<button type="object"
-               	       name="action_view_project"
-               	       class="oe_stat_button"
-               	       string="Project"
-               	       icon="fa-puzzle-piece"/>
                <button type="object"
                	       name="action_view_job_cost_sheet"
                	       class="oe_stat_button"
@@ -28,17 +23,6 @@
             <field name="analytic_account_id" position="after">
                 <field name="analytic_tag_ids" widget="many2many_tags" attrs="{'readonly': [('state','=','sale')]}"/>
             </field>
-		</field>
-	</record>
-
-	<record id="orr_hide_old_project_button" model="ir.ui.view">
-        <field name="name">orr.hide.old.project.button</field>
-        <field name="model">sale.order</field>
-        <field name="inherit_id" ref="sale_timesheet.view_order_form_inherit_sale_timesheet"/>
-        <field name="arch" type="xml">
-			<xpath expr="//button[@name='action_view_project_ids']" position="attributes">
-				<attribute name="attrs">{'invisible': 1}</attribute>
-			</xpath>
 		</field>
 	</record>
 
