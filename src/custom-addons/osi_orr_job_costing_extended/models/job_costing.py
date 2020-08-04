@@ -134,25 +134,32 @@ class JobCosting(models.Model):
         compute='_compute_total_margin',
         store=True,
     )
-    sale_order_ids = fields.Many2many(
-        'sale.order',
+    sale_order_count = fields.Integer(
         string='Sale Order Ids',
-        compute='_compute_sale_order_ids',
+        compute='_compute_sale_order_count',
         store=True,
     )
 
     @api.multi
-    def _compute_sale_order_ids(self):
+    def _compute_sale_order_count(self):
         for order_id in self:
             sale_ids = []
             for estimate_id in order_id.cost_estimate_ids:
                 sale_ids.append(estimate_id.quotation_id.id)
-            order_id.sale_order_ids = [(6, 0, sale_ids)]
+            order_id.sale_order_ids = len(sale_ids)
 
     @api.multi
     def action_view_sale_orders(self):
+        cost_estimate_ids = self.env['sale.estimate.job'].search([('jobcost_id', '=', self.id)])
+        sale_order_ids = [estimate_id.quotation_id.id for estimate_id in cost_estimate_ids if estimate_id.quotation_id]
         action = self.env.ref('sale.action_orders').read()[0]
-        action['domain'] = [('id', 'in', self.sale_order_ids.ids)]
+        if len(sale_order_ids) == 1:
+            action['views'] = [(
+                self.env.ref('sale.view_order_form').id,
+                'form')]
+            action['res_id'] = sale_order_ids[0]
+        else:
+            action['domain'] = [('id', 'in', sale_order_ids)]
         return action
 
     @api.multi
