@@ -57,6 +57,15 @@
             <xpath expr="//notebook/page[3]/field/tree/field[@name='actual_purchase_cost']" position="attributes">
                 <attribute name="invisible">True</attribute>
             </xpath>
+            <xpath expr="//div[@class='oe_button_box']" position="inside">
+                <button name="action_view_sale_orders" type="object" class="oe_stat_button" string="Sale Orders" icon="fa-credit-card" modifiers="{}" options="{}">
+                    <span class="o_stat_value">
+                        <field name="sale_order_count"
+                                widget="statinfo"
+                                nolabel="1"/>
+                    </span>
+                </button>
+            </xpath>
         </field>
     </record>
 

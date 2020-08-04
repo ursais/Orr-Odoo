@@ -14,6 +14,7 @@
     'depends': [
         'odoo_job_costing_management',
         'odoo_customer_progress_billing',
+        'sale_timesheet'
     ],
     'data': [
         'data/sale_estimate_mail_data.xml',

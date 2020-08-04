@@ -22,7 +22,7 @@ class Project(models.Model):
                 for so_line in so_rec.order_line:
                     total_purchase_price += (
                         so_line.purchase_price * so_line.product_uom_qty)
-                rec.revised_estimate = total_purchase_price
+                rec.revised_estimate = -total_purchase_price
 
     @api.multi
     def _compute_revised_contract(self):
@@ -38,7 +38,7 @@ class Project(models.Model):
                 count_jobcost_total = 0.0
                 for cost_sheet_rec in rec.job_cost_ids:
                     count_jobcost_total += cost_sheet_rec.jobcost_total
-                rec.original_estimate = count_jobcost_total
+                rec.original_estimate = -count_jobcost_total
 
     @api.depends('job_cost_ids')
     def _compute_original_contract(self):
@@ -53,12 +53,12 @@ class Project(models.Model):
     def _compute_calculated_complete(self):
         for rec in self:
             if rec.costs and rec.revised_estimate:
-                rec.calculated_complete = abs(rec.costs) / rec.revised_estimate
+                rec.calculated_complete = (abs(rec.costs) / abs(rec.revised_estimate)) * 100
 
     @api.depends('revised_contract', 'calculated_complete')
     def _compute_revenue_earned(self):
         for rec in self:
-            rec.revenue_earned = rec.revised_contract * rec.calculated_complete
+            rec.revenue_earned = rec.revised_contract * rec.calculated_complete/100
 
     @api.depends('revenue_earned', 'invoiced_no_tax')
     def _compute_over_under_billed(self):
@@ -68,21 +68,22 @@ class Project(models.Model):
     @api.depends('revised_estimate', 'costs')
     def _compute_projected_cost_complete(self):
         for rec in self:
-            rec.projected_cost_complete = rec.revised_estimate - abs(rec.costs)
+            rec.projected_cost_complete = -(abs(rec.revised_estimate) - abs(rec.costs))
 
     @api.depends('revised_contract', 'revised_estimate')
     def _compute_projected_profit_loss(self):
         for rec in self:
             rec.projected_profit_loss = \
-                rec.revised_contract - rec.revised_estimate
+                rec.revised_contract - abs(rec.revised_estimate)
 
     @api.depends('revised_contract', 'revised_estimate')
     def _compute_projected_profit(self):
         for rec in self:
             if rec.revised_contract:
                 rec.projected_profit = (
-                    rec.revised_contract - rec.revised_estimate
+                    rec.revised_contract - abs(rec.revised_estimate)
                 ) / rec.revised_contract
+                rec.projected_profit *= 100
 
     @api.multi
     def _compute_last_cost_date(self):
@@ -166,7 +167,7 @@ class Project(models.Model):
             rec.last_payment_received = payment_rec.payment_date
 
     projected_profit = fields.Float(
-        string='Projected Profit',
+        string='Projected (%) Profit',
         compute='_compute_projected_profit',
     )
     projected_profit_loss = fields.Float(
@@ -186,7 +187,7 @@ class Project(models.Model):
         compute='_compute_revenue_earned',
     )
     calculated_complete = fields.Float(
-        string='Calculated Complete',
+        string='Calculated (%) Complete',
         compute='_compute_calculated_complete',
     )
     revised_contract = fields.Float(
