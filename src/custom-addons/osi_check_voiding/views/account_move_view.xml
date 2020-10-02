@@ -1,0 +1,13 @@
+<odoo>
+    <record model="ir.ui.view" id="account_move_inherit_void">
+        <field name="name">account_move_void_payment</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account_cancel.view_move_form_inherit_account_cancel"/>
+        <field name="arch" type="xml">
+            <button name="button_cancel" position="replace">
+                <field name="restrict_for_void" invisible="1"/>
+                <button name="button_cancel" string="Void" type="object" groups="account.group_account_invoice" attrs="{'invisible':['|', ('restrict_for_void','=',True),('state','!=','posted')]}"/>
+            </button>
+        </field>
+    </record>
+</odoo>
