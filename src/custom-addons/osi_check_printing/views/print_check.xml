@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="check_printing_custom" inherit_id="l10n_us_check_printing.ckus_check">
+        <!--Date-->
+        <xpath expr="//div/div[2]" position="attributes">
+            <attribute name="style">left: 5in!important; top: .85in!important;</attribute>
+        </xpath>
+        <!--Partner name-->
+        <xpath expr="//div/div[3]" position="attributes">
+            <attribute name="style">visibility: hidden;</attribute>
+        </xpath>
+        <!--Amount-->
+        <xpath expr="//div/div[4]" position="attributes">
+            <attribute name="style">left: 6.7in!important; top: .85in!important;</attribute>
+        </xpath>
+        <!--Memo-->
+        <xpath expr="//div/div[7]" position="attributes">
+            <attribute name="style">visibility: hidden;</attribute>
+        </xpath>
+    </template>
+
+</odoo>
